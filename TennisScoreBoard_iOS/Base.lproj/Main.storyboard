@@ -28,24 +28,52 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yX3-br-419">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="324"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M4x-dz-Dal">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="16"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ws1-Bt-HIv">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="32.5"/>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9nN-s8-xk6">
-                                                <rect key="frame" x="0.0" y="16" width="320" height="16"/>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CiX-mp-Qsb">
-                                                <rect key="frame" x="0.0" y="32" width="320" height="146"/>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YnV-Cc-mwJ">
-                                                <rect key="frame" x="0.0" y="178" width="320" height="146"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Ksg-Wy-G3B">
+                                                <rect key="frame" x="0.0" y="32.5" width="320" height="291.5"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MnK-Q0-lqy">
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="146"/>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2M2-Gq-lff">
+                                                        <rect key="frame" x="0.0" y="146" width="320" height="145.5"/>
+                                                        <subviews>
+                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BoQ-kV-DPn">
+                                                                <rect key="frame" x="0.0" y="0.0" width="16" height="145.5"/>
+                                                            </imageView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AhA-3u-0Rc">
+                                                                <rect key="frame" x="16" y="0.0" width="304" height="145.5"/>
+                                                                <subviews>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVN-yg-ryo">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="121.5" height="145.5"/>
+                                                                    </stackView>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j9n-sg-0Oo">
+                                                                        <rect key="frame" x="121.5" y="0.0" width="182.5" height="145.5"/>
+                                                                    </stackView>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="j9n-sg-0Oo" firstAttribute="width" relation="greaterThanOrEqual" secondItem="AhA-3u-0Rc" secondAttribute="width" multiplier="0.6" id="GKh-wc-38f"/>
+                                                                    <constraint firstItem="AVN-yg-ryo" firstAttribute="width" secondItem="AhA-3u-0Rc" secondAttribute="width" multiplier="0.4" id="pIa-8e-169"/>
+                                                                </constraints>
+                                                            </stackView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="AhA-3u-0Rc" firstAttribute="width" relation="greaterThanOrEqual" secondItem="2M2-Gq-lff" secondAttribute="width" multiplier="0.95" id="tfB-PG-7iD"/>
+                                                            <constraint firstItem="BoQ-kV-DPn" firstAttribute="width" secondItem="2M2-Gq-lff" secondAttribute="width" multiplier="0.05" id="zKC-Wd-zeq"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="MnK-Q0-lqy" firstAttribute="height" secondItem="Ksg-Wy-G3B" secondAttribute="height" multiplier="0.5" id="IWg-oQ-7Ao"/>
+                                                    <constraint firstItem="2M2-Gq-lff" firstAttribute="height" secondItem="Ksg-Wy-G3B" secondAttribute="height" multiplier="0.5" id="yxr-SN-jlr"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="M4x-dz-Dal" firstAttribute="height" relation="lessThanOrEqual" secondItem="yX3-br-419" secondAttribute="height" multiplier="0.05" priority="250" id="Hb3-Vh-hzI"/>
-                                            <constraint firstItem="CiX-mp-Qsb" firstAttribute="height" relation="lessThanOrEqual" secondItem="yX3-br-419" secondAttribute="height" multiplier="0.45" id="V6Z-Mk-5KR"/>
-                                            <constraint firstItem="9nN-s8-xk6" firstAttribute="height" relation="lessThanOrEqual" secondItem="yX3-br-419" secondAttribute="height" multiplier="0.05" priority="250" id="Yxw-Z5-zxD"/>
-                                            <constraint firstItem="YnV-Cc-mwJ" firstAttribute="height" relation="lessThanOrEqual" secondItem="yX3-br-419" secondAttribute="height" multiplier="0.45" id="zE5-Uy-9xT"/>
+                                            <constraint firstItem="Ksg-Wy-G3B" firstAttribute="height" relation="greaterThanOrEqual" secondItem="yX3-br-419" secondAttribute="height" multiplier="0.9" id="JdH-sn-d0z"/>
+                                            <constraint firstItem="Ws1-Bt-HIv" firstAttribute="height" secondItem="yX3-br-419" secondAttribute="height" multiplier="0.1" id="TB8-Lr-7r7"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="obj-OC-jjX">
