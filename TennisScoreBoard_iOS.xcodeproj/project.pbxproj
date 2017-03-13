@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E2CBF9F1E768B43007C754A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E2CBFA11E768B43007C754A /* Localizable.strings */; };
 		5E3B10C01E555D0A000BF566 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3B10BF1E555D0A000BF566 /* AppDelegate.swift */; };
 		5E3B10C21E555D0A000BF566 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3B10C11E555D0A000BF566 /* ViewController.swift */; };
 		5E3B10C51E555D0A000BF566 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E3B10C31E555D0A000BF566 /* Main.storyboard */; };
@@ -34,6 +35,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E2CBF9B1E768AB0007C754A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		5E2CBF9C1E768AB0007C754A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		5E2CBFA01E768B43007C754A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5E2CBFA21E768B47007C754A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5E3B10BC1E555D0A000BF566 /* TennisScoreBoard_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TennisScoreBoard_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E3B10BF1E555D0A000BF566 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E3B10C11E555D0A000BF566 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +108,7 @@
 				5E3B10C61E555D0A000BF566 /* Assets.xcassets */,
 				5E3B10C81E555D0A000BF566 /* LaunchScreen.storyboard */,
 				5E3B10CB1E555D0A000BF566 /* Info.plist */,
+				5E2CBFA11E768B43007C754A /* Localizable.strings */,
 			);
 			path = TennisScoreBoard_iOS;
 			sourceTree = "<group>";
@@ -236,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E3B10CA1E555D0A000BF566 /* LaunchScreen.storyboard in Resources */,
+				5E2CBF9F1E768B43007C754A /* Localizable.strings in Resources */,
 				5E3B10C71E555D0A000BF566 /* Assets.xcassets in Resources */,
 				5E3B10C51E555D0A000BF566 /* Main.storyboard in Resources */,
 			);
@@ -299,10 +306,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		5E2CBFA11E768B43007C754A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5E2CBFA01E768B43007C754A /* zh-Hant */,
+				5E2CBFA21E768B47007C754A /* Base */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		5E3B10C31E555D0A000BF566 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				5E3B10C41E555D0A000BF566 /* Base */,
+				5E2CBF9B1E768AB0007C754A /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -311,6 +328,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5E3B10C91E555D0A000BF566 /* Base */,
+				5E2CBF9C1E768AB0007C754A /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -322,6 +340,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -372,6 +391,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

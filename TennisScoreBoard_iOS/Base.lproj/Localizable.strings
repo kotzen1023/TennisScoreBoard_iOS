@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  TennisScoreBoard_iOS
+
+  Created by SUNUP on 2017/3/13.
+  Copyright © 2017年 RichieShih. All rights reserved.
+*/
+
+"game_action" = "Action";
+"game_back" = "Back";
+"game_reset" = "Reset";
+"game_save" = "Save";
+"game_load" = "Load";
