@@ -514,6 +514,7 @@
 				5E3B10E61E555D0A000BF566 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5E3B10E71E555D0A000BF566 /* Build configuration list for PBXNativeTarget "TennisScoreBoard_iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +523,7 @@
 				5E3B10E91E555D0A000BF566 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5E3B10EA1E555D0A000BF566 /* Build configuration list for PBXNativeTarget "TennisScoreBoard_iOSUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +532,7 @@
 				5E3B10EC1E555D0A000BF566 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
