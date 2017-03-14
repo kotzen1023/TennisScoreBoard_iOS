@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9jb-go-WFX">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,6 +10,106 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Setting Controller-->
+        <scene sceneID="Sgx-xQ-YhJ">
+            <objects>
+                <viewController id="9jb-go-WFX" customClass="SettingController" customModule="TennisScoreBoard_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rb3-QJ-Mty"/>
+                        <viewControllerLayoutGuide type="bottom" id="TbP-cv-lwN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hxf-xu-gqa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="krn-US-ttp">
+                                <rect key="frame" x="0.0" y="28" width="320" height="540"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="fHn-WN-nMe">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Player1" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yD4-da-Acg">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v.s." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jj2-uz-MOe">
+                                                <rect key="frame" x="0.0" y="65" width="320" height="32"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Player2" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mkB-sB-kBi">
+                                                <rect key="frame" x="0.0" y="97" width="320" height="65"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="jj2-uz-MOe" firstAttribute="height" relation="lessThanOrEqual" secondItem="fHn-WN-nMe" secondAttribute="height" multiplier="0.2" id="Muq-Xr-625"/>
+                                            <constraint firstItem="yD4-da-Acg" firstAttribute="height" secondItem="fHn-WN-nMe" secondAttribute="height" multiplier="0.4" id="TYZ-oX-Yzz"/>
+                                            <constraint firstItem="mkB-sB-kBi" firstAttribute="height" secondItem="fHn-WN-nMe" secondAttribute="height" multiplier="0.4" id="vYA-on-IBe"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="otk-Ks-qsA">
+                                        <rect key="frame" x="0.0" y="162" width="320" height="378"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kz6-5e-Kwh" userLabel="Set">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
+                                                <state key="normal" title="Set"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffA-FZ-saK" userLabel="Tiebreak">
+                                                <rect key="frame" x="0.0" y="76" width="320" height="75.5"/>
+                                                <state key="normal" title="tiebreak"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k45-pm-vLC" userLabel="Deuce">
+                                                <rect key="frame" x="0.0" y="151.5" width="320" height="75.5"/>
+                                                <state key="normal" title="Deuce"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrw-Ge-n3i" userLabel="Serve">
+                                                <rect key="frame" x="0.0" y="227" width="320" height="75.5"/>
+                                                <state key="normal" title="Serve"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pi5-Fc-363" userLabel="Confirm">
+                                                <rect key="frame" x="0.0" y="302.5" width="320" height="75.5"/>
+                                                <state key="normal" title="Confirm"/>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="kz6-5e-Kwh" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="9J5-fA-6m8"/>
+                                            <constraint firstItem="rrw-Ge-n3i" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="FCK-JX-IKv"/>
+                                            <constraint firstItem="Pi5-Fc-363" firstAttribute="height" relation="lessThanOrEqual" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="eaI-Gn-EtZ"/>
+                                            <constraint firstItem="ffA-FZ-saK" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="jGO-dw-DPM"/>
+                                            <constraint firstItem="k45-pm-vLC" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="sGo-j7-Ieu"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="fHn-WN-nMe" firstAttribute="height" secondItem="krn-US-ttp" secondAttribute="height" multiplier="0.3" id="GSV-Kr-0dR"/>
+                                    <constraint firstItem="otk-Ks-qsA" firstAttribute="height" relation="greaterThanOrEqual" secondItem="krn-US-ttp" secondAttribute="height" multiplier="0.7" id="O9e-VF-6tJ"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="krn-US-ttp" secondAttribute="trailing" id="Cy0-l5-EJj"/>
+                            <constraint firstItem="krn-US-ttp" firstAttribute="leading" secondItem="Hxf-xu-gqa" secondAttribute="leading" id="HTP-xJ-iE4"/>
+                            <constraint firstItem="TbP-cv-lwN" firstAttribute="top" secondItem="krn-US-ttp" secondAttribute="bottom" id="NGb-sF-V5p"/>
+                            <constraint firstItem="krn-US-ttp" firstAttribute="top" secondItem="Rb3-QJ-Mty" secondAttribute="bottom" constant="8" id="Saz-HW-fCq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="labelVesus" destination="jj2-uz-MOe" id="mi5-7k-BCJ"/>
+                        <outlet property="textFieldPlayerDown" destination="mkB-sB-kBi" id="avp-XP-Ck2"/>
+                        <outlet property="textFieldPlayerUp" destination="yD4-da-Acg" id="Vdv-TF-hhJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bZz-hL-Lh9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-699.375" y="120.4225352112676"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
