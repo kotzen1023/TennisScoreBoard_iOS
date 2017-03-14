@@ -61,7 +61,7 @@ class ViewController: UIViewController {
         init_scrollview()
         
         NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationDidChange), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        
+        is_serve = true
     }
     
     deinit {
@@ -128,9 +128,9 @@ class ViewController: UIViewController {
         
         
         // Create the action sheet
-        let myActionSheet = UIAlertController(title: labelTopPlayer.text, message: "Select an action:", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let myActionSheet = UIAlertController(title: labelTopPlayer.text, message: NSLocalizedString("game_action_select", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        //if is_serve  == false { //I serve
+        if is_serve  == false { //I serve
             // unforced error
             let unforceErrorAction = UIAlertAction(title: NSLocalizedString("game_action_unforce_error", comment: ""), style: UIAlertActionStyle.default) { (action) in
                 print("Unforced Error")
@@ -186,7 +186,81 @@ class ViewController: UIViewController {
             myActionSheet.addAction(otherWinnerAction)
             myActionSheet.addAction(retireAction)
             myActionSheet.addAction(cancelAction)
-        //}
+        } else {
+            // Ace
+            let aceAction = UIAlertAction(title: NSLocalizedString("game_action_ace", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Ace")
+            }
+            
+            // Ace
+            let secondServeAction = UIAlertAction(title: NSLocalizedString("game_action_second_serve", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Second serve")
+            }
+            
+            // unforced error
+            let unforceErrorAction = UIAlertAction(title: NSLocalizedString("game_action_unforce_error", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Unforced Error")
+            }
+            
+            // forehand winner
+            let forehandWinnerAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_winner", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Forehand Winner")
+            }
+            
+            // backhand winner
+            let backhandWinnerAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_winner", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Backhand Winner")
+            }
+            
+            // forehand volley
+            let forehandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("forehand Winner")
+            }
+            
+            // backhand volley
+            let backhandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Backhand Winner")
+            }
+            
+            // foul to lose
+            let foulToLoseAction = UIAlertAction(title: NSLocalizedString("game_action_foul_to_lose", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("foul to lose")
+            }
+            
+            // other winner
+            let otherWinnerAction = UIAlertAction(title: NSLocalizedString("game_action_other_winner", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("foul to lose")
+            }
+            
+            // net
+            let netAction = UIAlertAction(title: NSLocalizedString("game_action_net_in", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("net")
+            }
+            
+            // retire
+            let retireAction = UIAlertAction(title: NSLocalizedString("game_action_retire", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("retire from game")
+            }
+            
+            // Cancel
+            let cancelAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.cancel) { (action) in
+                print("Cancel")
+            }
+            
+            // add action buttons to action sheet
+            myActionSheet.addAction(aceAction)
+            myActionSheet.addAction(secondServeAction)
+            myActionSheet.addAction(unforceErrorAction)
+            myActionSheet.addAction(forehandWinnerAction)
+            myActionSheet.addAction(backhandWinnerAction)
+            myActionSheet.addAction(forehandVolleyAction)
+            myActionSheet.addAction(backhandVolleyAction)
+            myActionSheet.addAction(foulToLoseAction)
+            myActionSheet.addAction(otherWinnerAction)
+            myActionSheet.addAction(netAction)
+            myActionSheet.addAction(retireAction)
+            myActionSheet.addAction(cancelAction)
+        }
         
         
         // support iPads (popover view)

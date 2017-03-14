@@ -13,6 +13,7 @@
 "game_load" = "Load";
 "game_cancel" = "Cancel";
 
+"game_action_select" = "Select an action:";
 "game_action_unforce_error" = "Unforce Error";
 "game_action_forehand_winner" = "Forehand Winner";
 "game_action_backhand_winner" = "Backhand Winner";
@@ -21,3 +22,7 @@
 "game_action_foul_to_lose" = "Foul to lose";
 "game_action_other_winner" = "Other Winner";
 "game_action_retire" = "Retire from game";
+
+"game_action_ace" = "Ace";
+"game_action_second_serve" = "Second Serve";
+"game_action_net_in" = "Net";
