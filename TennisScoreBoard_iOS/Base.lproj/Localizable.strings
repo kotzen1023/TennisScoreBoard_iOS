@@ -11,3 +11,13 @@
 "game_reset" = "Reset";
 "game_save" = "Save";
 "game_load" = "Load";
+"game_cancel" = "Cancel";
+
+"game_action_unforce_error" = "Unforce Error";
+"game_action_forehand_winner" = "Forehand Winner";
+"game_action_backhand_winner" = "Backhand Winner";
+"game_action_forehand_volley" = "Forehand Volley";
+"game_action_backhand_volley" = "Backhand Volley";
+"game_action_foul_to_lose" = "Foul to lose";
+"game_action_other_winner" = "Other Winner";
+"game_action_retire" = "Retire from game";

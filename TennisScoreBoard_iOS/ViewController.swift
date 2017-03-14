@@ -22,11 +22,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var labelYouGame: UILabel!
     @IBOutlet weak var labelOpptPoint: UILabel!
     @IBOutlet weak var labelYouPoint: UILabel!
+    @IBOutlet weak var labelTopPlayer: UILabel!
+    @IBOutlet weak var labelBottomPlayer: UILabel!
+    
     
     var scrollView: UIScrollView!
     var tableView: UITableView!
     
     var is_action_click: Bool!
+    var is_serve: Bool!
     
     
     
@@ -121,34 +125,69 @@ class ViewController: UIViewController {
         //    self.scrollView.frame = CGRect(x: 0, y: 20, width: self.view.bounds.size.width, height: self.view.bounds.size.height)
         //}, completion: nil)
         
+        
+        
         // Create the action sheet
-        let myActionSheet = UIAlertController(title: "Color", message: "What color would you like?", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let myActionSheet = UIAlertController(title: labelTopPlayer.text, message: "Select an action:", preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        // blue action button
-        let blueAction = UIAlertAction(title: "Blue", style: UIAlertActionStyle.default) { (action) in
-            print("Blue action button tapped")
-        }
+        //if is_serve  == false { //I serve
+            // unforced error
+            let unforceErrorAction = UIAlertAction(title: NSLocalizedString("game_action_unforce_error", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Unforced Error")
+            }
+            
+            // forehand winner
+            let forehandWinnerAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_winner", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Forehand Winner")
+            }
+            
+            // backhand winner
+            let backhandWinnerAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_winner", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Backhand Winner")
+            }
         
-        // red action button
-        let redAction = UIAlertAction(title: "Red", style: UIAlertActionStyle.default) { (action) in
-            print("Red action button tapped")
-        }
+            // forehand volley
+            let forehandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("forehand Winner")
+            }
         
-        // yellow action button
-        let yellowAction = UIAlertAction(title: "Yellow", style: UIAlertActionStyle.default) { (action) in
-            print("Yellow action button tapped")
-        }
+            // backhand volley
+            let backhandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("Backhand Winner")
+            }
         
-        // cancel action button
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
-            print("Cancel action button tapped")
-        }
+            // foul to lose
+            let foulToLoseAction = UIAlertAction(title: NSLocalizedString("game_action_foul_to_lose", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("foul to lose")
+            }
         
-        // add action buttons to action sheet
-        myActionSheet.addAction(blueAction)
-        myActionSheet.addAction(redAction)
-        myActionSheet.addAction(yellowAction)
-        myActionSheet.addAction(cancelAction)
+            // other winner
+            let otherWinnerAction = UIAlertAction(title: NSLocalizedString("game_action_other_winner", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("foul to lose")
+            }
+        
+            // retire
+            let retireAction = UIAlertAction(title: NSLocalizedString("game_action_retire", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                print("retire from game")
+            }
+        
+            // Cancel
+            let cancelAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.cancel) { (action) in
+                print("Cancel")
+            }
+            
+            // add action buttons to action sheet
+            myActionSheet.addAction(unforceErrorAction)
+            myActionSheet.addAction(forehandWinnerAction)
+            myActionSheet.addAction(backhandWinnerAction)
+            myActionSheet.addAction(forehandVolleyAction)
+            myActionSheet.addAction(backhandVolleyAction)
+            myActionSheet.addAction(foulToLoseAction)
+            myActionSheet.addAction(otherWinnerAction)
+            myActionSheet.addAction(retireAction)
+            myActionSheet.addAction(cancelAction)
+        //}
+        
         
         // support iPads (popover view)
         //myActionSheet.popoverPresentationController?.sourceView = self.showActionSheetButton

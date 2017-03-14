@@ -11,3 +11,13 @@
 "game_reset" = "重設";
 "game_save" = "儲存";
 "game_load" = "讀取";
+"game_cancel" = "取消";
+
+"game_action_unforce_error" = "非受迫性失誤";
+"game_action_forehand_winner" = "正拍致勝球";
+"game_action_backhand_winner" = "反拍致勝球";
+"game_action_forehand_volley" = "正拍截擊致勝球";
+"game_action_backhand_volley" = "反拍截擊致勝球";
+"game_action_foul_to_lose" = "犯規失分";
+"game_action_other_winner" = "其他致勝球";
+"game_action_retire" = "棄賽";
