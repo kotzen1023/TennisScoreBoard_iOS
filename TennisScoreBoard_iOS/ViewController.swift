@@ -30,13 +30,29 @@ class ViewController: UIViewController {
     var tableView: UITableView!
     
     var is_action_click: Bool!
+    
+    var set_select: UInt8!
+    var is_tiebreak: Bool!
+    var is_deuce: Bool!
     var is_serve: Bool!
+    var playerUp: NSString!
+    var playerDown: NSString!
     
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("------ load setting ------")
+        print("playerUp: \(playerUp)")
+        print("playerDown: \(playerDown)")
+        print("set_select: \(set_select)")
+        print("is_tiebreak: \(is_tiebreak)")
+        print("is_deuce: \(is_deuce)")
+        print("is_serve: \(is_serve)")
+        print("------ load setting ------")
+        
         // Do any additional setup after loading the view, typically from a nib.
         
         btnOpptAction.setTitle(NSLocalizedString("game_action", comment: "Action"), for: UIControlState.normal)
@@ -50,6 +66,9 @@ class ViewController: UIViewController {
         btnSave.setTitle(NSLocalizedString("game_save", comment: "Save"), for: UIControlState.normal)
         
         btnLoad.setTitle(NSLocalizedString("game_load", comment: "Load"), for: UIControlState.normal)
+      
+        labelTopPlayer.text = playerUp as String?
+        labelBottomPlayer.text = playerDown as String?
         
         labelOpptSet.text = "0"
         labelYouSet.text = "0"
@@ -94,7 +113,18 @@ class ViewController: UIViewController {
         
     }
 
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let settingVc = segue.destination as? SettingController {
+            settingVc.set_select = self.set_select
+            settingVc.is_tiebreak = self.is_tiebreak
+            settingVc.is_deuce = self.is_deuce
+            settingVc.is_serve = self.is_serve
+            settingVc.playerUp = self.playerUp
+            settingVc.playerDown = self.playerDown
+            
+        }
+    }
+    
     func init_scrollview() {
         //huiView = [[UIScrollView alloc] initWithFrame:CGRectMake(
         //    (self.view.bounds.size.width), self.topLayoutGuide.length-self.navigationController.navigationBar.frame.size.height,

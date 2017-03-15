@@ -12,6 +12,7 @@
 "game_save" = "Save";
 "game_load" = "Load";
 "game_cancel" = "Cancel";
+"game_confirm" = "Confirm";
 
 "game_action_select" = "Select an action:";
 "game_action_unforce_error" = "Unforce Error";
@@ -26,3 +27,17 @@
 "game_action_ace" = "Ace";
 "game_action_second_serve" = "Second Serve";
 "game_action_net_in" = "Net";
+
+"game_setting_versus" = "v.s";
+"game_setting_set_change" = "Choose Set:";
+"game_setting_1_set" = "1 Set";
+"game_setting_3_set" = "3 Sets";
+"game_setting_5_set" = "5 Sets";
+"game_setting_choose_tiebreak" = "Choose tiebreak or deciding game";
+"game_setting_tiebreak" = "tiebreak";
+"game_setting_deciding_game" = "Deciding Game";
+"game_setting_choose_deuce" = "Choose deuce or deciding point";
+"game_setting_deciding_point" = "Deciding Point";
+"game_setting_deuce" = "Deuce";
+"game_setting_choose_serve_first" = "Choose serve first";
+"game_setting_serve_first" = " Serve First";

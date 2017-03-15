@@ -36,7 +36,7 @@
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v.s." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jj2-uz-MOe">
                                                 <rect key="frame" x="0.0" y="65" width="320" height="32"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -58,23 +58,44 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kz6-5e-Kwh" userLabel="Set">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
-                                                <state key="normal" title="Set"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <state key="normal" title="1 Set"/>
+                                                <connections>
+                                                    <action selector="onSetChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="ljY-X6-1xG"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffA-FZ-saK" userLabel="Tiebreak">
                                                 <rect key="frame" x="0.0" y="76" width="320" height="75.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <state key="normal" title="tiebreak"/>
+                                                <connections>
+                                                    <action selector="onChangeTiebreak:" destination="9jb-go-WFX" eventType="touchUpInside" id="6yQ-Ow-mH9"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k45-pm-vLC" userLabel="Deuce">
                                                 <rect key="frame" x="0.0" y="151.5" width="320" height="75.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <state key="normal" title="Deuce"/>
+                                                <connections>
+                                                    <action selector="onDeuceChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="tQw-mX-ltX"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrw-Ge-n3i" userLabel="Serve">
                                                 <rect key="frame" x="0.0" y="227" width="320" height="75.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <state key="normal" title="Serve"/>
+                                                <connections>
+                                                    <action selector="onServeChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="3cC-6o-XQF"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pi5-Fc-363" userLabel="Confirm">
                                                 <rect key="frame" x="0.0" y="302.5" width="320" height="75.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <state key="normal" title="Confirm"/>
+                                                <connections>
+                                                    <action selector="onConfirm:" destination="9jb-go-WFX" eventType="touchUpInside" id="euj-z7-g6P"/>
+                                                    <segue destination="BYZ-38-t0r" kind="show" identifier="SegueForGame" id="CcQ-x8-24T"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -101,6 +122,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnConfirm" destination="Pi5-Fc-363" id="R0Y-YO-E8r"/>
+                        <outlet property="btnDeuce" destination="k45-pm-vLC" id="sVA-qf-HfV"/>
+                        <outlet property="btnServe" destination="rrw-Ge-n3i" id="WuH-qq-d3i"/>
+                        <outlet property="btnSet" destination="kz6-5e-Kwh" id="UIv-Lg-alH"/>
+                        <outlet property="btnTiebreak" destination="ffA-FZ-saK" id="78F-Ie-H1R"/>
                         <outlet property="labelVesus" destination="jj2-uz-MOe" id="mi5-7k-BCJ"/>
                         <outlet property="textFieldPlayerDown" destination="mkB-sB-kBi" id="avp-XP-Ck2"/>
                         <outlet property="textFieldPlayerUp" destination="yD4-da-Acg" id="Vdv-TF-hhJ"/>
@@ -113,7 +139,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TennisScoreBoard_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="gameView" id="BYZ-38-t0r" customClass="ViewController" customModule="TennisScoreBoard_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -380,6 +406,9 @@
                                                                 <rect key="frame" x="80" y="0.0" width="80" height="81"/>
                                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <state key="normal" title="Button"/>
+                                                                <connections>
+                                                                    <segue destination="9jb-go-WFX" kind="show" identifier="backToSetting" id="rZs-4u-4wF"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>

@@ -12,6 +12,7 @@
 "game_save" = "儲存";
 "game_load" = "讀取";
 "game_cancel" = "取消";
+"game_confirm" = "確定";
 
 "game_action_select" = "選擇動作:";
 "game_action_unforce_error" = "非受迫性失誤";
@@ -26,3 +27,17 @@
 "game_action_ace" = "Ace";
 "game_action_second_serve" = "第二發";
 "game_action_net_in" = "發球觸網進";
+
+"game_setting_versus" = "對";
+"game_setting_set_change" = "選擇盤數:";
+"game_setting_1_set" = "1 盤";
+"game_setting_3_set" = "3 盤";
+"game_setting_5_set" = "5 盤";
+"game_setting_choose_tiebreak" = "選擇tiebreak或決勝局";
+"game_setting_tiebreak" = "搶七(tiebreak)";
+"game_setting_deciding_game" = "決勝局";
+"game_setting_choose_deuce" = "選擇deuce或決勝分";
+"game_setting_deciding_point" = "決勝分";
+"game_setting_deuce" = "Deuce";
+"game_setting_choose_serve_first" = "選擇先發球";
+"game_setting_serve_first" = " 先發球";
