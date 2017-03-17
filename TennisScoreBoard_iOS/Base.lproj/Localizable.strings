@@ -25,6 +25,7 @@
 "game_action_retire" = "Retire from game";
 
 "game_action_ace" = "Ace";
+"game_action_double_faults" = "Double Faults";
 "game_action_second_serve" = "Second Serve";
 "game_action_net_in" = "Net";
 
