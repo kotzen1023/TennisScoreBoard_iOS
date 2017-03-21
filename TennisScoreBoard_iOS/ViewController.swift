@@ -54,6 +54,8 @@ class ViewController: UIViewController {
     
     
     var stack = Deque()
+    var forward_stack = Deque()
+    
     //for caculate
     var is_second_serve:Bool = false
     var is_break_point:Bool = false
@@ -99,9 +101,9 @@ class ViewController: UIViewController {
         
         btnBack.setTitle(NSLocalizedString("game_back", comment: "Back"), for: UIControlState.normal)
         
-        btnReset.setTitle(NSLocalizedString("game_reset", comment: "reset"), for: UIControlState.normal)
+        btnReset.setTitle(NSLocalizedString("game_forward", comment: "forward"), for: UIControlState.normal)
         
-        btnSave.setTitle(NSLocalizedString("game_save", comment: "Save"), for: UIControlState.normal)
+        btnSave.setTitle(NSLocalizedString("game_reset", comment: "Reset"), for: UIControlState.normal)
         
         btnLoad.setTitle(NSLocalizedString("game_load", comment: "Load"), for: UIControlState.normal)
       
@@ -217,6 +219,311 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func onForwardClick(_ sender: UIButton) {
+        print("[onForwardClick click]")
+        self.is_retire = 0
+        imgWinCheckUp.isHidden = true
+        imgWinCheckDown.isHidden = true
+        
+        if forward_stack.size() == 0 {
+            print("forward_stack is empty!")
+        } else {
+            print("forward_stack is not empty, pop to state")
+            
+            var current_set: UInt8 = 0
+            
+            
+            
+            var popState = State()
+            popState = forward_stack.pop()
+            
+            //push into forward_stack
+            stack.push(obj: popState)
+            
+            
+            if stack.size() > 0 {
+                var forwardState = State()
+                forwardState = stack.peak()
+                
+                current_set = forwardState.current_set
+                
+                if forwardState.setsUp > 0 || forwardState.setSDown > 0 {
+                    labelOpptSet.text = String(forwardState.setsUp)
+                    labelYouSet.text = String(forwardState.setSDown)
+                } else {
+                    labelOpptSet.text = "0"
+                    labelYouSet.text = "0"
+                }
+                
+                labelOpptGame.text = String(forwardState.getGameUp(set: current_set))
+                labelYouGame.text = String(forwardState.getGameDown(set: current_set))
+                
+                if forwardState.isServe == true {
+                    imgServeUp.isHidden = true
+                    imgServeDown.isHidden = false
+                } else {
+                    imgServeUp.isHidden = false
+                    imgServeDown.isHidden = true
+                }
+                
+                if forwardState.isInBreakPoint == true {
+                    self.is_break_point = true
+                } else {
+                    self.is_break_point = false
+                }
+                
+                if forwardState.isInTiebreak == false {
+                    if forwardState.getPointUp(set: current_set) == 1 {
+                        labelOpptPoint.text = "15"
+                    } else if forwardState.getPointUp(set: current_set) == 2 {
+                        labelOpptPoint.text = "30"
+                    } else if forwardState.getPointUp(set: current_set) == 3 {
+                        labelOpptPoint.text = "40"
+                    } else if forwardState.getPointUp(set: current_set) == 4 {
+                        labelOpptPoint.text = "40A"
+                    } else {
+                        labelOpptPoint.text = "0"
+                    }
+                } else {
+                    labelOpptPoint.text = String(forwardState.getPointUp(set: current_set))
+                }
+                
+                if forwardState.isInTiebreak == false {
+                    if forwardState.getPointDown(set: current_set) == 1 {
+                        labelYouPoint.text = "15"
+                    } else if forwardState.getPointDown(set: current_set) == 2 {
+                        labelYouPoint.text = "30"
+                    } else if forwardState.getPointDown(set: current_set) == 3 {
+                        labelYouPoint.text = "40"
+                    } else if forwardState.getPointDown(set: current_set) == 4 {
+                        labelYouPoint.text = "40A"
+                    } else {
+                        labelYouPoint.text = "0"
+                    }
+                } else {
+                    labelYouPoint.text = String(forwardState.getPointDown(set: current_set))
+                }
+                
+                if forwardState.isSecondServe == true {
+                    self.is_second_serve = true
+                    imgServeUp.image = UIImage(named: "ball_red")
+                    imgServeDown.image = UIImage(named: "ball_red")
+                } else {
+                    self.is_second_serve = false
+                    imgServeUp.image = UIImage(named: "ball_green")
+                    imgServeDown.image = UIImage(named: "ball_green")
+                }
+                
+                print("###### forward state start ######")
+                print("current_set = \(forwardState.current_set)")
+                print("Serve = \(forwardState.isServe)")
+                print("In tiebreak = \(forwardState.isInTiebreak)")
+                print("Finish = \(forwardState.isFinish)")
+                print("Second Serve = \(forwardState.isSecondServe)")
+                print("In break point = \(forwardState.isInBreakPoint)")
+                
+                var set_limit: UInt8 = 0
+                switch self.set_select {
+                case 0:
+                    set_limit = 1
+                    break
+                case 1:
+                    set_limit = 3
+                    break
+                case 2:
+                    set_limit = 5
+                    break
+                default:
+                    set_limit = 1
+                    break
+                }
+                
+                for i in 1...set_limit {
+                    print("========================================")
+                    print("[set \(i)]")
+                    print("[Game : \(forwardState.getGameUp(set: current_set))/\(forwardState.getGameDown(set: current_set))]")
+                    print("[point : \(forwardState.getPointUp(set: current_set))/\(forwardState.getPointDown(set: current_set))]")
+                    print("[tiebreak : \(forwardState.getTiebreakPointUp(set: current_set))/\(forwardState.getTiebreakPointDown(set: current_set)))]")
+                }
+                
+                print("###### forward state end ######")
+            } else {
+                print("stack empty")
+                labelOpptGame.text = "0"
+                labelYouGame.text = "0"
+                
+                labelOpptPoint.text = "0"
+                labelYouPoint.text = "0"
+                
+                self.is_second_serve = false
+                imgServeUp.image = UIImage(named: "ball_green")
+                imgServeDown.image = UIImage(named: "ball_green")
+                
+                if self.is_serve == true {
+                    imgServeUp.isHidden = true
+                    imgServeDown.isHidden = false
+                } else {
+                    imgServeUp.isHidden = false
+                    imgServeDown.isHidden = true
+                }
+            }
+            
+        }
+    }
+    
+    @IBAction func onBackClick(_ sender: UIButton) {
+        print("[btnBack click]")
+        self.is_retire = 0
+        imgWinCheckUp.isHidden = true
+        imgWinCheckDown.isHidden = true
+        
+        if stack.size() == 0 {
+            print("stack is empty!")
+        } else {
+            print("stack is not empty, pop to state")
+            
+            var current_set: UInt8 = 0
+            
+            
+            
+            var popState = State()
+            popState = stack.pop()
+            
+            //push into forward_stack
+            forward_stack.push(obj: popState)
+            
+            
+            if stack.size() > 0 {
+                var backState = State()
+                backState = stack.peak()
+                
+                current_set = backState.current_set
+                
+                if backState.setsUp > 0 || backState.setSDown > 0 {
+                    labelOpptSet.text = String(backState.setsUp)
+                    labelYouSet.text = String(backState.setSDown)
+                } else {
+                    labelOpptSet.text = "0"
+                    labelYouSet.text = "0"
+                }
+                
+                labelOpptGame.text = String(backState.getGameUp(set: current_set))
+                labelYouGame.text = String(backState.getGameDown(set: current_set))
+                
+                if backState.isServe == true {
+                    imgServeUp.isHidden = true
+                    imgServeDown.isHidden = false
+                } else {
+                    imgServeUp.isHidden = false
+                    imgServeDown.isHidden = true
+                }
+                
+                if backState.isInBreakPoint == true {
+                    self.is_break_point = true
+                } else {
+                    self.is_break_point = false
+                }
+                
+                if backState.isInTiebreak == false {
+                    if backState.getPointUp(set: current_set) == 1 {
+                        labelOpptPoint.text = "15"
+                    } else if backState.getPointUp(set: current_set) == 2 {
+                        labelOpptPoint.text = "30"
+                    } else if backState.getPointUp(set: current_set) == 3 {
+                        labelOpptPoint.text = "40"
+                    } else if backState.getPointUp(set: current_set) == 4 {
+                        labelOpptPoint.text = "40A"
+                    } else {
+                        labelOpptPoint.text = "0"
+                    }
+                } else {
+                    labelOpptPoint.text = String(backState.getPointUp(set: current_set))
+                }
+                
+                if backState.isInTiebreak == false {
+                    if backState.getPointDown(set: current_set) == 1 {
+                        labelYouPoint.text = "15"
+                    } else if backState.getPointDown(set: current_set) == 2 {
+                        labelYouPoint.text = "30"
+                    } else if backState.getPointDown(set: current_set) == 3 {
+                        labelYouPoint.text = "40"
+                    } else if backState.getPointDown(set: current_set) == 4 {
+                        labelYouPoint.text = "40A"
+                    } else {
+                        labelYouPoint.text = "0"
+                    }
+                } else {
+                    labelYouPoint.text = String(backState.getPointDown(set: current_set))
+                }
+                
+                if backState.isSecondServe == true {
+                    self.is_second_serve = true
+                    imgServeUp.image = UIImage(named: "ball_red")
+                    imgServeDown.image = UIImage(named: "ball_red")
+                } else {
+                    self.is_second_serve = false
+                    imgServeUp.image = UIImage(named: "ball_green")
+                    imgServeDown.image = UIImage(named: "ball_green")
+                }
+                
+                print("###### back state start ######")
+                print("current_set = \(backState.current_set)")
+                print("Serve = \(backState.isServe)")
+                print("In tiebreak = \(backState.isInTiebreak)")
+                print("Finish = \(backState.isFinish)")
+                print("Second Serve = \(backState.isSecondServe)")
+                print("In break point = \(backState.isInBreakPoint)")
+                
+                var set_limit: UInt8 = 0
+                switch self.set_select {
+                case 0:
+                    set_limit = 1
+                    break
+                case 1:
+                    set_limit = 3
+                    break
+                case 2:
+                    set_limit = 5
+                    break
+                default:
+                    set_limit = 1
+                    break
+                }
+                
+                for i in 1...set_limit {
+                    print("========================================")
+                    print("[set \(i)]")
+                    print("[Game : \(backState.getGameUp(set: current_set))/\(backState.getGameDown(set: current_set))]")
+                    print("[point : \(backState.getPointUp(set: current_set))/\(backState.getPointDown(set: current_set))]")
+                    print("[tiebreak : \(backState.getTiebreakPointUp(set: current_set))/\(backState.getTiebreakPointDown(set: current_set)))]")
+                }
+                
+                print("###### back state end ######")
+            } else {
+                print("stack empty")
+                labelOpptGame.text = "0"
+                labelYouGame.text = "0"
+                
+                labelOpptPoint.text = "0"
+                labelYouPoint.text = "0"
+                
+                self.is_second_serve = false
+                imgServeUp.image = UIImage(named: "ball_green")
+                imgServeDown.image = UIImage(named: "ball_green")
+                
+                if self.is_serve == true {
+                    imgServeUp.isHidden = true
+                    imgServeDown.isHidden = false
+                } else {
+                    imgServeUp.isHidden = false
+                    imgServeDown.isHidden = true
+                }
+            }
+            
+        }
+        
+        
+    }
     
     @IBAction func onYouClick(_ sender: UIButton) {
         
@@ -1153,77 +1460,94 @@ class ViewController: UIViewController {
                 switch action {
                 case .YOU_RETIRE:
                     print("=== I retire start ===")
-                    first = current_state.firstServeDown + first_serve_count
-                    first_miss = current_state.firstServeMissDown + first_serve_miss
-                    second = current_state.secondServeDown + second_serve_count
                     
-                    new_state.firstServeDown = first
-                    new_state.firstServeMissDown = first_miss
-                    new_state.secondServeDown = second
-                    
-                    new_state.current_set = current_state.current_set
-                    new_state.isServe = current_state.isServe
-                    new_state.isInTiebreak = current_state.isInTiebreak
-                    new_state.isFinish = current_state.isFinish
-                    
-                    if is_second_serve == true {
-                        new_state.isSecondServe = true
-                        imgServeUp.image = UIImage(named: "ball_red")
-                        imgServeDown.image = UIImage(named: "ball_red")
+                    if stack.size() == 0 {
+                        print("stack is empty")
+                        if self.is_serve == true {
+                            new_state.isServe = true
+                        } else {
+                            new_state.isServe = false
+                        }
+                        
+                        new_state.current_set = 1
+                        new_state.duration = self.time_use
+                        new_state.isFinish = true
+                        
                     } else {
-                        new_state.isSecondServe = false
-                        imgServeUp.image = UIImage(named: "ball_green")
-                        imgServeDown.image = UIImage(named: "ball_green")
-                    }
-                    
-                    new_state.setsUp = current_state.setsUp
-                    new_state.setSDown = current_state.setSDown
-                    
-                    new_state.duration = time_use
-                    new_state.isFinish = true
-                    
-                    imgWinCheckUp.isHidden = false
-                    imgWinCheckDown.isHidden = true
-                    
-                    new_state.aceCountUp = current_state.aceCountUp
-                    new_state.aceCountDown = current_state.aceCountDown
-                    new_state.firstServeUp = current_state.firstServeUp
-                    new_state.firstServeMissUp = current_state.firstServeMissUp
-                    new_state.secondServeUp = current_state.secondServeUp
-                    new_state.breakPointUp = current_state.breakPointUp
-                    new_state.breakPointMissUp = current_state.breakPointMissUp
-                    new_state.breakPointDown = current_state.breakPointDown
-                    new_state.breakPointMissDown = current_state.breakPointMissDown
-                    new_state.firstServeWonUp = current_state.firstServeWonUp
-                    new_state.firstServeWonDown = current_state.firstServeWonDown
-                    new_state.firstServeLostUp = current_state.firstServeLostUp
-                    new_state.firstServeLostDown = current_state.firstServeLostDown
-                    new_state.secondServeWonUp = current_state.secondServeWonUp
-                    new_state.secondServeWonDown = current_state.secondServeWonDown
-                    new_state.secondServeLostUp = current_state.secondServeLostUp
-                    new_state.secondServeLostDown = current_state.secondServeLostDown
-                    new_state.doubleFaultUp = current_state.doubleFaultUp
-                    new_state.doubleFaultDown = current_state.doubleFaultDown
-                    new_state.unforcedErrorUp = current_state.unforcedErrorUp
-                    new_state.unforcedErrorDown = current_state.unforcedErrorDown
-                    new_state.forehandWinnerUp = current_state.forehandWinnerUp
-                    new_state.forehandWinnerDown = current_state.forehandWinnerDown
-                    new_state.backhandWinnerUp = current_state.backhandWinnerUp
-                    new_state.backhandWinnerDown = current_state.backhandWinnerDown
-                    new_state.forehandVolleyUp = current_state.forehandVolleyUp
-                    new_state.forehandVolleyDown = current_state.forehandVolleyDown
-                    new_state.backhandVolleyUp = current_state.backhandVolleyUp
-                    new_state.backhandVolleyDown = current_state.backhandVolleyDown
-                    new_state.foulToLoseUp = current_state.foulToLoseUp
-                    new_state.foulToLoseDown = current_state.foulToLoseDown
-                    
-                    for i in 1...set_limit {
-                        new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
-                        new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
-                        new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
-                        new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
-                        new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
-                        new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
+                        print("stack not empty")
+                        
+                        first = current_state.firstServeDown + first_serve_count
+                        first_miss = current_state.firstServeMissDown + first_serve_miss
+                        second = current_state.secondServeDown + second_serve_count
+                        
+                        new_state.firstServeDown = first
+                        new_state.firstServeMissDown = first_miss
+                        new_state.secondServeDown = second
+                        
+                        new_state.current_set = current_state.current_set
+                        new_state.isServe = current_state.isServe
+                        new_state.isInTiebreak = current_state.isInTiebreak
+                        new_state.isFinish = current_state.isFinish
+                        
+                        if self.is_second_serve == true {
+                            new_state.isSecondServe = true
+                            imgServeUp.image = UIImage(named: "ball_red")
+                            imgServeDown.image = UIImage(named: "ball_red")
+                        } else {
+                            new_state.isSecondServe = false
+                            imgServeUp.image = UIImage(named: "ball_green")
+                            imgServeDown.image = UIImage(named: "ball_green")
+                        }
+                        
+                        new_state.setsUp = current_state.setsUp
+                        new_state.setSDown = current_state.setSDown
+                        
+                        new_state.duration = time_use
+                        new_state.isFinish = true
+                        
+                        imgWinCheckUp.isHidden = false
+                        imgWinCheckDown.isHidden = true
+                        
+                        new_state.aceCountUp = current_state.aceCountUp
+                        new_state.aceCountDown = current_state.aceCountDown
+                        new_state.firstServeUp = current_state.firstServeUp
+                        new_state.firstServeMissUp = current_state.firstServeMissUp
+                        new_state.secondServeUp = current_state.secondServeUp
+                        new_state.breakPointUp = current_state.breakPointUp
+                        new_state.breakPointMissUp = current_state.breakPointMissUp
+                        new_state.breakPointDown = current_state.breakPointDown
+                        new_state.breakPointMissDown = current_state.breakPointMissDown
+                        new_state.firstServeWonUp = current_state.firstServeWonUp
+                        new_state.firstServeWonDown = current_state.firstServeWonDown
+                        new_state.firstServeLostUp = current_state.firstServeLostUp
+                        new_state.firstServeLostDown = current_state.firstServeLostDown
+                        new_state.secondServeWonUp = current_state.secondServeWonUp
+                        new_state.secondServeWonDown = current_state.secondServeWonDown
+                        new_state.secondServeLostUp = current_state.secondServeLostUp
+                        new_state.secondServeLostDown = current_state.secondServeLostDown
+                        new_state.doubleFaultUp = current_state.doubleFaultUp
+                        new_state.doubleFaultDown = current_state.doubleFaultDown
+                        new_state.unforcedErrorUp = current_state.unforcedErrorUp
+                        new_state.unforcedErrorDown = current_state.unforcedErrorDown
+                        new_state.forehandWinnerUp = current_state.forehandWinnerUp
+                        new_state.forehandWinnerDown = current_state.forehandWinnerDown
+                        new_state.backhandWinnerUp = current_state.backhandWinnerUp
+                        new_state.backhandWinnerDown = current_state.backhandWinnerDown
+                        new_state.forehandVolleyUp = current_state.forehandVolleyUp
+                        new_state.forehandVolleyDown = current_state.forehandVolleyDown
+                        new_state.backhandVolleyUp = current_state.backhandVolleyUp
+                        new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        new_state.foulToLoseUp = current_state.foulToLoseUp
+                        new_state.foulToLoseDown = current_state.foulToLoseDown
+                        
+                        for i in 1...set_limit {
+                            new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
+                            new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
+                            new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
+                            new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
+                            new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
+                            new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
+                        }
                     }
                     
                     print("=== I retire end ===")
@@ -1231,77 +1555,94 @@ class ViewController: UIViewController {
                 case .OPPT_RETIRE:
                     print("=== Oppt retire start ===")
                     
-                    first = current_state.firstServeDown + first_serve_count
-                    first_miss = current_state.firstServeMissDown + first_serve_miss
-                    second = current_state.secondServeDown + second_serve_count
-                    
-                    new_state.firstServeUp = first
-                    new_state.firstServeMissUp = first_miss
-                    new_state.secondServeUp = second
-                    
-                    new_state.current_set = current_state.current_set
-                    new_state.isServe = current_state.isServe
-                    new_state.isInTiebreak = current_state.isInTiebreak
-                    new_state.isFinish = current_state.isFinish
-                    
-                    if is_second_serve == true {
-                        new_state.isSecondServe = true
-                        imgServeUp.image = UIImage(named: "ball_red")
-                        imgServeDown.image = UIImage(named: "ball_red")
+                    if stack.size() == 0 {
+                        print("stack is empty")
+                        
+                        if self.is_serve == true {
+                            new_state.isServe = true
+                        } else {
+                            new_state.isServe = false
+                        }
+                        
+                        new_state.current_set = 1
+                        new_state.duration = self.time_use
+                        new_state.isFinish = true
+                        
                     } else {
-                        new_state.isSecondServe = false
-                        imgServeUp.image = UIImage(named: "ball_green")
-                        imgServeDown.image = UIImage(named: "ball_green")
-                    }
-                    
-                    new_state.setsUp = current_state.setsUp
-                    new_state.setSDown = current_state.setSDown
-                    
-                    new_state.duration = time_use
-                    new_state.isFinish = true
-                    
-                    imgWinCheckUp.isHidden = true
-                    imgWinCheckDown.isHidden = false
-                    
-                    new_state.aceCountUp = current_state.aceCountUp
-                    new_state.aceCountDown = current_state.aceCountDown
-                    new_state.firstServeDown = current_state.firstServeDown
-                    new_state.firstServeMissDown = current_state.firstServeMissDown
-                    new_state.secondServeDown = current_state.secondServeDown
-                    new_state.breakPointUp = current_state.breakPointUp
-                    new_state.breakPointMissUp = current_state.breakPointMissUp
-                    new_state.breakPointDown = current_state.breakPointDown
-                    new_state.breakPointMissDown = current_state.breakPointMissDown
-                    new_state.firstServeWonUp = current_state.firstServeWonUp
-                    new_state.firstServeWonDown = current_state.firstServeWonDown
-                    new_state.firstServeLostUp = current_state.firstServeLostUp
-                    new_state.firstServeLostDown = current_state.firstServeLostDown
-                    new_state.secondServeWonUp = current_state.secondServeWonUp
-                    new_state.secondServeWonDown = current_state.secondServeWonDown
-                    new_state.secondServeLostUp = current_state.secondServeLostUp
-                    new_state.secondServeLostDown = current_state.secondServeLostDown
-                    new_state.doubleFaultUp = current_state.doubleFaultUp
-                    new_state.doubleFaultDown = current_state.doubleFaultDown
-                    new_state.unforcedErrorUp = current_state.unforcedErrorUp
-                    new_state.unforcedErrorDown = current_state.unforcedErrorDown
-                    new_state.forehandWinnerUp = current_state.forehandWinnerUp
-                    new_state.forehandWinnerDown = current_state.forehandWinnerDown
-                    new_state.backhandWinnerUp = current_state.backhandWinnerUp
-                    new_state.backhandWinnerDown = current_state.backhandWinnerDown
-                    new_state.forehandVolleyUp = current_state.forehandVolleyUp
-                    new_state.forehandVolleyDown = current_state.forehandVolleyDown
-                    new_state.backhandVolleyUp = current_state.backhandVolleyUp
-                    new_state.backhandVolleyDown = current_state.backhandVolleyDown
-                    new_state.foulToLoseUp = current_state.foulToLoseUp
-                    new_state.foulToLoseDown = current_state.foulToLoseDown
-                    
-                    for i in 1...set_limit {
-                        new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
-                        new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
-                        new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
-                        new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
-                        new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
-                        new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
+                        print("stack not empty")
+                        
+                        first = current_state.firstServeDown + first_serve_count
+                        first_miss = current_state.firstServeMissDown + first_serve_miss
+                        second = current_state.secondServeDown + second_serve_count
+                        
+                        new_state.firstServeUp = first
+                        new_state.firstServeMissUp = first_miss
+                        new_state.secondServeUp = second
+                        
+                        new_state.current_set = current_state.current_set
+                        new_state.isServe = current_state.isServe
+                        new_state.isInTiebreak = current_state.isInTiebreak
+                        new_state.isFinish = current_state.isFinish
+                        
+                        if self.is_second_serve == true {
+                            new_state.isSecondServe = true
+                            imgServeUp.image = UIImage(named: "ball_red")
+                            imgServeDown.image = UIImage(named: "ball_red")
+                        } else {
+                            new_state.isSecondServe = false
+                            imgServeUp.image = UIImage(named: "ball_green")
+                            imgServeDown.image = UIImage(named: "ball_green")
+                        }
+                        
+                        new_state.setsUp = current_state.setsUp
+                        new_state.setSDown = current_state.setSDown
+                        
+                        new_state.duration = time_use
+                        new_state.isFinish = true
+                        
+                        imgWinCheckUp.isHidden = true
+                        imgWinCheckDown.isHidden = false
+                        
+                        new_state.aceCountUp = current_state.aceCountUp
+                        new_state.aceCountDown = current_state.aceCountDown
+                        new_state.firstServeDown = current_state.firstServeDown
+                        new_state.firstServeMissDown = current_state.firstServeMissDown
+                        new_state.secondServeDown = current_state.secondServeDown
+                        new_state.breakPointUp = current_state.breakPointUp
+                        new_state.breakPointMissUp = current_state.breakPointMissUp
+                        new_state.breakPointDown = current_state.breakPointDown
+                        new_state.breakPointMissDown = current_state.breakPointMissDown
+                        new_state.firstServeWonUp = current_state.firstServeWonUp
+                        new_state.firstServeWonDown = current_state.firstServeWonDown
+                        new_state.firstServeLostUp = current_state.firstServeLostUp
+                        new_state.firstServeLostDown = current_state.firstServeLostDown
+                        new_state.secondServeWonUp = current_state.secondServeWonUp
+                        new_state.secondServeWonDown = current_state.secondServeWonDown
+                        new_state.secondServeLostUp = current_state.secondServeLostUp
+                        new_state.secondServeLostDown = current_state.secondServeLostDown
+                        new_state.doubleFaultUp = current_state.doubleFaultUp
+                        new_state.doubleFaultDown = current_state.doubleFaultDown
+                        new_state.unforcedErrorUp = current_state.unforcedErrorUp
+                        new_state.unforcedErrorDown = current_state.unforcedErrorDown
+                        new_state.forehandWinnerUp = current_state.forehandWinnerUp
+                        new_state.forehandWinnerDown = current_state.forehandWinnerDown
+                        new_state.backhandWinnerUp = current_state.backhandWinnerUp
+                        new_state.backhandWinnerDown = current_state.backhandWinnerDown
+                        new_state.forehandVolleyUp = current_state.forehandVolleyUp
+                        new_state.forehandVolleyDown = current_state.forehandVolleyDown
+                        new_state.backhandVolleyUp = current_state.backhandVolleyUp
+                        new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        new_state.foulToLoseUp = current_state.foulToLoseUp
+                        new_state.foulToLoseDown = current_state.foulToLoseDown
+                        
+                        for i in 1...set_limit {
+                            new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
+                            new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
+                            new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
+                            new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
+                            new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
+                            new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
+                        }
                     }
                     
                     print("=== Oppt retire end ===")
@@ -1309,236 +1650,142 @@ class ViewController: UIViewController {
                 case .YOU_SERVE:
                     print("=== I serve start ===")
                     
-                    first = current_state.firstServeDown + first_serve_count
-                    first_miss = current_state.firstServeMissDown + first_serve_miss
-                    second = current_state.secondServeDown + second_serve_count
-                    
-                    new_state.firstServeDown = first
-                    new_state.firstServeMissDown = first_miss
-                    new_state.secondServeDown = second
-                    
-                    new_state.current_set = current_state.current_set
-                    new_state.isServe = current_state.isServe
-                    new_state.isInTiebreak = current_state.isInTiebreak
-                    new_state.isFinish = current_state.isFinish
-                    
-                    if is_second_serve == true {
-                        new_state.isSecondServe = true
-                        imgServeUp.image = UIImage(named: "ball_red")
-                        imgServeDown.image = UIImage(named: "ball_red")
-                    } else {
-                        new_state.isSecondServe = false
-                        imgServeUp.image = UIImage(named: "ball_green")
-                        imgServeDown.image = UIImage(named: "ball_green")
-                    }
-                    
-                    new_state.setsUp = current_state.setsUp
-                    new_state.setSDown = current_state.setSDown
-                    
-                    new_state.duration = time_use
-                    
-                    new_state.aceCountUp = current_state.aceCountUp
-                    new_state.aceCountDown = current_state.aceCountDown
-                    new_state.firstServeUp = current_state.firstServeUp
-                    new_state.firstServeMissUp = current_state.firstServeMissUp
-                    new_state.secondServeUp = current_state.secondServeUp
-                    
-                    new_state.breakPointUp = current_state.breakPointUp
-                    new_state.breakPointMissUp = current_state.breakPointMissUp
-                    new_state.breakPointDown = current_state.breakPointDown
-                    new_state.breakPointMissDown = current_state.breakPointMissDown
-                    new_state.firstServeWonUp = current_state.firstServeWonUp
-                    new_state.firstServeWonDown = current_state.firstServeWonDown
-                    new_state.firstServeLostUp = current_state.firstServeLostUp
-                    new_state.firstServeLostDown = current_state.firstServeLostDown
-                    new_state.secondServeWonUp = current_state.secondServeWonUp
-                    new_state.secondServeWonDown = current_state.secondServeWonDown
-                    new_state.secondServeLostUp = current_state.secondServeLostUp
-                    new_state.secondServeLostDown = current_state.secondServeLostDown
-                    new_state.doubleFaultUp = current_state.doubleFaultUp
-                    new_state.doubleFaultDown = current_state.doubleFaultDown
-                    new_state.unforcedErrorUp = current_state.unforcedErrorUp
-                    new_state.unforcedErrorDown = current_state.unforcedErrorDown
-                    new_state.forehandWinnerUp = current_state.forehandWinnerUp
-                    new_state.forehandWinnerDown = current_state.forehandWinnerDown
-                    new_state.backhandWinnerUp = current_state.backhandWinnerUp
-                    new_state.backhandWinnerDown = current_state.backhandWinnerDown
-                    new_state.forehandVolleyUp = current_state.forehandVolleyUp
-                    new_state.forehandVolleyDown = current_state.forehandVolleyDown
-                    new_state.backhandVolleyUp = current_state.backhandVolleyUp
-                    new_state.backhandVolleyDown = current_state.backhandVolleyDown
-                    new_state.foulToLoseUp = current_state.foulToLoseUp
-                    new_state.foulToLoseDown = current_state.foulToLoseDown
-                    
-                    for i in 1...set_limit {
-                        new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
-                        new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
-                        new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
-                        new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
-                        new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
-                        new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
-                    }
-                    print("=== I serve end ===")
-                    break
-                case .OPPT_SERVE:
-                    print("=== I serve start ===")
-                    
-                    first = current_state.firstServeUp + first_serve_count
-                    first_miss = current_state.firstServeMissUp + first_serve_miss
-                    second = current_state.secondServeUp + second_serve_count
-                    
-                    new_state.firstServeUp = first
-                    new_state.firstServeMissUp = first_miss
-                    new_state.secondServeUp = second
-                    
-                    new_state.current_set = current_state.current_set
-                    new_state.isServe = current_state.isServe
-                    new_state.isInTiebreak = current_state.isInTiebreak
-                    new_state.isFinish = current_state.isFinish
-                    
-                    if is_second_serve == true {
-                        new_state.isSecondServe = true
-                        imgServeUp.image = UIImage(named: "ball_red")
-                        imgServeDown.image = UIImage(named: "ball_red")
-                    } else {
-                        new_state.isSecondServe = false
-                        imgServeUp.image = UIImage(named: "ball_green")
-                        imgServeDown.image = UIImage(named: "ball_green")
-                    }
-                    
-                    new_state.setsUp = current_state.setsUp
-                    new_state.setSDown = current_state.setSDown
-                    
-                    new_state.duration = time_use
-                    
-                    new_state.aceCountUp = current_state.aceCountUp
-                    new_state.aceCountDown = current_state.aceCountDown
-                    new_state.firstServeDown = current_state.firstServeDown
-                    new_state.firstServeMissDown = current_state.firstServeMissDown
-                    new_state.secondServeDown = current_state.secondServeDown
-                    
-                    new_state.breakPointUp = current_state.breakPointUp
-                    new_state.breakPointMissUp = current_state.breakPointMissUp
-                    new_state.breakPointDown = current_state.breakPointDown
-                    new_state.breakPointMissDown = current_state.breakPointMissDown
-                    new_state.firstServeWonUp = current_state.firstServeWonUp
-                    new_state.firstServeWonDown = current_state.firstServeWonDown
-                    new_state.firstServeLostUp = current_state.firstServeLostUp
-                    new_state.firstServeLostDown = current_state.firstServeLostDown
-                    new_state.secondServeWonUp = current_state.secondServeWonUp
-                    new_state.secondServeWonDown = current_state.secondServeWonDown
-                    new_state.secondServeLostUp = current_state.secondServeLostUp
-                    new_state.secondServeLostDown = current_state.secondServeLostDown
-                    new_state.doubleFaultUp = current_state.doubleFaultUp
-                    new_state.doubleFaultDown = current_state.doubleFaultDown
-                    new_state.unforcedErrorUp = current_state.unforcedErrorUp
-                    new_state.unforcedErrorDown = current_state.unforcedErrorDown
-                    new_state.forehandWinnerUp = current_state.forehandWinnerUp
-                    new_state.forehandWinnerDown = current_state.forehandWinnerDown
-                    new_state.backhandWinnerUp = current_state.backhandWinnerUp
-                    new_state.backhandWinnerDown = current_state.backhandWinnerDown
-                    new_state.forehandVolleyUp = current_state.forehandVolleyUp
-                    new_state.forehandVolleyDown = current_state.forehandVolleyDown
-                    new_state.backhandVolleyUp = current_state.backhandVolleyUp
-                    new_state.backhandVolleyDown = current_state.backhandVolleyDown
-                    new_state.foulToLoseUp = current_state.foulToLoseUp
-                    new_state.foulToLoseDown = current_state.foulToLoseDown
-                    
-                    for i in 1...set_limit {
-                        new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
-                        new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
-                        new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
-                        new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
-                        new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
-                        new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
-                    }
-                    print("=== I serve end ===")
-                    break
-                case .YOU_SCORE:
-                    print("=== I score start ===")
-                    new_state.current_set = current_state.current_set
-                    new_state.isServe = current_state.isServe
-                    new_state.isInTiebreak = current_state.isInTiebreak
-                    new_state.isFinish = current_state.isFinish
-                    
-                    if is_second_serve == true {
-                        new_state.isSecondServe = true
-                    } else {
-                        new_state.isSecondServe = false
-                    }
-                    
-                    new_state.setsUp = current_state.setsUp
-                    new_state.setSDown = current_state.setSDown
-                    
-                    new_state.duration = time_use
-                    
-                    new_state.aceCountUp = current_state.aceCountUp
-                    new_state.aceCountDown = current_state.aceCountDown
-                    new_state.firstServeUp = current_state.firstServeUp
-                    new_state.firstServeDown = current_state.firstServeDown
-                    new_state.breakPointUp = current_state.breakPointUp
-                    new_state.breakPointDown = current_state.breakPointDown
-                    new_state.breakPointMissUp = current_state.breakPointMissUp
-                    new_state.breakPointMissDown = current_state.breakPointMissDown
-                    new_state.firstServeWonUp = current_state.firstServeWonUp
-                    new_state.firstServeWonDown = current_state.firstServeWonDown
-                    new_state.firstServeLostUp = current_state.firstServeLostUp
-                    new_state.firstServeLostDown = current_state.firstServeLostDown
-                    new_state.secondServeWonUp = current_state.secondServeWonUp
-                    new_state.secondServeWonDown = current_state.secondServeWonDown
-                    new_state.secondServeLostUp = current_state.secondServeLostUp
-                    new_state.secondServeLostDown = current_state.secondServeLostDown
-                    new_state.doubleFaultUp = current_state.doubleFaultUp
-                    new_state.doubleFaultDown = current_state.doubleFaultDown
-                    new_state.unforcedErrorUp = current_state.unforcedErrorUp
-                    new_state.unforcedErrorDown = current_state.unforcedErrorDown
-                    new_state.forehandWinnerUp  = current_state.forehandWinnerUp
-                    new_state.forehandWinnerDown = current_state.forehandWinnerDown
-                    new_state.backhandWinnerUp = current_state.backhandWinnerUp
-                    new_state.backhandWinnerDown = current_state.backhandWinnerDown
-                    new_state.forehandVolleyUp = current_state.forehandVolleyUp
-                    new_state.forehandVolleyDown = current_state.forehandVolleyDown
-                    new_state.backhandVolleyUp = current_state.backhandVolleyUp
-                    new_state.backhandVolleyDown = current_state.backhandVolleyDown
-                    new_state.foulToLoseUp = current_state.foulToLoseUp
-                    new_state.foulToLoseDown = current_state.foulToLoseDown
-                    
-                    for i in 1...set_limit {
-                        new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
-                        new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
-                        new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
-                        new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
-                        new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
-                        new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
-                    }
-                    
-                    if current_state.isServe == true { //you serve
-                        print("You serve")
+                    if stack.size() == 0 {
+                        print("stack is empty")
                         
-                        first = current_state.firstServeLostDown + first_serve_count
+                        first = self.first_serve_count
+                        first_miss = self.first_serve_miss
+                        second = self.second_serve_count
+                        
+                        new_state.firstServeDown = first
+                        new_state.firstServeMissDown = first_miss
+                        new_state.secondServeDown = second
+                        
+                        if self.is_second_serve == true {
+                            new_state.isSecondServe = true
+                            imgServeUp.image = UIImage(named: "ball_red")
+                            imgServeDown.image = UIImage(named: "ball_red")
+                        } else {
+                            new_state.isSecondServe = false
+                            imgServeUp.image = UIImage(named: "ball_green")
+                            imgServeDown.image = UIImage(named: "ball_green")
+                        }
+                        
+                        new_state.current_set = 1
+                        new_state.duration = self.time_use
+                        
+                    } else {
+                        print("stack not empty")
+                        
+                        first = current_state.firstServeDown + first_serve_count
                         first_miss = current_state.firstServeMissDown + first_serve_miss
                         second = current_state.secondServeDown + second_serve_count
                         
                         new_state.firstServeDown = first
                         new_state.firstServeMissDown = first_miss
                         new_state.secondServeDown = second
-                        //win on your own
-                        new_state.aceCountDown = new_state.aceCountDown + ace_count
-                        new_state.forehandWinnerDown = new_state.forehandWinnerDown + forehand_winner_count
-                        new_state.backhandWinnerDown = new_state.backhandWinnerDown + backhand_winner_count
-                        new_state.forehandVolleyDown = new_state.forehandVolleyDown + forehand_volley_count
-                        new_state.backhandVolleyDown = new_state.backhandVolleyDown + backhand_volley_count
-                        //win on oppt lose
-                        new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
-                        new_state.foulToLoseUp = new_state.foulToLoseUp + foul_to_lose_count
-                        //score on first serve or second serve
-                        if is_second_serve {
-                            new_state.secondServeWonDown = new_state.secondServeWonDown + second_serve_won
+                        
+                        new_state.current_set = current_state.current_set
+                        new_state.isServe = current_state.isServe
+                        new_state.isInTiebreak = current_state.isInTiebreak
+                        new_state.isFinish = current_state.isFinish
+                        
+                        if self.is_second_serve == true {
+                            new_state.isSecondServe = true
+                            imgServeUp.image = UIImage(named: "ball_red")
+                            imgServeDown.image = UIImage(named: "ball_red")
                         } else {
-                            new_state.firstServeWonDown = new_state.firstServeWonDown + first_serve_won
+                            new_state.isSecondServe = false
+                            imgServeUp.image = UIImage(named: "ball_green")
+                            imgServeDown.image = UIImage(named: "ball_green")
                         }
-                    } else { //oppt serve
-                        print("Oppt serve")
+                        
+                        new_state.setsUp = current_state.setsUp
+                        new_state.setSDown = current_state.setSDown
+                        
+                        new_state.duration = time_use
+                        
+                        new_state.aceCountUp = current_state.aceCountUp
+                        new_state.aceCountDown = current_state.aceCountDown
+                        new_state.firstServeUp = current_state.firstServeUp
+                        new_state.firstServeMissUp = current_state.firstServeMissUp
+                        new_state.secondServeUp = current_state.secondServeUp
+                        
+                        new_state.breakPointUp = current_state.breakPointUp
+                        new_state.breakPointMissUp = current_state.breakPointMissUp
+                        new_state.breakPointDown = current_state.breakPointDown
+                        new_state.breakPointMissDown = current_state.breakPointMissDown
+                        new_state.firstServeWonUp = current_state.firstServeWonUp
+                        new_state.firstServeWonDown = current_state.firstServeWonDown
+                        new_state.firstServeLostUp = current_state.firstServeLostUp
+                        new_state.firstServeLostDown = current_state.firstServeLostDown
+                        new_state.secondServeWonUp = current_state.secondServeWonUp
+                        new_state.secondServeWonDown = current_state.secondServeWonDown
+                        new_state.secondServeLostUp = current_state.secondServeLostUp
+                        new_state.secondServeLostDown = current_state.secondServeLostDown
+                        new_state.doubleFaultUp = current_state.doubleFaultUp
+                        new_state.doubleFaultDown = current_state.doubleFaultDown
+                        new_state.unforcedErrorUp = current_state.unforcedErrorUp
+                        new_state.unforcedErrorDown = current_state.unforcedErrorDown
+                        new_state.forehandWinnerUp = current_state.forehandWinnerUp
+                        new_state.forehandWinnerDown = current_state.forehandWinnerDown
+                        new_state.backhandWinnerUp = current_state.backhandWinnerUp
+                        new_state.backhandWinnerDown = current_state.backhandWinnerDown
+                        new_state.forehandVolleyUp = current_state.forehandVolleyUp
+                        new_state.forehandVolleyDown = current_state.forehandVolleyDown
+                        new_state.backhandVolleyUp = current_state.backhandVolleyUp
+                        new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        new_state.foulToLoseUp = current_state.foulToLoseUp
+                        new_state.foulToLoseDown = current_state.foulToLoseDown
+                        
+                        for i in 1...set_limit {
+                            new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
+                            new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
+                            new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
+                            new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
+                            new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
+                            new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
+                        }
+                    }
+                    
+                    print("=== I serve end ===")
+                    break
+                case .OPPT_SERVE:
+                    print("=== I serve start ===")
+                    
+                    if stack.size() == 0 {
+                        print("stack is empty")
+                        
+                        first = self.first_serve_count
+                        first_miss = self.first_serve_miss
+                        second = self.second_serve_count
+                        
+                        new_state.firstServeUp = first
+                        new_state.firstServeMissUp = first_miss
+                        new_state.secondServeUp = second
+                        
+                        if self.is_serve == true {
+                            new_state.isServe = true
+                        } else {
+                            new_state.isServe = false
+                        }
+                        
+                        if self.is_second_serve == true {
+                            new_state.isSecondServe = true
+                            imgServeUp.image = UIImage(named: "ball_red")
+                            imgServeDown.image = UIImage(named: "ball_red")
+                        } else {
+                            new_state.isSecondServe = false
+                            imgServeUp.image = UIImage(named: "ball_green")
+                            imgServeDown.image = UIImage(named: "ball_green")
+                        }
+                        
+                        new_state.current_set = 1
+                        new_state.duration = self.time_use
+                    
+                    } else {
+                        print("stack not empty")
+                        
                         first = current_state.firstServeUp + first_serve_count
                         first_miss = current_state.firstServeMissUp + first_serve_miss
                         second = current_state.secondServeUp + second_serve_count
@@ -1547,31 +1794,230 @@ class ViewController: UIViewController {
                         new_state.firstServeMissUp = first_miss
                         new_state.secondServeUp = second
                         
-                        //win on your own
-                        new_state.forehandWinnerDown = new_state.forehandWinnerDown + forehand_winner_count
-                        new_state.backhandWinnerDown = new_state.backhandWinnerDown + backhand_winner_count
-                        new_state.forehandVolleyDown = new_state.forehandVolleyDown + forehand_volley_count
-                        new_state.backhandVolleyDown = new_state.backhandVolleyDown + backhand_volley_count
-                        //win on oppt lose
-                        new_state.doubleFaultUp = new_state.doubleFaultUp + double_faults_count
-                        new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
-                        new_state.foulToLoseUp = new_state.foulToLoseUp + foul_to_lose_count
+                        new_state.current_set = current_state.current_set
+                        new_state.isServe = current_state.isServe
+                        new_state.isInTiebreak = current_state.isInTiebreak
+                        new_state.isFinish = current_state.isFinish
                         
                         if is_second_serve == true {
-                            new_state.secondServeLostUp = new_state.secondServeLostUp + second_serve_lost
+                            new_state.isSecondServe = true
+                            imgServeUp.image = UIImage(named: "ball_red")
+                            imgServeDown.image = UIImage(named: "ball_red")
                         } else {
-                            new_state.firstServeLostUp = new_state.firstServeLostUp + first_serve_lost
+                            new_state.isSecondServe = false
+                            imgServeUp.image = UIImage(named: "ball_green")
+                            imgServeDown.image = UIImage(named: "ball_green")
+                        }
+                        
+                        new_state.setsUp = current_state.setsUp
+                        new_state.setSDown = current_state.setSDown
+                        
+                        new_state.duration = time_use
+                        
+                        new_state.aceCountUp = current_state.aceCountUp
+                        new_state.aceCountDown = current_state.aceCountDown
+                        new_state.firstServeDown = current_state.firstServeDown
+                        new_state.firstServeMissDown = current_state.firstServeMissDown
+                        new_state.secondServeDown = current_state.secondServeDown
+                        
+                        new_state.breakPointUp = current_state.breakPointUp
+                        new_state.breakPointMissUp = current_state.breakPointMissUp
+                        new_state.breakPointDown = current_state.breakPointDown
+                        new_state.breakPointMissDown = current_state.breakPointMissDown
+                        new_state.firstServeWonUp = current_state.firstServeWonUp
+                        new_state.firstServeWonDown = current_state.firstServeWonDown
+                        new_state.firstServeLostUp = current_state.firstServeLostUp
+                        new_state.firstServeLostDown = current_state.firstServeLostDown
+                        new_state.secondServeWonUp = current_state.secondServeWonUp
+                        new_state.secondServeWonDown = current_state.secondServeWonDown
+                        new_state.secondServeLostUp = current_state.secondServeLostUp
+                        new_state.secondServeLostDown = current_state.secondServeLostDown
+                        new_state.doubleFaultUp = current_state.doubleFaultUp
+                        new_state.doubleFaultDown = current_state.doubleFaultDown
+                        new_state.unforcedErrorUp = current_state.unforcedErrorUp
+                        new_state.unforcedErrorDown = current_state.unforcedErrorDown
+                        new_state.forehandWinnerUp = current_state.forehandWinnerUp
+                        new_state.forehandWinnerDown = current_state.forehandWinnerDown
+                        new_state.backhandWinnerUp = current_state.backhandWinnerUp
+                        new_state.backhandWinnerDown = current_state.backhandWinnerDown
+                        new_state.forehandVolleyUp = current_state.forehandVolleyUp
+                        new_state.forehandVolleyDown = current_state.forehandVolleyDown
+                        new_state.backhandVolleyUp = current_state.backhandVolleyUp
+                        new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        new_state.foulToLoseUp = current_state.foulToLoseUp
+                        new_state.foulToLoseDown = current_state.foulToLoseDown
+                        
+                        for i in 1...set_limit {
+                            new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
+                            new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
+                            new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
+                            new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
+                            new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
+                            new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
                         }
                     }
-                    //you score!
-                    var point: UInt8 = current_state.getPointDown(set: current_set)
-                    point = point + 1
-                    print("Your point \(current_state.getPointDown(set: current_set)) change to \(point)")
-                    new_state.setPointDown(set: current_set, point: point)
                     
-                    checkPoint(new_state: new_state)
                     
-                    checkGames(new_state: new_state)
+                    print("=== I serve end ===")
+                    break
+                case .YOU_SCORE:
+                    print("=== I score start ===")
+                    
+                    if stack.size() == 0 {
+                        
+                        if self.is_serve == true {
+                            new_state.isServe = true
+                        } else {
+                            new_state.isServe = false
+                        }
+                        
+                        first = self.first_serve_count
+                        if new_state.isServe == true {
+                            new_state.firstServeDown = first
+                        } else {
+                            new_state.firstServeUp = first
+                        }
+                        
+                        new_state.current_set = 1
+                        new_state.setPointDown(set: 1, point: 1)
+                        new_state.duration = self.time_use
+                        
+                        //win on yourself
+                        new_state.aceCountDown = self.ace_count
+                        new_state.forehandWinnerDown = self.forehand_winner_count
+                        new_state.backhandWinnerDown = self.backhand_winner_count
+                        new_state.forehandVolleyDown = self.forehand_volley_count
+                        new_state.backhandVolleyDown = self.backhand_volley_count
+                        //win on oppt lose
+                        new_state.doubleFaultUp = self.double_faults_count
+                        new_state.unforcedErrorUp = self.unforced_errors_count
+                        new_state.foulToLoseUp = self.foul_to_lose_count
+                        
+                        if new_state.isServe == true { //you serve
+                            new_state.firstServeWonDown = self.first_serve_won
+                        } else { // oppt serve
+                            new_state.firstServeLostUp = self.first_serve_lost
+                        }
+                        
+                    } else {
+                        new_state.current_set = current_state.current_set
+                        new_state.isServe = current_state.isServe
+                        new_state.isInTiebreak = current_state.isInTiebreak
+                        new_state.isFinish = current_state.isFinish
+                        
+                        if is_second_serve == true {
+                            new_state.isSecondServe = true
+                        } else {
+                            new_state.isSecondServe = false
+                        }
+                        
+                        new_state.setsUp = current_state.setsUp
+                        new_state.setSDown = current_state.setSDown
+                        
+                        new_state.duration = time_use
+                        
+                        new_state.aceCountUp = current_state.aceCountUp
+                        new_state.aceCountDown = current_state.aceCountDown
+                        new_state.firstServeUp = current_state.firstServeUp
+                        new_state.firstServeDown = current_state.firstServeDown
+                        new_state.breakPointUp = current_state.breakPointUp
+                        new_state.breakPointDown = current_state.breakPointDown
+                        new_state.breakPointMissUp = current_state.breakPointMissUp
+                        new_state.breakPointMissDown = current_state.breakPointMissDown
+                        new_state.firstServeWonUp = current_state.firstServeWonUp
+                        new_state.firstServeWonDown = current_state.firstServeWonDown
+                        new_state.firstServeLostUp = current_state.firstServeLostUp
+                        new_state.firstServeLostDown = current_state.firstServeLostDown
+                        new_state.secondServeWonUp = current_state.secondServeWonUp
+                        new_state.secondServeWonDown = current_state.secondServeWonDown
+                        new_state.secondServeLostUp = current_state.secondServeLostUp
+                        new_state.secondServeLostDown = current_state.secondServeLostDown
+                        new_state.doubleFaultUp = current_state.doubleFaultUp
+                        new_state.doubleFaultDown = current_state.doubleFaultDown
+                        new_state.unforcedErrorUp = current_state.unforcedErrorUp
+                        new_state.unforcedErrorDown = current_state.unforcedErrorDown
+                        new_state.forehandWinnerUp  = current_state.forehandWinnerUp
+                        new_state.forehandWinnerDown = current_state.forehandWinnerDown
+                        new_state.backhandWinnerUp = current_state.backhandWinnerUp
+                        new_state.backhandWinnerDown = current_state.backhandWinnerDown
+                        new_state.forehandVolleyUp = current_state.forehandVolleyUp
+                        new_state.forehandVolleyDown = current_state.forehandVolleyDown
+                        new_state.backhandVolleyUp = current_state.backhandVolleyUp
+                        new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        new_state.foulToLoseUp = current_state.foulToLoseUp
+                        new_state.foulToLoseDown = current_state.foulToLoseDown
+                        
+                        for i in 1...set_limit {
+                            new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
+                            new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
+                            new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
+                            new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
+                            new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
+                            new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
+                        }
+                        
+                        if current_state.isServe == true { //you serve
+                            print("You serve")
+                            
+                            first = current_state.firstServeDown + first_serve_count
+                            first_miss = current_state.firstServeMissDown + first_serve_miss
+                            second = current_state.secondServeDown + second_serve_count
+                            
+                            new_state.firstServeDown = first
+                            new_state.firstServeMissDown = first_miss
+                            new_state.secondServeDown = second
+                            //win on your own
+                            new_state.aceCountDown = new_state.aceCountDown + ace_count
+                            new_state.forehandWinnerDown = new_state.forehandWinnerDown + forehand_winner_count
+                            new_state.backhandWinnerDown = new_state.backhandWinnerDown + backhand_winner_count
+                            new_state.forehandVolleyDown = new_state.forehandVolleyDown + forehand_volley_count
+                            new_state.backhandVolleyDown = new_state.backhandVolleyDown + backhand_volley_count
+                            //win on oppt lose
+                            new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
+                            new_state.foulToLoseUp = new_state.foulToLoseUp + foul_to_lose_count
+                            //score on first serve or second serve
+                            if is_second_serve {
+                                new_state.secondServeWonDown = new_state.secondServeWonDown + second_serve_won
+                            } else {
+                                new_state.firstServeWonDown = new_state.firstServeWonDown + first_serve_won
+                            }
+                        } else { //oppt serve
+                            print("Oppt serve")
+                            first = current_state.firstServeUp + first_serve_count
+                            first_miss = current_state.firstServeMissUp + first_serve_miss
+                            second = current_state.secondServeUp + second_serve_count
+                            
+                            new_state.firstServeUp = first
+                            new_state.firstServeMissUp = first_miss
+                            new_state.secondServeUp = second
+                            
+                            //win on your own
+                            new_state.forehandWinnerDown = new_state.forehandWinnerDown + forehand_winner_count
+                            new_state.backhandWinnerDown = new_state.backhandWinnerDown + backhand_winner_count
+                            new_state.forehandVolleyDown = new_state.forehandVolleyDown + forehand_volley_count
+                            new_state.backhandVolleyDown = new_state.backhandVolleyDown + backhand_volley_count
+                            //win on oppt lose
+                            new_state.doubleFaultUp = new_state.doubleFaultUp + double_faults_count
+                            new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
+                            new_state.foulToLoseUp = new_state.foulToLoseUp + foul_to_lose_count
+                            
+                            if is_second_serve == true {
+                                new_state.secondServeLostUp = new_state.secondServeLostUp + second_serve_lost
+                            } else {
+                                new_state.firstServeLostUp = new_state.firstServeLostUp + first_serve_lost
+                            }
+                        }
+                        //you score!
+                        var point: UInt8 = current_state.getPointDown(set: current_set)
+                        point = point + 1
+                        print("Your point \(current_state.getPointDown(set: current_set)) change to \(point)")
+                        new_state.setPointDown(set: current_set, point: point)
+                        
+                        checkPoint(new_state: new_state)
+                        
+                        checkGames(new_state: new_state)
+                    }
+                    
                     //score, reset
                     new_state.isSecondServe = false
                     imgServeUp.image = UIImage(named: "ball_green")
@@ -1579,128 +2025,173 @@ class ViewController: UIViewController {
                     print("=== I score end ===")
                     break
                 case .OPPT_SCORE:
-                    new_state.current_set = current_state.current_set
-                    new_state.isServe = current_state.isServe
-                    new_state.isInTiebreak = current_state.isInTiebreak
-                    new_state.isFinish = current_state.isFinish
                     
-                    if is_second_serve == true {
-                        new_state.isSecondServe = true
-                    } else {
-                        new_state.isSecondServe = false
-                    }
-                    
-                    new_state.setsUp = current_state.setsUp
-                    new_state.setSDown = current_state.setSDown
-                    
-                    new_state.duration = time_use
-                    
-                    new_state.aceCountUp = current_state.aceCountUp
-                    new_state.aceCountDown = current_state.aceCountDown
-                    new_state.firstServeUp = current_state.firstServeUp
-                    new_state.firstServeDown = current_state.firstServeDown
-                    new_state.breakPointUp = current_state.breakPointUp
-                    new_state.breakPointDown = current_state.breakPointDown
-                    new_state.breakPointMissUp = current_state.breakPointMissUp
-                    new_state.breakPointMissDown = current_state.breakPointMissDown
-                    new_state.firstServeWonUp = current_state.firstServeWonUp
-                    new_state.firstServeWonDown = current_state.firstServeWonDown
-                    new_state.firstServeLostUp = current_state.firstServeLostUp
-                    new_state.firstServeLostDown = current_state.firstServeLostDown
-                    new_state.secondServeWonUp = current_state.secondServeWonUp
-                    new_state.secondServeWonDown = current_state.secondServeWonDown
-                    new_state.secondServeLostUp = current_state.secondServeLostUp
-                    new_state.secondServeLostDown = current_state.secondServeLostDown
-                    new_state.doubleFaultUp = current_state.doubleFaultUp
-                    new_state.doubleFaultDown = current_state.doubleFaultDown
-                    new_state.unforcedErrorUp = current_state.unforcedErrorUp
-                    new_state.unforcedErrorDown = current_state.unforcedErrorDown
-                    new_state.forehandWinnerUp  = current_state.forehandWinnerUp
-                    new_state.forehandWinnerDown = current_state.forehandWinnerDown
-                    new_state.backhandWinnerUp = current_state.backhandWinnerUp
-                    new_state.backhandWinnerDown = current_state.backhandWinnerDown
-                    new_state.forehandVolleyUp = current_state.forehandVolleyUp
-                    new_state.forehandVolleyDown = current_state.forehandVolleyDown
-                    new_state.backhandVolleyUp = current_state.backhandVolleyUp
-                    new_state.backhandVolleyDown = current_state.backhandVolleyDown
-                    new_state.foulToLoseUp = current_state.foulToLoseUp
-                    new_state.foulToLoseDown = current_state.foulToLoseDown
-                    
-                    for i in 1...set_limit {
-                        new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
-                        new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
-                        new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
-                        new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
-                        new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
-                        new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
-                    }
-                    
-                    if current_state.isServe { //you serve
-                        print("You serve")
+                    if stack.size() == 0 {
+                        print("stack is empty")
                         
-                        first = current_state.firstServeLostDown + first_serve_count
-                        first_miss = current_state.firstServeMissDown + first_serve_miss
-                        second = current_state.secondServeDown + second_serve_count
-                        
-                        new_state.firstServeDown = first
-                        new_state.firstServeMissDown = first_miss
-                        new_state.secondServeDown = second
-                        //win on oppt own
-                        
-                        new_state.forehandWinnerUp = new_state.forehandWinnerUp + forehand_winner_count
-                        new_state.backhandWinnerUp = new_state.backhandWinnerUp + backhand_winner_count
-                        new_state.forehandVolleyUp = new_state.forehandVolleyUp + forehand_volley_count
-                        new_state.backhandVolleyUp = new_state.backhandVolleyUp + backhand_volley_count
-                        //win on your lose
-                        new_state.doubleFaultDown = new_state.doubleFaultDown + double_faults_count
-                        new_state.unforcedErrorDown = new_state.unforcedErrorDown + unforced_errors_count
-                        new_state.foulToLoseDown = new_state.foulToLoseDown + foul_to_lose_count
-                        
-                        //you serve, oppt scored
-                        if is_second_serve {
-                            new_state.secondServeLostDown = new_state.secondServeLostDown + second_serve_lost
+                        if self.is_serve == true {
+                            new_state.isServe = true
                         } else {
-                            new_state.firstServeLostDown = new_state.firstServeLostDown + first_serve_lost
+                            new_state.isServe = false
                         }
-                    } else { //oppt serve
-                        print("Oppt serve")
-                        first = current_state.firstServeUp + first_serve_count
-                        first_miss = current_state.firstServeMissUp + first_serve_miss
-                        second = current_state.secondServeUp + second_serve_count
                         
-                        new_state.firstServeUp = first
-                        new_state.firstServeMissUp = first_miss
-                        new_state.secondServeUp = second
+                        first = first_serve_count
+                        if new_state.isServe == true { //you serve
+                            new_state.firstServeDown = first
+                        } else {
+                            new_state.firstServeUp = first
+                        }
                         
-                        //win on oppt own
-                        new_state.aceCountUp = new_state.aceCountUp + ace_count
-                        new_state.forehandWinnerUp = new_state.forehandWinnerUp + forehand_winner_count
-                        new_state.backhandWinnerUp = new_state.backhandWinnerUp + backhand_winner_count
-                        new_state.forehandVolleyUp = new_state.forehandVolleyUp + forehand_volley_count
-                        new_state.backhandVolleyUp = new_state.backhandVolleyUp + backhand_volley_count
-                        //win on oppt lose
-                        new_state.unforcedErrorDown = new_state.unforcedErrorDown + unforced_errors_count
-                        new_state.foulToLoseDown = new_state.foulToLoseDown + foul_to_lose_count
+                        new_state.current_set = 1
+                        new_state.setPointUp(set: 1, point: 1)
+                        new_state.duration = self.time_use
+                        
+                        //oppt win on his own
+                        new_state.aceCountUp = ace_count
+                        new_state.forehandWinnerUp = self.forehand_winner_count
+                        new_state.backhandWinnerUp = self.backhand_winner_count
+                        new_state.forehandVolleyUp = self.forehand_volley_count
+                        new_state.backhandVolleyUp = self.backhand_volley_count
+                        
+                        //win on your lose
+                        new_state.doubleFaultDown = self.double_faults_count
+                        new_state.unforcedErrorDown = self.unforced_errors_count
+                        new_state.foulToLoseDown = self.foul_to_lose_count
+                        
+                        if new_state.isServe == true { //you serve
+                            new_state.firstServeLostDown = self.first_serve_lost
+                        } else { //oppt serve
+                            new_state.firstServeWonUp = self.first_serve_won
+                        }
+                        
+                    } else {
+                        print("stack not empty")
+                        
+                        new_state.current_set = current_state.current_set
+                        new_state.isServe = current_state.isServe
+                        new_state.isInTiebreak = current_state.isInTiebreak
+                        new_state.isFinish = current_state.isFinish
                         
                         if is_second_serve == true {
-                            new_state.secondServeWonUp = new_state.secondServeWonUp + second_serve_won
+                            new_state.isSecondServe = true
                         } else {
-                            new_state.firstServeWonUp = new_state.firstServeWonUp + first_serve_won
+                            new_state.isSecondServe = false
                         }
                         
+                        new_state.setsUp = current_state.setsUp
+                        new_state.setSDown = current_state.setSDown
                         
+                        new_state.duration = time_use
                         
+                        new_state.aceCountUp = current_state.aceCountUp
+                        new_state.aceCountDown = current_state.aceCountDown
+                        new_state.firstServeUp = current_state.firstServeUp
+                        new_state.firstServeDown = current_state.firstServeDown
+                        new_state.breakPointUp = current_state.breakPointUp
+                        new_state.breakPointDown = current_state.breakPointDown
+                        new_state.breakPointMissUp = current_state.breakPointMissUp
+                        new_state.breakPointMissDown = current_state.breakPointMissDown
+                        new_state.firstServeWonUp = current_state.firstServeWonUp
+                        new_state.firstServeWonDown = current_state.firstServeWonDown
+                        new_state.firstServeLostUp = current_state.firstServeLostUp
+                        new_state.firstServeLostDown = current_state.firstServeLostDown
+                        new_state.secondServeWonUp = current_state.secondServeWonUp
+                        new_state.secondServeWonDown = current_state.secondServeWonDown
+                        new_state.secondServeLostUp = current_state.secondServeLostUp
+                        new_state.secondServeLostDown = current_state.secondServeLostDown
+                        new_state.doubleFaultUp = current_state.doubleFaultUp
+                        new_state.doubleFaultDown = current_state.doubleFaultDown
+                        new_state.unforcedErrorUp = current_state.unforcedErrorUp
+                        new_state.unforcedErrorDown = current_state.unforcedErrorDown
+                        new_state.forehandWinnerUp  = current_state.forehandWinnerUp
+                        new_state.forehandWinnerDown = current_state.forehandWinnerDown
+                        new_state.backhandWinnerUp = current_state.backhandWinnerUp
+                        new_state.backhandWinnerDown = current_state.backhandWinnerDown
+                        new_state.forehandVolleyUp = current_state.forehandVolleyUp
+                        new_state.forehandVolleyDown = current_state.forehandVolleyDown
+                        new_state.backhandVolleyUp = current_state.backhandVolleyUp
+                        new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        new_state.foulToLoseUp = current_state.foulToLoseUp
+                        new_state.foulToLoseDown = current_state.foulToLoseDown
+                        
+                        for i in 1...set_limit {
+                            new_state.setGameUp(set: i, game: current_state.getGameUp(set: i))
+                            new_state.setGameDown(set: i, game: current_state.getGameDown(set: i))
+                            new_state.setPointUp(set: i, point: current_state.getPointUp(set: i))
+                            new_state.setPointDown(set: i, point: current_state.getPointDown(set: i))
+                            new_state.setTiebreakPointUp(set: i, point: current_state.getTiebreakPointUp(set: i))
+                            new_state.setTiebreakPointDown(set: i, point: current_state.getTiebreakPointDown(set: i))
+                        }
+                        
+                        if current_state.isServe { //you serve
+                            print("You serve")
+                            
+                            first = current_state.firstServeDown + first_serve_count
+                            first_miss = current_state.firstServeMissDown + first_serve_miss
+                            second = current_state.secondServeDown + second_serve_count
+                            
+                            new_state.firstServeDown = first
+                            new_state.firstServeMissDown = first_miss
+                            new_state.secondServeDown = second
+                            //win on oppt own
+                            
+                            new_state.forehandWinnerUp = new_state.forehandWinnerUp + forehand_winner_count
+                            new_state.backhandWinnerUp = new_state.backhandWinnerUp + backhand_winner_count
+                            new_state.forehandVolleyUp = new_state.forehandVolleyUp + forehand_volley_count
+                            new_state.backhandVolleyUp = new_state.backhandVolleyUp + backhand_volley_count
+                            //win on your lose
+                            new_state.doubleFaultDown = new_state.doubleFaultDown + double_faults_count
+                            new_state.unforcedErrorDown = new_state.unforcedErrorDown + unforced_errors_count
+                            new_state.foulToLoseDown = new_state.foulToLoseDown + foul_to_lose_count
+                            
+                            //you serve, oppt scored
+                            if is_second_serve {
+                                new_state.secondServeLostDown = new_state.secondServeLostDown + second_serve_lost
+                            } else {
+                                new_state.firstServeLostDown = new_state.firstServeLostDown + first_serve_lost
+                            }
+                        } else { //oppt serve
+                            print("Oppt serve")
+                            first = current_state.firstServeUp + first_serve_count
+                            first_miss = current_state.firstServeMissUp + first_serve_miss
+                            second = current_state.secondServeUp + second_serve_count
+                            
+                            new_state.firstServeUp = first
+                            new_state.firstServeMissUp = first_miss
+                            new_state.secondServeUp = second
+                            
+                            //win on oppt own
+                            new_state.aceCountUp = new_state.aceCountUp + ace_count
+                            new_state.forehandWinnerUp = new_state.forehandWinnerUp + forehand_winner_count
+                            new_state.backhandWinnerUp = new_state.backhandWinnerUp + backhand_winner_count
+                            new_state.forehandVolleyUp = new_state.forehandVolleyUp + forehand_volley_count
+                            new_state.backhandVolleyUp = new_state.backhandVolleyUp + backhand_volley_count
+                            //win on oppt lose
+                            new_state.unforcedErrorDown = new_state.unforcedErrorDown + unforced_errors_count
+                            new_state.foulToLoseDown = new_state.foulToLoseDown + foul_to_lose_count
+                            
+                            if is_second_serve == true {
+                                new_state.secondServeWonUp = new_state.secondServeWonUp + second_serve_won
+                            } else {
+                                new_state.firstServeWonUp = new_state.firstServeWonUp + first_serve_won
+                            }
+                            
+                            
+                            
+                        }
+                        
+                        //oppt score!
+                        var point: UInt8 = current_state.getPointUp(set: current_set)
+                        point = point + 1
+                        print("Oppt point \(current_state.getPointUp(set: current_set)) change to \(point)")
+                        new_state.setPointUp(set: current_set, point: point)
+                        
+                        checkPoint(new_state: new_state)
+                        
+                        checkGames(new_state: new_state)
                     }
                     
-                    //oppt score!
-                    var point: UInt8 = current_state.getPointUp(set: current_set)
-                    point = point + 1
-                    print("Oppt point \(current_state.getPointUp(set: current_set)) change to \(point)")
-                    new_state.setPointUp(set: current_set, point: point)
                     
-                    checkPoint(new_state: new_state)
-                    
-                    checkGames(new_state: new_state)
                     //score, reset
                     new_state.isSecondServe = false
                     imgServeUp.image = UIImage(named: "ball_green")
@@ -1985,68 +2476,66 @@ class ViewController: UIViewController {
                 print("=== Oppt score end ===")
                 break
             }
-        }
-        
-        stack.push(obj: new_state)
-        
-        current_set = new_state.current_set
-        
-        labelOpptGame.text = String(new_state.getGameUp(set: current_set))
-        labelYouGame.text = String(new_state.getGameDown(set: current_set))
-        
-        if (new_state.isServe == true) {
-            imgServeUp.isHidden = true
-            imgServeDown.isHidden = false
-        } else {
-            imgServeUp.isHidden = false
-            imgServeDown.isHidden = true
-        }
-        
-        
-        
-        if new_state.isInTiebreak == false {
-            switch new_state.getPointUp(set: current_set) {
-            case 1:
-                labelOpptPoint.text = "15"
-                break
-            case 2:
-                labelOpptPoint.text = "30"
-                break
-            case 3:
-                labelOpptPoint.text = "40"
-                break
-            case 4:
-                labelOpptPoint.text = "40A"
-                break
-            default:
-                labelOpptPoint.text = "0"
+            
+            stack.push(obj: new_state)
+            
+            current_set = new_state.current_set
+            
+            labelOpptGame.text = String(new_state.getGameUp(set: current_set))
+            labelYouGame.text = String(new_state.getGameDown(set: current_set))
+            
+            if (new_state.isServe == true) {
+                imgServeUp.isHidden = true
+                imgServeDown.isHidden = false
+            } else {
+                imgServeUp.isHidden = false
+                imgServeDown.isHidden = true
             }
-        } else {
-            labelOpptPoint.text = String(new_state.getPointUp(set: current_set))
-        }
-        
-        if new_state.isInTiebreak == false {
-            switch new_state.getPointDown(set: current_set) {
-            case 1:
-                labelYouPoint.text = "15"
-                break
-            case 2:
-                labelYouPoint.text = "30"
-                break
-            case 3:
-                labelYouPoint.text = "40"
-                break
-            case 4:
-                labelYouPoint.text = "40A"
-                break
-            default:
-                labelYouPoint.text = "0"
+            
+            
+            
+            if new_state.isInTiebreak == false {
+                switch new_state.getPointUp(set: current_set) {
+                case 1:
+                    labelOpptPoint.text = "15"
+                    break
+                case 2:
+                    labelOpptPoint.text = "30"
+                    break
+                case 3:
+                    labelOpptPoint.text = "40"
+                    break
+                case 4:
+                    labelOpptPoint.text = "40A"
+                    break
+                default:
+                    labelOpptPoint.text = "0"
+                }
+            } else {
+                labelOpptPoint.text = String(new_state.getPointUp(set: current_set))
             }
-        } else {
-            labelOpptPoint.text = String(new_state.getPointUp(set: current_set))
+            
+            if new_state.isInTiebreak == false {
+                switch new_state.getPointDown(set: current_set) {
+                case 1:
+                    labelYouPoint.text = "15"
+                    break
+                case 2:
+                    labelYouPoint.text = "30"
+                    break
+                case 3:
+                    labelYouPoint.text = "40"
+                    break
+                case 4:
+                    labelYouPoint.text = "40A"
+                    break
+                default:
+                    labelYouPoint.text = "0"
+                }
+            } else {
+                labelOpptPoint.text = String(new_state.getPointUp(set: current_set))
+            }
         }
-        
-        
         
         ace_count = 0
         double_faults_count = 0

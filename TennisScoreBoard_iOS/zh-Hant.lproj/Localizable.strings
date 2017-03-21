@@ -8,6 +8,7 @@
 
 "game_action" = "動作";
 "game_back" = "返回";
+"game_forward" = "前進";
 "game_reset" = "重設";
 "game_save" = "儲存";
 "game_load" = "讀取";

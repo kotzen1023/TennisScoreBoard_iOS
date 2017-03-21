@@ -26,18 +26,23 @@ public class Deque {
     
     func push(obj: State) {
         stack.add(obj)
+        print("<push stack size = \(stack.count)>")
     }
 
     func pop()->State {
-        var top = State()
+        var top: State = State()
         top = stack.lastObject as! State
         stack.removeLastObject()
+        print("<pop stack size = \(stack.count)>")
         return top
     }
     
     func peak()->State {
-        var top = State()
+        var top: State = State()
         top = stack.lastObject as! State
+        print("<peak stack size = \(stack.count)>")
         return top
     }
+    
+    
 }

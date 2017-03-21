@@ -8,6 +8,7 @@
 
 "game_action" = "Action";
 "game_back" = "Back";
+"game_forward" = "Forward";
 "game_reset" = "Reset";
 "game_save" = "Save";
 "game_load" = "Load";

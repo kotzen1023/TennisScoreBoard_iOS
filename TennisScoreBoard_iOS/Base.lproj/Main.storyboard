@@ -166,6 +166,7 @@
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xdU-Zd-0D7">
                                                                 <rect key="frame" x="16" y="0.0" width="304" height="29"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -185,6 +186,7 @@
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3u-MQ-ysY">
                                                                 <rect key="frame" x="16" y="0.0" width="304" height="27.5"/>
+                                                                <color key="backgroundColor" red="0.94509803920000002" green="0.47843137250000001" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -385,6 +387,9 @@
                                                                 <rect key="frame" x="80" y="0.0" width="80" height="81"/>
                                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <state key="normal" title="Button"/>
+                                                                <connections>
+                                                                    <action selector="onBackClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5D4-4n-zJ5"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <constraints>
@@ -410,7 +415,7 @@
                                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <connections>
-                                                                    <segue destination="9jb-go-WFX" kind="show" identifier="backToSetting" id="rZs-4u-4wF"/>
+                                                                    <action selector="onForwardClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rnu-D9-lg6"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -438,6 +443,9 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="80" height="81"/>
                                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <state key="normal" title="Button"/>
+                                                                <connections>
+                                                                    <segue destination="9jb-go-WFX" kind="show" identifier="backToSetting" id="lr1-Oa-v7Y"/>
+                                                                </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="efh-3x-av0">
                                                                 <rect key="frame" x="80" y="0.0" width="80" height="81"/>
