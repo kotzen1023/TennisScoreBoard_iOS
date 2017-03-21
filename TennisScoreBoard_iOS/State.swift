@@ -370,4 +370,102 @@ public class State {
             print("Unknown set")
         }
     }
+    
+    func getTiebreakPointUp(set: UInt8)->UInt8 {
+        var ret: UInt8 = 0
+        switch set {
+        case 1:
+            ret = set_1_tiebreak_point_up
+            break
+        case 2:
+            ret = set_2_tiebreak_point_up
+            break
+        case 3:
+            ret = set_3_tiebreak_point_up
+            break
+        case 4:
+            ret = set_4_tiebreak_point_up
+            break
+        case 5:
+            ret = set_5_tiebreak_point_up
+            break
+            
+        default:
+            print("Unknown set")
+        }
+        
+        return ret
+    }
+    
+    func setTiebreakPointUp(set: UInt8, point: UInt8) {
+        switch set {
+        case 1:
+            set_1_tiebreak_point_up = point
+            break
+        case 2:
+            set_2_tiebreak_point_up = point
+            break
+        case 3:
+            set_3_tiebreak_point_up = point
+            break
+        case 4:
+            set_4_tiebreak_point_up = point
+            break
+        case 5:
+            set_5_tiebreak_point_up = point
+            break
+            
+        default:
+            print("Unknown set")
+        }
+    }
+    
+    func getTiebreakPointDown(set: UInt8)->UInt8 {
+        var ret: UInt8 = 0
+        switch set {
+        case 1:
+            ret = set_1_tiebreak_point_down
+            break
+        case 2:
+            ret = set_2_tiebreak_point_down
+            break
+        case 3:
+            ret = set_3_tiebreak_point_down
+            break
+        case 4:
+            ret = set_4_tiebreak_point_down
+            break
+        case 5:
+            ret = set_5_tiebreak_point_down
+            break
+            
+        default:
+            print("Unknown set")
+        }
+        
+        return ret
+    }
+    
+    func setTiebreakPointDown(set: UInt8, point: UInt8) {
+        switch set {
+        case 1:
+            set_1_tiebreak_point_down = point
+            break
+        case 2:
+            set_2_tiebreak_point_down = point
+            break
+        case 3:
+            set_3_tiebreak_point_down = point
+            break
+        case 4:
+            set_4_tiebreak_point_down = point
+            break
+        case 5:
+            set_5_tiebreak_point_down = point
+            break
+            
+        default:
+            print("Unknown set")
+        }
+    }
 }

@@ -244,7 +244,7 @@
                                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ball_green" translatesAutoresizingMaskIntoConstraints="NO" id="Twq-s1-sdz">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="33" height="161"/>
                                                                                     </imageView>
-                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ed-X1-4h0">
+                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ed-X1-4h0">
                                                                                         <rect key="frame" x="33" y="0.0" width="131" height="161"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                                                                         <nil key="textColor"/>
@@ -317,7 +317,7 @@
                                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ball_green" translatesAutoresizingMaskIntoConstraints="NO" id="e8j-Da-Tum">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="33" height="160.5"/>
                                                                                     </imageView>
-                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWe-7M-wP3">
+                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWe-7M-wP3">
                                                                                         <rect key="frame" x="33" y="0.0" width="131.5" height="160.5"/>
                                                                                         <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                                                                         <nil key="textColor"/>
