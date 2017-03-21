@@ -544,6 +544,7 @@ class ViewController: UIViewController {
                     self.second_serve_won = 1
                     self.forehand_winner_count = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // double faults
@@ -553,6 +554,7 @@ class ViewController: UIViewController {
                     self.double_faults_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // unforced error
@@ -562,6 +564,7 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand winner
@@ -571,6 +574,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -580,6 +584,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -589,6 +594,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -598,6 +604,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -607,6 +614,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -615,6 +623,7 @@ class ViewController: UIViewController {
                     self.second_serve_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // net
@@ -622,6 +631,7 @@ class ViewController: UIViewController {
                     print("net")
                     self.second_serve_count = 1
                     self.calculatePoint(action: .YOU_SERVE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -629,6 +639,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 2
                     self.calculatePoint(action: .YOU_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
@@ -659,6 +670,7 @@ class ViewController: UIViewController {
                     self.first_serve_won = 1
                     self.forehand_winner_count = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // second serve
@@ -668,6 +680,7 @@ class ViewController: UIViewController {
                     self.first_serve_miss = 1
                     self.is_second_serve = true
                     self.calculatePoint(action: .YOU_SERVE)
+                    self.forward_stack.clear()
                 }
                 
                 // unforced error
@@ -677,6 +690,7 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand winner
@@ -686,6 +700,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -695,6 +710,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -704,6 +720,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -713,6 +730,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -722,6 +740,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -730,6 +749,7 @@ class ViewController: UIViewController {
                     self.first_serve_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // net
@@ -737,6 +757,7 @@ class ViewController: UIViewController {
                     print("net")
                     self.first_serve_count = 1
                     self.calculatePoint(action: .YOU_SERVE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -744,6 +765,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 2
                     self.calculatePoint(action: .YOU_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
@@ -776,6 +798,7 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand winner
@@ -785,6 +808,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -794,6 +818,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -803,6 +828,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -812,6 +838,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -821,6 +848,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -829,6 +857,7 @@ class ViewController: UIViewController {
                     self.second_serve_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -836,6 +865,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 2
                     self.calculatePoint(action: .YOU_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
@@ -862,6 +892,7 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand winner
@@ -871,6 +902,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -880,6 +912,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -889,6 +922,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -898,6 +932,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -907,6 +942,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -915,6 +951,7 @@ class ViewController: UIViewController {
                     self.first_serve_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -922,6 +959,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 2
                     self.calculatePoint(action: .YOU_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
@@ -974,6 +1012,7 @@ class ViewController: UIViewController {
                     self.second_serve_won = 1
                     self.forehand_winner_count = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // double faults
@@ -983,6 +1022,7 @@ class ViewController: UIViewController {
                     self.double_faults_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // unforced error
@@ -992,6 +1032,7 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand winner
@@ -1001,6 +1042,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -1010,6 +1052,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -1019,6 +1062,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -1028,6 +1072,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -1037,6 +1082,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -1045,6 +1091,7 @@ class ViewController: UIViewController {
                     self.second_serve_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // net
@@ -1052,6 +1099,7 @@ class ViewController: UIViewController {
                     print("net")
                     self.second_serve_count = 1
                     self.calculatePoint(action: .OPPT_SERVE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -1059,6 +1107,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 1
                     self.calculatePoint(action: .OPPT_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
@@ -1089,6 +1138,7 @@ class ViewController: UIViewController {
                     self.first_serve_won = 1
                     self.forehand_winner_count = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // second serve
@@ -1098,6 +1148,7 @@ class ViewController: UIViewController {
                     self.first_serve_miss = 1
                     self.is_second_serve = true
                     self.calculatePoint(action: .OPPT_SERVE)
+                    self.forward_stack.clear()
                 }
                 
                 // unforced error
@@ -1107,6 +1158,8 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                    
                 }
                 
                 // forehand winner
@@ -1116,6 +1169,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -1124,6 +1178,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -1133,6 +1188,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -1142,6 +1198,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -1150,6 +1207,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -1158,6 +1216,7 @@ class ViewController: UIViewController {
                     self.first_serve_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // net
@@ -1165,6 +1224,7 @@ class ViewController: UIViewController {
                     print("net")
                     self.first_serve_count = 1
                     self.calculatePoint(action: .OPPT_SERVE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -1172,6 +1232,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 1
                     self.calculatePoint(action: .OPPT_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
@@ -1204,6 +1265,7 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand winner
@@ -1213,6 +1275,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -1222,6 +1285,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -1231,6 +1295,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -1240,6 +1305,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -1249,6 +1315,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -1257,6 +1324,7 @@ class ViewController: UIViewController {
                     self.second_serve_count = 1
                     self.second_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -1264,6 +1332,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 1
                     self.calculatePoint(action: .OPPT_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
@@ -1290,6 +1359,7 @@ class ViewController: UIViewController {
                     self.unforced_errors_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand winner
@@ -1299,6 +1369,7 @@ class ViewController: UIViewController {
                     self.forehand_winner_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand winner
@@ -1308,6 +1379,7 @@ class ViewController: UIViewController {
                     self.backhand_winner_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // forehand volley
@@ -1317,6 +1389,7 @@ class ViewController: UIViewController {
                     self.forehand_volley_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // backhand volley
@@ -1326,6 +1399,7 @@ class ViewController: UIViewController {
                     self.backhand_volley_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // foul to lose
@@ -1334,6 +1408,7 @@ class ViewController: UIViewController {
                     self.foul_to_lose_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // other winner
@@ -1342,6 +1417,7 @@ class ViewController: UIViewController {
                     self.first_serve_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
                 }
                 
                 // retire
@@ -1349,6 +1425,7 @@ class ViewController: UIViewController {
                     print("retire from game")
                     self.is_retire = 1
                     self.calculatePoint(action: .OPPT_RETIRE)
+                    self.forward_stack.clear()
                 }
                 
                 // Cancel
