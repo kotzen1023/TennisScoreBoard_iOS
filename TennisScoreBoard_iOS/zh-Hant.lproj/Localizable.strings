@@ -14,6 +14,7 @@
 "game_load" = "讀取";
 "game_cancel" = "取消";
 "game_confirm" = "確定";
+"game_over" = "比賽結束";
 
 "game_action_select" = "選擇動作:";
 "game_action_unforce_error" = "非受迫性失誤";
@@ -43,3 +44,5 @@
 "game_setting_deuce" = "Deuce";
 "game_setting_choose_serve_first" = "選擇先發球";
 "game_setting_serve_first" = " 先發球";
+
+"game_reset_msg" = "清除比數重新設定?";

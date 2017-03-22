@@ -219,6 +219,12 @@ class ViewController: UIViewController {
         
     }
     
+    func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            completion()
+        }
+    }
+    
     @IBAction func onForwardClick(_ sender: UIButton) {
         print("[onForwardClick click]")
         self.is_retire = 0
@@ -371,6 +377,60 @@ class ViewController: UIViewController {
         }
     }
     
+    func yesReset () {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let settingController = storyBoard.instantiateViewController(withIdentifier: "settingView") as! SettingController
+        self.present(settingController, animated:true, completion:nil)
+    }
+    
+    @IBAction func onResetClick(_ sender: UIButton) {
+        
+        /*
+ 
+         UIAlertController * alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"MORE_LOGOUT_TITLE", nil) message:NSLocalizedString(@"MORE_LOGOUT_MESSAGE", nil) preferredStyle:UIAlertControllerStyleAlert];
+         
+         UIAlertAction *yesBtn = [UIAlertAction actionWithTitle:NSLocalizedString(@"MORE_LOGOUT_YES", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+         
+         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];        
+         UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+         [self presentViewController:vc animated:YES completion:nil];
+         }];
+         
+         UIAlertAction *cancelBtn = [UIAlertAction actionWithTitle:NSLocalizedString(@"MORE_LOGOUT_CANCEL", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+         
+         }];
+         
+         [alert addAction:yesBtn];
+         [alert addAction:cancelBtn];
+         
+         [self presentViewController:alert animated:YES completion:nil];
+         
+         swift
+         let alert: UIAlertController = UIAlertController(title: "Game is over", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+         self.present(alert, animated: true, completion: nil)
+         let duration: Int = 2
+         
+         delayWithSeconds(Double(duration)) {
+         alert.dismiss(animated: true, completion: nil)
+         }
+        */
+        let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_reset", comment: ""), message: NSLocalizedString("game_reset_msg", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesReset()})
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: nil)
+        
+        alert.addAction(yesBtn);
+        alert.addAction(noBtn);
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        
+        /*let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let settingController = storyBoard.instantiateViewController(withIdentifier: "settingView") as! SettingController
+        self.present(settingController, animated:true, completion:nil)*/
+        
+    }
     @IBAction func onBackClick(_ sender: UIButton) {
         print("[btnBack click]")
         self.is_retire = 0
@@ -528,6 +588,18 @@ class ViewController: UIViewController {
     @IBAction func onYouClick(_ sender: UIButton) {
         
         print("[You click]")
+        
+        if self.imgWinCheckUp.isHidden == false || self.imgWinCheckDown.isHidden == false {
+            print("Game is over!")
+            
+            let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_over", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
+            self.present(alert, animated: true, completion: nil)
+            let duration: Int = 2
+            
+            delayWithSeconds(Double(duration)) {
+                alert.dismiss(animated: true, completion: nil)
+            }
+        }
         
         // Create the action sheet
         let myActionSheet = UIAlertController(title: labelTopPlayer.text, message: NSLocalizedString("game_action_select", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -996,6 +1068,18 @@ class ViewController: UIViewController {
     @IBAction func onOpptClick(_ sender: UIButton) {
         
         print("Oppt click")
+        
+        if self.imgWinCheckUp.isHidden == false || self.imgWinCheckDown.isHidden == false {
+            print("Game is over!")
+            
+            let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_over", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
+            self.present(alert, animated: true, completion: nil)
+            let duration: Int = 2
+            
+            delayWithSeconds(Double(duration)) {
+                alert.dismiss(animated: true, completion: nil)
+            }
+        }
         
         // Create the action sheet
         let myActionSheet = UIAlertController(title: labelTopPlayer.text, message: NSLocalizedString("game_action_select", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -1481,11 +1565,11 @@ class ViewController: UIViewController {
             
             current_set = current_state.current_set
             print("####### current state start #######")
-            print("set_select = \(set_select)")
-            print("is_tiebreak = \(is_tiebreak)")
-            print("is_deuce = \(is_deuce)")
-            print("is_serve = \(is_serve)")
-            print("second serve = \(is_second_serve)")
+            print("set_select = \(self.set_select)")
+            print("is_tiebreak = \(self.is_tiebreak)")
+            print("is_deuce = \(self.is_deuce)")
+            print("is_serve = \(self.is_serve)")
+            print("second serve = \(self.is_second_serve)")
             
             print("Ace : up = \(current_state.aceCountUp) down = \(current_state.aceCountDown)")
             print("First serve miss/count : up = \(current_state.firstServeMissUp)/\(current_state.firstServeUp) down = \(current_state.firstServeMissDown)/\(current_state.firstServeDown)")
@@ -1876,7 +1960,7 @@ class ViewController: UIViewController {
                         new_state.isInTiebreak = current_state.isInTiebreak
                         new_state.isFinish = current_state.isFinish
                         
-                        if is_second_serve == true {
+                        if self.is_second_serve == true {
                             new_state.isSecondServe = true
                             imgServeUp.image = UIImage(named: "ball_red")
                             imgServeDown.image = UIImage(named: "ball_red")
@@ -1982,7 +2066,7 @@ class ViewController: UIViewController {
                         new_state.isInTiebreak = current_state.isInTiebreak
                         new_state.isFinish = current_state.isFinish
                         
-                        if is_second_serve == true {
+                        if self.is_second_serve == true {
                             new_state.isSecondServe = true
                         } else {
                             new_state.isSecondServe = false
@@ -2053,7 +2137,7 @@ class ViewController: UIViewController {
                             new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
                             new_state.foulToLoseUp = new_state.foulToLoseUp + foul_to_lose_count
                             //score on first serve or second serve
-                            if is_second_serve {
+                            if self.is_second_serve {
                                 new_state.secondServeWonDown = new_state.secondServeWonDown + second_serve_won
                             } else {
                                 new_state.firstServeWonDown = new_state.firstServeWonDown + first_serve_won
@@ -2078,7 +2162,7 @@ class ViewController: UIViewController {
                             new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
                             new_state.foulToLoseUp = new_state.foulToLoseUp + foul_to_lose_count
                             
-                            if is_second_serve == true {
+                            if self.is_second_serve == true {
                                 new_state.secondServeLostUp = new_state.secondServeLostUp + second_serve_lost
                             } else {
                                 new_state.firstServeLostUp = new_state.firstServeLostUp + first_serve_lost
@@ -2096,7 +2180,7 @@ class ViewController: UIViewController {
                     }
                     
                     //score, reset
-                    new_state.isSecondServe = false
+                    self.is_second_serve = false
                     imgServeUp.image = UIImage(named: "ball_green")
                     imgServeDown.image = UIImage(named: "ball_green")
                     print("=== I score end ===")
@@ -2149,7 +2233,7 @@ class ViewController: UIViewController {
                         new_state.isInTiebreak = current_state.isInTiebreak
                         new_state.isFinish = current_state.isFinish
                         
-                        if is_second_serve == true {
+                        if self.is_second_serve == true {
                             new_state.isSecondServe = true
                         } else {
                             new_state.isSecondServe = false
@@ -2222,7 +2306,7 @@ class ViewController: UIViewController {
                             new_state.foulToLoseDown = new_state.foulToLoseDown + foul_to_lose_count
                             
                             //you serve, oppt scored
-                            if is_second_serve {
+                            if self.is_second_serve {
                                 new_state.secondServeLostDown = new_state.secondServeLostDown + second_serve_lost
                             } else {
                                 new_state.firstServeLostDown = new_state.firstServeLostDown + first_serve_lost
@@ -2247,7 +2331,7 @@ class ViewController: UIViewController {
                             new_state.unforcedErrorDown = new_state.unforcedErrorDown + unforced_errors_count
                             new_state.foulToLoseDown = new_state.foulToLoseDown + foul_to_lose_count
                             
-                            if is_second_serve == true {
+                            if self.is_second_serve == true {
                                 new_state.secondServeWonUp = new_state.secondServeWonUp + second_serve_won
                             } else {
                                 new_state.firstServeWonUp = new_state.firstServeWonUp + first_serve_won
@@ -2270,7 +2354,7 @@ class ViewController: UIViewController {
                     
                     
                     //score, reset
-                    new_state.isSecondServe = false
+                    self.is_second_serve = false
                     imgServeUp.image = UIImage(named: "ball_green")
                     imgServeDown.image = UIImage(named: "ball_green")
                     break
@@ -2390,6 +2474,7 @@ class ViewController: UIViewController {
                 }
                 
                 stack.push(obj: new_state)
+                
             } //game not finish end
             
         } else { //stack is empty
@@ -2404,13 +2489,13 @@ class ViewController: UIViewController {
             print("second_serve_won = \(second_serve_won)")
             print("second_serve_lost = \(second_serve_lost)")
         
-            if is_serve == true { //you serve first
+            if self.is_serve == true { //you serve first
                 new_state.isServe = true
             } else {
                 new_state.isServe = false
             }
             
-            if is_second_serve == true {
+            if self.is_second_serve == true {
                 new_state.isSecondServe = true
                 imgServeUp.image = UIImage(named: "ball_red")
                 imgServeDown.image = UIImage(named: "ball_red")
@@ -2666,41 +2751,14 @@ class ViewController: UIViewController {
                 
                 //leave tiebreak
                 new_state.isInTiebreak = false
-            } else if new_state.getPointUp(set: current_set) >= 6 &&
-                    new_state.getPointDown(set: current_set) >= 6 &&
-                new_state.getPointUp(set: current_set) - new_state.getPointDown(set: current_set) == 2 {
-                //8:6, 9:7, 10:8 => oppt win this game
+            } else if new_state.getPointUp(set: current_set) <= 5 && new_state.getPointDown(set: current_set) == 7 {
+                //0,1,2,3,4,5 : 7 => you win this game
                 //set tiebreak point
                 new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
                 new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
                 //set point clean
                 new_state.setPointUp(set: current_set, point: 0)
                 new_state.setPointDown(set: current_set, point: 0)
-                
-                //add to game
-                game = new_state.getGameUp(set: current_set)
-                game = game + 1
-                new_state.setGameUp(set: current_set, game: game)
-                //change serve
-                if new_state.isServe == true {
-                    new_state.isServe = false
-                } else {
-                    new_state.isServe = true
-                }
-                
-                //leave tiebreak
-                new_state.isInTiebreak = false
-            } else if new_state.getPointUp(set: current_set) >= 6 &&
-                new_state.getPointDown(set: current_set) >= 6 &&
-                new_state.getPointDown(set: current_set) - new_state.getPointUp(set: current_set) == 2 {
-                //6:8, 7:9, 8:10 => you win this game
-                //set tiebreak point
-                new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
-                new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
-                //set point clean
-                new_state.setPointUp(set: current_set, point: 0)
-                new_state.setPointDown(set: current_set, point: 0)
-                
                 //add to game
                 game = new_state.getGameDown(set: current_set)
                 game = game + 1
@@ -2714,12 +2772,66 @@ class ViewController: UIViewController {
                 
                 //leave tiebreak
                 new_state.isInTiebreak = false
-            } else {
-                print("other in tiebreak")
+                
+            } else if new_state.getPointUp(set: current_set) >= 6 &&
+                new_state.getPointDown(set: current_set) >= 6 {
+                //let pointUp: UInt8 = new_state.getPointUp(set: current_set)
+                //let pointDown: UInt8 = new_state.getPointDown(set: current_set)
+                let pointUp: Int8 = Int8(new_state.getPointUp(set: current_set))
+                let pointDown: Int8 = Int8(new_state.getPointDown(set: current_set))
+                
+                
+                if pointUp - pointDown == 2 {
+                    //8:6, 9:7, 10:8 => oppt win this game
+                    //set tiebreak point
+                    new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                    new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                    //set point clean
+                    new_state.setPointUp(set: current_set, point: 0)
+                    new_state.setPointDown(set: current_set, point: 0)
+                    
+                    //add to game
+                    game = new_state.getGameUp(set: current_set)
+                    game = game + 1
+                    new_state.setGameUp(set: current_set, game: game)
+                    //change serve
+                    if new_state.isServe == true {
+                        new_state.isServe = false
+                    } else {
+                        new_state.isServe = true
+                    }
+                    
+                    //leave tiebreak
+                    new_state.isInTiebreak = false
+                } else if pointDown - pointUp == 2 {
+                    //6:8, 7:9, 8:10 => you win this game
+                    //set tiebreak point
+                    new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                    new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                    //set point clean
+                    new_state.setPointUp(set: current_set, point: 0)
+                    new_state.setPointDown(set: current_set, point: 0)
+                    
+                    //add to game
+                    game = new_state.getGameDown(set: current_set)
+                    game = game + 1
+                    new_state.setGameDown(set: current_set, game: game)
+                    //change serve
+                    if new_state.isServe == true {
+                        new_state.isServe = false
+                    } else {
+                        new_state.isServe = true
+                    }
+                    
+                    //leave tiebreak
+                    new_state.isInTiebreak = false
+                }
+                
+                
             }
             
             //In tiebreak, player serve twice in turns
-            var plus:UInt8 = new_state.getPointUp(set: current_set) + new_state.getPointDown(set: current_set)
+            let plus:UInt8 = new_state.getPointUp(set: current_set) + new_state.getPointDown(set: current_set)
             
             if plus%2 == 1 {
                 print("===> Points plus become odd, change serve")
@@ -3039,13 +3151,13 @@ class ViewController: UIViewController {
                 //set sets win
                 setsWinUp = setsWinUp + 1
                 new_state.setsUp = setsWinUp
-                //checkSets(new_state)
+                checkSets(new_state: new_state)
             } else if new_state.getGameUp(set: current_set) <= 5 &&
                 new_state.getGameDown(set: current_set) == 6 { //5:6 => oppt win this set
                 //set sets win
                 setsWinDown = setsWinDown + 1
                 new_state.setSDown = setsWinDown
-                //checkSets(new_state)
+                checkSets(new_state: new_state)
             }
         }
         

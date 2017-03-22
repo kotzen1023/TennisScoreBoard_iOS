@@ -13,7 +13,7 @@
         <!--Setting Controller-->
         <scene sceneID="Sgx-xQ-YhJ">
             <objects>
-                <viewController id="9jb-go-WFX" customClass="SettingController" customModule="TennisScoreBoard_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settingView" id="9jb-go-WFX" customClass="SettingController" customModule="TennisScoreBoard_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rb3-QJ-Mty"/>
                         <viewControllerLayoutGuide type="bottom" id="TbP-cv-lwN"/>
@@ -444,7 +444,7 @@
                                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <connections>
-                                                                    <segue destination="9jb-go-WFX" kind="show" identifier="backToSetting" id="lr1-Oa-v7Y"/>
+                                                                    <action selector="onResetClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4nP-NY-Ova"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="efh-3x-av0">

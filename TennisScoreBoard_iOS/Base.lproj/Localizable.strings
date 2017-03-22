@@ -14,6 +14,7 @@
 "game_load" = "Load";
 "game_cancel" = "Cancel";
 "game_confirm" = "Confirm";
+"game_over" = "Game Over";
 
 "game_action_select" = "Select an action:";
 "game_action_unforce_error" = "Unforce Error";
@@ -43,3 +44,5 @@
 "game_setting_deuce" = "Deuce";
 "game_setting_choose_serve_first" = "Choose serve first";
 "game_setting_serve_first" = " Serve First";
+
+"game_reset_msg" = "Reset and clear all points?";
