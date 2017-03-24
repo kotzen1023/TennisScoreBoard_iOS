@@ -56,40 +56,60 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="otk-Ks-qsA">
                                         <rect key="frame" x="0.0" y="162" width="320" height="378"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kz6-5e-Kwh" userLabel="Set">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="1 Set"/>
-                                                <connections>
-                                                    <action selector="onSetChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="ljY-X6-1xG"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffA-FZ-saK" userLabel="Tiebreak">
-                                                <rect key="frame" x="0.0" y="76" width="320" height="75.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="tiebreak"/>
-                                                <connections>
-                                                    <action selector="onChangeTiebreak:" destination="9jb-go-WFX" eventType="touchUpInside" id="6yQ-Ow-mH9"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k45-pm-vLC" userLabel="Deuce">
-                                                <rect key="frame" x="0.0" y="151.5" width="320" height="75.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="Deuce"/>
-                                                <connections>
-                                                    <action selector="onDeuceChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="tQw-mX-ltX"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrw-Ge-n3i" userLabel="Serve">
-                                                <rect key="frame" x="0.0" y="227" width="320" height="75.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <state key="normal" title="Serve"/>
-                                                <connections>
-                                                    <action selector="onServeChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="3cC-6o-XQF"/>
-                                                </connections>
-                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="00R-1H-gUZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="315"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kz6-5e-Kwh" userLabel="Set">
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="63"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="1 Set"/>
+                                                        <connections>
+                                                            <action selector="onSetChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="ljY-X6-1xG"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgH-Na-io6" userLabel="Game">
+                                                        <rect key="frame" x="0.0" y="63" width="320" height="63"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="6 Games"/>
+                                                        <connections>
+                                                            <action selector="onChangeGames:" destination="9jb-go-WFX" eventType="touchUpInside" id="JK8-45-Ift"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffA-FZ-saK" userLabel="Tiebreak">
+                                                        <rect key="frame" x="0.0" y="126" width="320" height="63"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="tiebreak"/>
+                                                        <connections>
+                                                            <action selector="onChangeTiebreak:" destination="9jb-go-WFX" eventType="touchUpInside" id="6yQ-Ow-mH9"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k45-pm-vLC" userLabel="Deuce">
+                                                        <rect key="frame" x="0.0" y="189" width="320" height="63"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="Deuce"/>
+                                                        <connections>
+                                                            <action selector="onDeuceChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="tQw-mX-ltX"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrw-Ge-n3i" userLabel="Serve">
+                                                        <rect key="frame" x="0.0" y="252" width="320" height="63"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="Serve"/>
+                                                        <connections>
+                                                            <action selector="onServeChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="3cC-6o-XQF"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="ffA-FZ-saK" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="Auk-8t-xKc"/>
+                                                    <constraint firstItem="k45-pm-vLC" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="KGt-le-Jxm"/>
+                                                    <constraint firstItem="WgH-Na-io6" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="VHj-a6-sTH"/>
+                                                    <constraint firstItem="kz6-5e-Kwh" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="gKu-65-Y0K"/>
+                                                    <constraint firstItem="rrw-Ge-n3i" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="mOY-Q1-Yy5"/>
+                                                </constraints>
+                                            </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pi5-Fc-363" userLabel="Confirm">
-                                                <rect key="frame" x="0.0" y="302.5" width="320" height="75.5"/>
+                                                <rect key="frame" x="0.0" y="315" width="320" height="63"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <state key="normal" title="Confirm"/>
                                                 <connections>
@@ -99,11 +119,8 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="kz6-5e-Kwh" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="9J5-fA-6m8"/>
-                                            <constraint firstItem="rrw-Ge-n3i" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="FCK-JX-IKv"/>
-                                            <constraint firstItem="Pi5-Fc-363" firstAttribute="height" relation="lessThanOrEqual" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="eaI-Gn-EtZ"/>
-                                            <constraint firstItem="ffA-FZ-saK" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="jGO-dw-DPM"/>
-                                            <constraint firstItem="k45-pm-vLC" firstAttribute="height" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.2" id="sGo-j7-Ieu"/>
+                                            <constraint firstItem="Pi5-Fc-363" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="8Nb-IC-zqB"/>
+                                            <constraint firstItem="00R-1H-gUZ" firstAttribute="height" relation="greaterThanOrEqual" secondItem="otk-Ks-qsA" secondAttribute="height" multiplier="0.8" id="HdQ-nz-Equ"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -124,6 +141,7 @@
                     <connections>
                         <outlet property="btnConfirm" destination="Pi5-Fc-363" id="R0Y-YO-E8r"/>
                         <outlet property="btnDeuce" destination="k45-pm-vLC" id="sVA-qf-HfV"/>
+                        <outlet property="btnGame" destination="WgH-Na-io6" id="97z-14-LaQ"/>
                         <outlet property="btnServe" destination="rrw-Ge-n3i" id="WuH-qq-d3i"/>
                         <outlet property="btnSet" destination="kz6-5e-Kwh" id="UIv-Lg-alH"/>
                         <outlet property="btnTiebreak" destination="ffA-FZ-saK" id="78F-Ie-H1R"/>

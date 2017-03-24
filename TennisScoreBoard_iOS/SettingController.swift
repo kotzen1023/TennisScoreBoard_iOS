@@ -15,12 +15,14 @@ class SettingController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var labelVesus: UILabel!
     
     @IBOutlet weak var btnSet: UIButton!
+    @IBOutlet weak var btnGame: UIButton!
     @IBOutlet weak var btnTiebreak: UIButton!
     @IBOutlet weak var btnDeuce: UIButton!
     @IBOutlet weak var btnServe: UIButton!
     @IBOutlet weak var btnConfirm: UIButton!
     
     var set_select: UInt8!
+    var game_select: UInt8!
     var is_tiebreak: Bool!
     var is_deuce: Bool!
     var is_serve: Bool!
@@ -44,6 +46,9 @@ class SettingController: UIViewController, UITextFieldDelegate {
         
         set_select = 0
         self.btnSet.setTitle(NSLocalizedString("game_setting_1_set", comment: ""), for: UIControlState.normal)
+        
+        game_select = 0
+        self.btnGame.setTitle(NSLocalizedString("game_setting_6_games_in_a_set", comment: ""), for: UIControlState.normal)
         
         is_tiebreak = true
         self.btnTiebreak.setTitle(NSLocalizedString("game_setting_tiebreak", comment: ""), for: UIControlState.normal)
@@ -76,6 +81,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let gameVc = segue.destination as? ViewController {
             gameVc.set_select = self.set_select
+            gameVc.game_select = self.game_select
             gameVc.is_tiebreak = self.is_tiebreak
             gameVc.is_deuce = self.is_deuce
             gameVc.is_serve = self.is_serve
@@ -145,6 +151,36 @@ class SettingController: UIViewController, UITextFieldDelegate {
         
         self.present(setActionSheet, animated: true, completion: nil)
     }
+    
+    @IBAction func onChangeGames(_ sender: UIButton) {
+        print("Games change")
+        
+        let gamesSheet = UIAlertController(title: NSLocalizedString("game_setting_game_change", comment: ""), message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let sixGamesInASetAction = UIAlertAction(title: NSLocalizedString("game_setting_6_games_in_a_set", comment: ""), style: UIAlertActionStyle.default) { (action) in
+            print("6 games")
+            self.btnGame.setTitle(NSLocalizedString("game_setting_6_games_in_a_set", comment: ""), for: UIControlState.normal)
+            self.game_select = 0
+        }
+        
+        let fourGamesInASetAction = UIAlertAction(title: NSLocalizedString("game_setting_4_games_in_a_set", comment: ""), style: UIAlertActionStyle.default) { (action) in
+            print("4 games")
+            self.btnGame.setTitle(NSLocalizedString("game_setting_4_games_in_a_set", comment: ""), for: UIControlState.normal)
+            self.game_select = 1
+        }
+        
+        // Cancel
+        let cancelAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.cancel) { (action) in
+            print("Cancel")
+        }
+        
+        gamesSheet.addAction(sixGamesInASetAction)
+        gamesSheet.addAction(fourGamesInASetAction)
+        gamesSheet.addAction(cancelAction)
+        
+        self.present(gamesSheet, animated: true, completion: nil)
+    }
+    
     
     @IBAction func onChangeTiebreak(_ sender: UIButton) {
         print("tiebreak change")
@@ -241,6 +277,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
         let gameVc = storyBoard.instantiateViewController(withIdentifier: "gameView") as! ViewController
         
         gameVc.set_select = self.set_select
+        gameVc.game_select = self.game_select
         gameVc.is_tiebreak = self.is_tiebreak
         gameVc.is_deuce = self.is_deuce
         gameVc.is_serve = self.is_serve

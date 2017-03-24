@@ -36,6 +36,9 @@
 "game_setting_1_set" = "1 Set";
 "game_setting_3_set" = "3 Sets";
 "game_setting_5_set" = "5 Sets";
+"game_setting_game_change" = "Choose Games:";
+"game_setting_6_games_in_a_set" = "6 Games";
+"game_setting_4_games_in_a_set" = "4 Games";
 "game_setting_choose_tiebreak" = "Choose tiebreak or deciding game";
 "game_setting_tiebreak" = "tiebreak";
 "game_setting_deciding_game" = "Deciding Game";
