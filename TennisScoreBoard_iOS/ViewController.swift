@@ -23,8 +23,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnReset: UIButton!
     @IBOutlet weak var btnSave: UIButton!
-    @IBOutlet weak var btnLoad: UIButton!
-
+    @IBOutlet weak var btnStat: UIButton!
+    
     @IBOutlet weak var labelOpptSet: UILabel!
     @IBOutlet weak var labelYouSet: UILabel!
     @IBOutlet weak var labelOpptGame: UILabel!
@@ -36,7 +36,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var imgServeUp: UIImageView!
     @IBOutlet weak var imgServeDown: UIImageView!
+    
     @IBOutlet weak var imgWinCheckUp: UIImageView!
+    
     @IBOutlet weak var imgWinCheckDown: UIImageView!
     
     var scrollView: UIScrollView!
@@ -59,6 +61,7 @@ class ViewController: UIViewController {
     
     //for caculate
     var is_second_serve:Bool = false
+    
     var is_break_point:Bool = false
     
     var ace_count:UInt8 = 0;
@@ -93,6 +96,7 @@ class ViewController: UIViewController {
         print("is_deuce: \(is_deuce)")
         print("is_serve: \(is_serve)")
         print("is_retire: \(is_retire)")
+        print("stack size \(stack.size())")
         print("------ load setting ------")
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -101,13 +105,15 @@ class ViewController: UIViewController {
         
         btnYouAction.setTitle(NSLocalizedString("game_action", comment: "Action"), for: UIControlState.normal)
         
-        btnBack.setTitle(NSLocalizedString("game_back", comment: "Back"), for: UIControlState.normal)
+        btnBack.setTitle("", for: UIControlState.normal)
         
-        btnReset.setTitle(NSLocalizedString("game_forward", comment: "forward"), for: UIControlState.normal)
+        btnReset.setTitle("", for: UIControlState.normal)
         
-        btnSave.setTitle(NSLocalizedString("game_reset", comment: "Reset"), for: UIControlState.normal)
+        btnSave.setTitle("", for: UIControlState.normal)
         
-        btnLoad.setTitle(NSLocalizedString("game_load", comment: "Load"), for: UIControlState.normal)
+        btnStat.setTitle("", for: UIControlState.normal)
+        
+        //btnLoad.setTitle(NSLocalizedString("game_load", comment: "Load"), for: UIControlState.normal)
       
         labelTopPlayer.text = playerUp as String?
         labelBottomPlayer.text = playerDown as String?
@@ -160,6 +166,116 @@ class ViewController: UIViewController {
             let item = stack.get(index: i)
             print("stack[\(i)].current_set = \(item.current_set)")
         }*/
+        
+        if (stack.size() > 0) {
+            var current_set: UInt8 = 0
+            
+            var backState = State()
+            backState = stack.peak()
+            
+            current_set = backState.current_set
+            
+            if backState.setsUp > 0 || backState.setSDown > 0 {
+                labelOpptSet.text = String(backState.setsUp)
+                labelYouSet.text = String(backState.setSDown)
+            } else {
+                labelOpptSet.text = "0"
+                labelYouSet.text = "0"
+            }
+            
+            labelOpptGame.text = String(backState.getGameUp(set: current_set))
+            labelYouGame.text = String(backState.getGameDown(set: current_set))
+            
+            if backState.isServe == true {
+                imgServeUp.isHidden = true
+                imgServeDown.isHidden = false
+            } else {
+                imgServeUp.isHidden = false
+                imgServeDown.isHidden = true
+            }
+            
+            if backState.isInBreakPoint == true {
+                self.is_break_point = true
+            } else {
+                self.is_break_point = false
+            }
+            
+            if backState.isInTiebreak == false {
+                if backState.getPointUp(set: current_set) == 1 {
+                    labelOpptPoint.text = "15"
+                } else if backState.getPointUp(set: current_set) == 2 {
+                    labelOpptPoint.text = "30"
+                } else if backState.getPointUp(set: current_set) == 3 {
+                    labelOpptPoint.text = "40"
+                } else if backState.getPointUp(set: current_set) == 4 {
+                    labelOpptPoint.text = "40A"
+                } else {
+                    labelOpptPoint.text = "0"
+                }
+            } else {
+                labelOpptPoint.text = String(backState.getPointUp(set: current_set))
+            }
+            
+            if backState.isInTiebreak == false {
+                if backState.getPointDown(set: current_set) == 1 {
+                    labelYouPoint.text = "15"
+                } else if backState.getPointDown(set: current_set) == 2 {
+                    labelYouPoint.text = "30"
+                } else if backState.getPointDown(set: current_set) == 3 {
+                    labelYouPoint.text = "40"
+                } else if backState.getPointDown(set: current_set) == 4 {
+                    labelYouPoint.text = "40A"
+                } else {
+                    labelYouPoint.text = "0"
+                }
+            } else {
+                labelYouPoint.text = String(backState.getPointDown(set: current_set))
+            }
+            
+            if backState.isSecondServe == true {
+                self.is_second_serve = true
+                imgServeUp.image = UIImage(named: "ball_red")
+                imgServeDown.image = UIImage(named: "ball_red")
+            } else {
+                self.is_second_serve = false
+                imgServeUp.image = UIImage(named: "ball_green")
+                imgServeDown.image = UIImage(named: "ball_green")
+            }
+            
+            print("###### load state start ######")
+            print("current_set = \(backState.current_set)")
+            print("Serve = \(backState.isServe)")
+            print("In tiebreak = \(backState.isInTiebreak)")
+            print("Finish = \(backState.isFinish)")
+            print("Second Serve = \(backState.isSecondServe)")
+            print("In break point = \(backState.isInBreakPoint)")
+            
+            var set_limit: UInt8 = 0
+            switch self.set_select {
+            case 0:
+                set_limit = 1
+                break
+            case 1:
+                set_limit = 3
+                break
+            case 2:
+                set_limit = 5
+                break
+            default:
+                set_limit = 1
+                break
+            }
+            
+            for i in 1...set_limit {
+                print("========================================")
+                print("[set \(i)]")
+                print("[Game : \(backState.getGameUp(set: current_set))/\(backState.getGameDown(set: current_set))]")
+                print("[point : \(backState.getPointUp(set: current_set))/\(backState.getPointDown(set: current_set))]")
+                print("[tiebreak : \(backState.getTiebreakPointUp(set: current_set))/\(backState.getTiebreakPointDown(set: current_set)))]")
+            }
+            
+            print("###### load state end ######")
+        }
     }
     
     deinit {
@@ -399,6 +515,29 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func onStatClick(_ sender: UIButton) {
+        //let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        //let statController = storyBoard.instantiateViewController(withIdentifier: "statView") as! Statistics
+        //self.present(statController, animated:true, completion:nil)
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let statController = storyBoard.instantiateViewController(withIdentifier: "statView") as! Statistics
+        
+        statController.set_select = self.set_select
+        statController.game_select = self.game_select
+        statController.is_tiebreak = self.is_tiebreak
+        statController.is_deuce = self.is_deuce
+        statController.is_serve = self.is_serve
+        statController.playerUp = self.playerUp
+        statController.playerDown = self.playerDown
+        statController.stack = self.stack
+        statController.forward_stack = self.forward_stack
+        
+        self.present(statController, animated:true, completion:nil)
+    }
+    
     func yesReset () {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
@@ -408,35 +547,7 @@ class ViewController: UIViewController {
     
     @IBAction func onResetClick(_ sender: UIButton) {
         
-        /*
- 
-         UIAlertController * alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"MORE_LOGOUT_TITLE", nil) message:NSLocalizedString(@"MORE_LOGOUT_MESSAGE", nil) preferredStyle:UIAlertControllerStyleAlert];
-         
-         UIAlertAction *yesBtn = [UIAlertAction actionWithTitle:NSLocalizedString(@"MORE_LOGOUT_YES", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-         
-         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];        
-         UIViewController *vc = [storyBoard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-         [self presentViewController:vc animated:YES completion:nil];
-         }];
-         
-         UIAlertAction *cancelBtn = [UIAlertAction actionWithTitle:NSLocalizedString(@"MORE_LOGOUT_CANCEL", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-         
-         }];
-         
-         [alert addAction:yesBtn];
-         [alert addAction:cancelBtn];
-         
-         [self presentViewController:alert animated:YES completion:nil];
-         
-         swift
-         let alert: UIAlertController = UIAlertController(title: "Game is over", message: nil, preferredStyle: UIAlertControllerStyle.alert)
-         self.present(alert, animated: true, completion: nil)
-         let duration: Int = 2
-         
-         delayWithSeconds(Double(duration)) {
-         alert.dismiss(animated: true, completion: nil)
-         }
-        */
+        
         let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_reset", comment: ""), message: NSLocalizedString("game_reset_msg", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
         let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesReset()})
         let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: nil)
