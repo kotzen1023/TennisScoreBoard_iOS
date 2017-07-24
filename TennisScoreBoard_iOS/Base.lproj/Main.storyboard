@@ -4,7 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -60,31 +60,31 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="00R-1H-gUZ">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="264"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kz6-5e-Kwh" userLabel="Set">
-                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="52.5"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kz6-5e-Kwh" userLabel="Set">
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <state key="normal" title="1 Set"/>
                                                         <connections>
                                                             <action selector="onSetChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="ljY-X6-1xG"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgH-Na-io6" userLabel="Game">
-                                                        <rect key="frame" x="0.0" y="52.5" width="320" height="53"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgH-Na-io6" userLabel="Game">
+                                                        <rect key="frame" x="0.0" y="52" width="320" height="53"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <state key="normal" title="6 Games"/>
                                                         <connections>
                                                             <action selector="onChangeGames:" destination="9jb-go-WFX" eventType="touchUpInside" id="JK8-45-Ift"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffA-FZ-saK" userLabel="Tiebreak">
-                                                        <rect key="frame" x="0.0" y="105.5" width="320" height="52.5"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffA-FZ-saK" userLabel="Tiebreak">
+                                                        <rect key="frame" x="0.0" y="105" width="320" height="53"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <state key="normal" title="tiebreak"/>
                                                         <connections>
                                                             <action selector="onChangeTiebreak:" destination="9jb-go-WFX" eventType="touchUpInside" id="6yQ-Ow-mH9"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k45-pm-vLC" userLabel="Deuce">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k45-pm-vLC" userLabel="Deuce">
                                                         <rect key="frame" x="0.0" y="158" width="320" height="53"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <state key="normal" title="Deuce"/>
@@ -92,7 +92,7 @@
                                                             <action selector="onDeuceChange:" destination="9jb-go-WFX" eventType="touchUpInside" id="tQw-mX-ltX"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrw-Ge-n3i" userLabel="Serve">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrw-Ge-n3i" userLabel="Serve">
                                                         <rect key="frame" x="0.0" y="211" width="320" height="53"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <state key="normal" title="Serve"/>
@@ -102,11 +102,11 @@
                                                     </button>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="ffA-FZ-saK" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="Auk-8t-xKc"/>
-                                                    <constraint firstItem="k45-pm-vLC" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="KGt-le-Jxm"/>
-                                                    <constraint firstItem="WgH-Na-io6" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="VHj-a6-sTH"/>
+                                                    <constraint firstItem="ffA-FZ-saK" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="Auk-8t-xKc"/>
+                                                    <constraint firstItem="k45-pm-vLC" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="KGt-le-Jxm"/>
+                                                    <constraint firstItem="WgH-Na-io6" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="VHj-a6-sTH"/>
                                                     <constraint firstItem="kz6-5e-Kwh" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="gKu-65-Y0K"/>
-                                                    <constraint firstItem="rrw-Ge-n3i" firstAttribute="height" relation="lessThanOrEqual" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="mOY-Q1-Yy5"/>
+                                                    <constraint firstItem="rrw-Ge-n3i" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="mOY-Q1-Yy5"/>
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pi5-Fc-363" userLabel="Confirm">
@@ -715,6 +715,6 @@
         <image name="ic_undo_48pt" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xcq-EC-wLj"/>
+        <segue reference="CcQ-x8-24T"/>
     </inferredMetricsTieBreakers>
 </document>

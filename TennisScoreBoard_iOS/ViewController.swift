@@ -195,9 +195,9 @@ class ViewController: UIViewController {
             }
             
             if backState.isInBreakPoint == true {
-                self.is_break_point = true
+                is_break_point = true
             } else {
-                self.is_break_point = false
+                is_break_point = false
             }
             
             if backState.isInTiebreak == false {
@@ -411,9 +411,9 @@ class ViewController: UIViewController {
                 }
                 
                 if forwardState.isInBreakPoint == true {
-                    self.is_break_point = true
+                    is_break_point = true
                 } else {
-                    self.is_break_point = false
+                    is_break_point = false
                 }
                 
                 if forwardState.isInTiebreak == false {
@@ -465,6 +465,7 @@ class ViewController: UIViewController {
                 print("Finish = \(forwardState.isFinish)")
                 print("Second Serve = \(forwardState.isSecondServe)")
                 print("In break point = \(forwardState.isInBreakPoint)")
+                print("break point: up=\(forwardState.breakPointUp-forwardState.breakPointMissUp)/\(forwardState.breakPointUp) down=\(forwardState.breakPointDown-forwardState.breakPointMissDown)/\(forwardState.breakPointDown)")
                 
                 var set_limit: UInt8 = 0
                 switch self.set_select {
@@ -612,9 +613,9 @@ class ViewController: UIViewController {
                 }
                 
                 if backState.isInBreakPoint == true {
-                    self.is_break_point = true
+                    is_break_point = true
                 } else {
-                    self.is_break_point = false
+                    is_break_point = false
                 }
                 
                 if backState.isInTiebreak == false {
@@ -666,6 +667,7 @@ class ViewController: UIViewController {
                 print("Finish = \(backState.isFinish)")
                 print("Second Serve = \(backState.isSecondServe)")
                 print("In break point = \(backState.isInBreakPoint)")
+                print("break point: up=\(backState.breakPointUp-backState.breakPointMissUp)/\(backState.breakPointUp) down=\(backState.breakPointDown-backState.breakPointMissDown)/\(backState.breakPointDown)")
                 
                 var set_limit: UInt8 = 0
                 switch self.set_select {
@@ -1689,11 +1691,94 @@ class ViewController: UIViewController {
         }
         
         
-        var new_state = State()
+        let new_state = State()
         
         if stack.size() > 0 {
             var current_state = State()
             current_state = stack.peak()
+            
+            /* copy current_state to new state */
+            new_state.current_set = current_state.current_set
+            new_state.isServe = current_state.isServe
+            new_state.isInTiebreak = current_state.isInTiebreak
+            new_state.isFinish = current_state.isFinish
+            new_state.isSecondServe = current_state.isSecondServe
+            new_state.isInBreakPoint = current_state.isInBreakPoint
+            new_state.setsUp = current_state.setsUp
+            new_state.setSDown = current_state.setSDown
+            new_state.duration = current_state.duration
+            new_state.aceCountUp = current_state.aceCountUp
+            new_state.aceCountDown = current_state.aceCountDown
+            new_state.firstServeUp = current_state.firstServeUp
+            new_state.firstServeDown = current_state.firstServeDown
+            new_state.firstServeMissUp = current_state.firstServeMissUp
+            new_state.firstServeMissDown = current_state.firstServeMissDown
+            new_state.secondServeUp = current_state.secondServeUp
+            new_state.secondServeDown = current_state.secondServeDown
+            new_state.breakPointUp = current_state.breakPointUp
+            new_state.breakPointDown = current_state.breakPointDown
+            new_state.breakPointMissUp = current_state.breakPointMissUp
+            new_state.breakPointMissDown = current_state.breakPointMissDown
+            new_state.firstServeWonUp = current_state.firstServeWonUp
+            new_state.firstServeWonDown = current_state.firstServeWonDown
+            new_state.firstServeLostUp = current_state.firstServeLostUp
+            new_state.firstServeLostDown = current_state.firstServeLostDown
+            new_state.secondServeWonUp = current_state.secondServeWonUp
+            new_state.secondServeWonDown = current_state.secondServeWonDown
+            new_state.secondServeLostUp = current_state.secondServeLostUp
+            new_state.secondServeLostDown = current_state.secondServeLostDown
+            new_state.doubleFaultUp = current_state.doubleFaultUp
+            new_state.doubleFaultDown = current_state.doubleFaultDown
+            new_state.unforcedErrorUp = current_state.unforcedErrorUp
+            new_state.unforcedErrorDown = current_state.unforcedErrorDown
+            new_state.forehandWinnerUp = current_state.forehandWinnerUp
+            new_state.forehandWinnerDown = current_state.forehandWinnerDown
+            new_state.backhandWinnerUp = current_state.backhandWinnerUp
+            new_state.backhandWinnerDown = current_state.backhandWinnerDown
+            new_state.forehandVolleyUp = current_state.forehandVolleyUp
+            new_state.forehandVolleyDown = current_state.forehandVolleyDown
+            new_state.backhandVolleyUp = current_state.backhandVolleyUp
+            new_state.backhandVolleyDown = current_state.backhandVolleyDown
+            new_state.foulToLoseUp = current_state.foulToLoseUp
+            new_state.foulToLoseDown = current_state.foulToLoseDown
+            
+            new_state.set_1_game_up = current_state.set_1_game_up
+            new_state.set_1_game_down = current_state.set_1_game_down
+            new_state.set_1_point_up = current_state.set_1_point_up
+            new_state.set_1_point_down = current_state.set_1_point_down
+            new_state.set_1_tiebreak_point_up = current_state.set_1_tiebreak_point_up
+            new_state.set_1_tiebreak_point_down = current_state.set_1_tiebreak_point_down
+            
+            new_state.set_2_game_up = current_state.set_2_game_up
+            new_state.set_2_game_down = current_state.set_2_game_down
+            new_state.set_2_point_up = current_state.set_2_point_up
+            new_state.set_2_point_down = current_state.set_2_point_down
+            new_state.set_2_tiebreak_point_up = current_state.set_2_tiebreak_point_up
+            new_state.set_2_tiebreak_point_down = current_state.set_2_tiebreak_point_down
+            
+            new_state.set_3_game_up = current_state.set_3_game_up
+            new_state.set_3_game_down = current_state.set_3_game_down
+            new_state.set_3_point_up = current_state.set_3_point_up
+            new_state.set_3_point_down = current_state.set_3_point_down
+            new_state.set_3_tiebreak_point_up = current_state.set_3_tiebreak_point_up
+            new_state.set_3_tiebreak_point_down = current_state.set_3_tiebreak_point_down
+            
+            new_state.set_4_game_up = current_state.set_4_game_up
+            new_state.set_4_game_down = current_state.set_4_game_down
+            new_state.set_4_point_up = current_state.set_4_point_up
+            new_state.set_4_point_down = current_state.set_4_point_down
+            new_state.set_4_tiebreak_point_up = current_state.set_4_tiebreak_point_up
+            new_state.set_4_tiebreak_point_down = current_state.set_4_tiebreak_point_down
+            
+            new_state.set_5_game_up = current_state.set_5_game_up
+            new_state.set_5_game_down = current_state.set_5_game_down
+            new_state.set_5_point_up = current_state.set_5_point_up
+            new_state.set_5_point_down = current_state.set_5_point_down
+            new_state.set_5_tiebreak_point_up = current_state.set_5_tiebreak_point_up
+            new_state.set_4_tiebreak_point_down = current_state.set_5_tiebreak_point_down
+            
+            /* copy current_state to new state */
+            
             print("current_state is not nil")
             
             current_set = current_state.current_set
@@ -1723,6 +1808,7 @@ class ViewController: UIViewController {
             print("Game : \(current_state.getGameUp(set: current_set))/\(current_state.getGameDown(set: current_set))")
             print("Point : \(current_state.getPointUp(set: current_set))/\(current_state.getGameDown(set: current_set))")
             print("tiebreak : \(current_state.getTiebreakPointUp(set: current_set))/\(current_state.getTiebreakPointDown(set: current_set))")
+            print("break point: up=\(current_state.breakPointUp-current_state.breakPointMissUp)/\(current_state.breakPointUp) down=\(current_state.breakPointDown-current_state.breakPointMissDown)/\(current_state.breakPointDown)")
             print("####### current state end #######")
             
             if current_state.isFinish == true { //game is finish
@@ -2505,9 +2591,10 @@ class ViewController: UIViewController {
                 print("Double Faults : up = \(new_state.doubleFaultUp) down = \(new_state.doubleFaultDown)")
                 print("First serve miss/count : up = \(new_state.firstServeMissUp)/\(new_state.firstServeUp) down = \(new_state.firstServeMissDown)/\(new_state.firstServeDown)")
                 print("Second serve miss/count : up = \(new_state.doubleFaultUp)/\(new_state.secondServeUp) down = \(new_state.doubleFaultDown)/\(new_state.secondServeDown)")
-                print("First serve lost/won : up = \(new_state.firstServeLostUp)/\(new_state.firstServeWonUp) down = \(new_state.firstServeLostDown)/\(new_state.firstServeWonDown))")
+                print("First serve lost/won : up = \(new_state.firstServeLostUp)/\(new_state.firstServeWonUp) down = \(new_state.firstServeLostDown)/\(new_state.firstServeWonDown)")
                 print("Second serve lost/won : up = \(new_state.secondServeLostUp)/\(new_state.secondServeWonUp) down = \(new_state.secondServeLostDown)/\(new_state.secondServeWonDown)")
-                print("===============================================================================")
+                print("break point: up=\(new_state.breakPointUp-new_state.breakPointMissUp)/\(new_state.breakPointUp) down=\(new_state.breakPointDown-new_state.breakPointMissDown)/\(new_state.breakPointDown)")
+            print("===============================================================================")
                 print("Unforeced Error : up = \(new_state.unforcedErrorUp) down = \(new_state.unforcedErrorDown)")
                 print("Forehand winner : up = \(new_state.forehandWinnerUp) down = \(new_state.forehandWinnerDown)")
                 print("Backhand Winner : up = \(new_state.backhandWinnerUp) down = \(new_state.backhandWinnerDown)")
@@ -3103,6 +3190,7 @@ class ViewController: UIViewController {
                         print("Not in break point")
                     }
                     is_break_point = false
+                    new_state.isInBreakPoint = false
                 } else if new_state.getPointUp(set: current_set) == 5 && new_state.getPointDown(set: current_set) == 3 { //40A+ : 40 => oppt win this game
                     print("40A+1 : 40 => oppt win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3128,6 +3216,7 @@ class ViewController: UIViewController {
                         new_state.isServe = true
                     }
                     is_break_point = false
+                    new_state.isInBreakPoint = false
                 } else if new_state.getPointUp(set: current_set) == 3 && new_state.getPointDown(set: current_set) == 5 { //40 : 40A+ => you win this game
                     print("40 : 40A+1 => you win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3154,6 +3243,7 @@ class ViewController: UIViewController {
                         new_state.isServe = true
                     }
                     is_break_point = false
+                    new_state.isInBreakPoint = false
                     
                 } else if new_state.getPointUp(set: current_set) == 4 && new_state.getPointDown(set: current_set) <= 2 {
                     print("40A : 0, 40A: 15, 40A : 30 => oppt win this game")
@@ -3181,6 +3271,7 @@ class ViewController: UIViewController {
                         new_state.isServe = true
                     }
                     is_break_point = false
+                    new_state.isInBreakPoint = false
                 } else if new_state.getPointUp(set: current_set) <= 2 && new_state.getPointDown(set: current_set) == 4 {
                     print("0 : 40A, 15 : 40A, 30 : 40A => you win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3207,6 +3298,7 @@ class ViewController: UIViewController {
                         new_state.isServe = true
                     }
                     is_break_point = false
+                    new_state.isInBreakPoint = false
                 } else {
                     print("Points change without arrange")
                     
@@ -3217,6 +3309,7 @@ class ViewController: UIViewController {
                         if new_state.isServe {
                             print("You serve, Not in break point => In break point")
                             is_break_point = true
+                            new_state.isInBreakPoint = true
                         } else {
                             print("Oppt serve")
                         }
@@ -3228,6 +3321,7 @@ class ViewController: UIViewController {
                         } else {
                             print("Oppt serve, Not in break point => In break point")
                             is_break_point = true
+                            new_state.isInBreakPoint = true
                         }
                     } else if new_state.getPointUp(set: current_set) == 4 &&
                         new_state.getPointDown(set: current_set) == 3 &&
@@ -3236,6 +3330,7 @@ class ViewController: UIViewController {
                         if new_state.isServe {
                             print("You serve, Not in break point => In break point")
                             is_break_point = true
+                            new_state.isInBreakPoint = true
                         } else {
                             print("Oppt serve")
                         }
@@ -3248,6 +3343,7 @@ class ViewController: UIViewController {
                         } else {
                             print("Oppt serve, Not in break point => In break point")
                             is_break_point = true
+                            new_state.isInBreakPoint = true
                         }
                     } else if new_state.getPointUp(set: current_set) == 3 &&
                         new_state.getPointDown(set: current_set) == 3 { // 40 : 40
@@ -3264,6 +3360,7 @@ class ViewController: UIViewController {
                             print("not in break point")
                         }
                         is_break_point = false
+                        new_state.isInBreakPoint = false
                     } else { //other point 40:0 => 40:15, 40:15 => 40:30, 0:40 => 15:40, 15:40 => 30:40
                         
                         if is_break_point == true { //in break point situation

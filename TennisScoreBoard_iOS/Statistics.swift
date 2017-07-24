@@ -73,68 +73,68 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             statList.add(item1)
             //double faults
             let item2 = StatisticItem()
-            item2.setTitle(myTitle: "Double Faults")
+            item2.setTitle(myTitle: NSLocalizedString("stat_double_faults", comment: "action") as NSString)
             item2.setCount_up(myCount_up:   String(backState.doubleFaultUp) as NSString)
             item2.setCount_down(myCount_down: String(backState.doubleFaultDown) as NSString)
             statList.add(item2)
             //Unforced Error
             let item3 = StatisticItem()
-            item3.setTitle(myTitle: "Unforced Error")
+            item3.setTitle(myTitle: NSLocalizedString("stat_unforced_error", comment: "action") as NSString)
             item3.setCount_up(myCount_up:   String(backState.unforcedErrorUp) as NSString)
             item3.setCount_down(myCount_down: String(backState.unforcedErrorDown) as NSString)
             statList.add(item3)
             
             //First serve in %
             let item4 = StatisticItem()
-            item4.setTitle(myTitle: "1st Serve(%)")
+            item4.setTitle(myTitle: NSLocalizedString("stat_1st_serve_in", comment: "action") as NSString)
             
-            var strUp = String(backState.firstServeUp == 0 ? 0 : Float(backState.firstServeUp-backState.firstServeMissUp)/Float(backState.firstServeUp) * 100) as NSString
+            var strUp = String(backState.firstServeUp == 0 ? 0 : round(Float(backState.firstServeUp-backState.firstServeMissUp)/Float(backState.firstServeUp) * 1000)/10) as NSString
             item4.setCount_up(myCount_up: strUp)
             
-            var strDown = String(backState.firstServeDown == 0 ? 0 : Float(backState.firstServeDown-backState.firstServeMissDown)/Float(backState.firstServeDown) * 100) as NSString
+            var strDown = String(backState.firstServeDown == 0 ? 0 : round(Float(backState.firstServeDown-backState.firstServeMissDown)/Float(backState.firstServeDown) * 1000)/10) as NSString
             
             item4.setCount_down(myCount_down: strDown)
             statList.add(item4)
             
             //First serve won %
             let item5 = StatisticItem()
-            item5.setTitle(myTitle: "1st Serve Won(%)")
+            item5.setTitle(myTitle: NSLocalizedString("stat_1st_serve_won", comment: "action") as NSString)
             
-            strUp = String(backState.firstServeWonUp == 0 ? 0 : Float(backState.firstServeWonUp)/Float(backState.firstServeWonUp+backState.firstServeLostUp) * 100) as NSString
+            strUp = String(backState.firstServeWonUp == 0 ? 0 : round(Float(backState.firstServeWonUp)/Float(backState.firstServeWonUp+backState.firstServeLostUp) * 1000)/10) as NSString
             item5.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.firstServeWonDown == 0 ? 0 : Float(backState.firstServeWonDown)/Float(backState.firstServeWonDown+backState.firstServeLostDown) * 100) as NSString
+            strDown = String(backState.firstServeWonDown == 0 ? 0 : round(Float(backState.firstServeWonDown)/Float(backState.firstServeWonDown+backState.firstServeLostDown) * 1000)/10) as NSString
             
             item5.setCount_down(myCount_down: strDown)
             statList.add(item5)
             
             //Second serve in %
             let item6 = StatisticItem()
-            item6.setTitle(myTitle: "2nd Serve(%)")
+            item6.setTitle(myTitle: NSLocalizedString("stat_2nd_serve_in", comment: "action") as NSString)
             
-            strUp = String(backState.secondServeUp == 0 ? 0 : Float(backState.secondServeUp-UInt16(backState.doubleFaultUp))/Float(backState.secondServeUp) * 100) as NSString
+            strUp = String(backState.secondServeUp == 0 ? 0 : round(Float(backState.secondServeUp-UInt16(backState.doubleFaultUp))/Float(backState.secondServeUp) * 1000)/10) as NSString
             item6.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.secondServeDown == 0 ? 0 : Float(backState.secondServeDown-UInt16(backState.doubleFaultDown))/Float(backState.secondServeDown) * 100) as NSString
+            strDown = String(backState.secondServeDown == 0 ? 0 : round(Float(backState.secondServeDown-UInt16(backState.doubleFaultDown))/Float(backState.secondServeDown) * 1000)/10) as NSString
             
             item6.setCount_down(myCount_down: strDown)
             statList.add(item6)
             
             //Second serve won %
             let item7 = StatisticItem()
-            item7.setTitle(myTitle: "2nd Serve Won(%)")
+            item7.setTitle(myTitle: NSLocalizedString("stat_2nd_serve_won", comment: "action") as NSString)
             
-            strUp = String(backState.secondServeWonUp == 0 ? 0 : Float(backState.secondServeWonUp)/Float(backState.secondServeWonUp+backState.secondServeLostUp) * 100) as NSString
+            strUp = String(backState.secondServeWonUp == 0 ? 0 : round(Float(backState.secondServeWonUp)/Float(backState.secondServeWonUp+backState.secondServeLostUp) * 1000)/10) as NSString
             item7.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.secondServeWonDown == 0 ? 0 : Float(backState.secondServeWonDown)/Float(backState.secondServeWonDown+backState.secondServeLostDown) * 100) as NSString
+            strDown = String(backState.secondServeWonDown == 0 ? 0 : round(Float(backState.secondServeWonDown)/Float(backState.secondServeWonDown+backState.secondServeLostDown) * 1000)/10) as NSString
             
             item7.setCount_down(myCount_down: strDown)
             statList.add(item7)
             
             //winner
             let item8 = StatisticItem()
-            item8.setTitle(myTitle: "Winners")
+            item8.setTitle(myTitle: NSLocalizedString("stat_winners", comment: "action") as NSString)
             
             strUp = String(backState.forehandWinnerUp+backState.backhandWinnerUp) as NSString
             item8.setCount_up(myCount_up: strUp)
@@ -146,7 +146,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             
             //forhand winner
             let item9 = StatisticItem()
-            item9.setTitle(myTitle: "Forhand Winners")
+            item9.setTitle(myTitle: NSLocalizedString("stat_forhand_winner", comment: "action") as NSString)
             
             strUp = String(backState.forehandWinnerUp) as NSString
             item9.setCount_up(myCount_up: strUp)
@@ -158,7 +158,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             
             //backhand winner
             let item10 = StatisticItem()
-            item10.setTitle(myTitle: "Backhand Winners")
+            item10.setTitle(myTitle: NSLocalizedString("stat_backhand_winner", comment: "action") as NSString)
             
             strUp = String(backState.backhandWinnerUp) as NSString
             item10.setCount_up(myCount_up: strUp)
@@ -170,7 +170,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             
             //net points
             let item11 = StatisticItem()
-            item11.setTitle(myTitle: "Net Points")
+            item11.setTitle(myTitle: NSLocalizedString("stat_net_points", comment: "action") as NSString)
             
             strUp = String(backState.forehandVolleyUp+backState.backhandVolleyUp) as NSString
             item11.setCount_up(myCount_up: strUp)
@@ -180,10 +180,21 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             item11.setCount_down(myCount_down: strDown)
             statList.add(item11)
             //break point won
+            let item12 = StatisticItem()
+            item12.setTitle(myTitle: NSLocalizedString("stat_break_point_won", comment: "action") as NSString)
+            
+            strUp = String(backState.breakPointUp == 0 ? 0 : round(Float(backState.breakPointUp-backState.breakPointMissUp)/Float(backState.breakPointUp) * 1000)/10) as NSString
+            item12.setCount_up(myCount_up: strUp)
+            
+            strDown = String(backState.breakPointDown == 0 ? 0 : round(Float(backState.breakPointDown-backState.breakPointMissDown)/Float(backState.breakPointDown) * 1000)/10) as NSString
+            
+            item12.setCount_down(myCount_down: strDown)
+            statList.add(item12)
+            
             
             //total points
             let item13 = StatisticItem()
-            item13.setTitle(myTitle: "Total Points")
+            item13.setTitle(myTitle: NSLocalizedString("stat_total_points", comment: "action") as NSString)
             
             strUp = String(backState.forehandWinnerUp+backState.backhandWinnerUp+backState.forehandVolleyUp+backState.backhandVolleyUp) as NSString
             item13.setCount_up(myCount_up: strUp)
