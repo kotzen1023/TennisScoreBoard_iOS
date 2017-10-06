@@ -50,6 +50,8 @@ class ViewController: UIViewController {
     var set_select: UInt8!
     var game_select: UInt8!
     var is_tiebreak: Bool!
+    var is_super_tiebreak: Bool!
+    var is_in_super_tiebreak: Bool = false
     var is_deuce: Bool!
     var is_serve: Bool!
     var is_retire: UInt8! = 0
@@ -94,6 +96,8 @@ class ViewController: UIViewController {
         print("set_select: \(set_select)")
         print("game_select: \(game_select)")
         print("is_tiebreak: \(is_tiebreak)")
+        print("is_super_tiebreak: \(is_super_tiebreak)")
+        print("is_in_super_tiebreak: \(is_in_super_tiebreak)")
         print("is_deuce: \(is_deuce)")
         print("is_serve: \(is_serve)")
         print("is_retire: \(is_retire)")
@@ -314,6 +318,7 @@ class ViewController: UIViewController {
             settingVc.set_select = self.set_select
             settingVc.game_select = self.game_select
             settingVc.is_tiebreak = self.is_tiebreak
+            settingVc.is_super_tiebreak = self.is_super_tiebreak
             settingVc.is_deuce = self.is_deuce
             settingVc.is_serve = self.is_serve
             settingVc.playerUp = self.playerUp
@@ -530,6 +535,7 @@ class ViewController: UIViewController {
         statController.set_select = self.set_select
         statController.game_select = self.game_select
         statController.is_tiebreak = self.is_tiebreak
+        statController.is_super_tiebreak = self.is_super_tiebreak
         statController.is_deuce = self.is_deuce
         statController.is_serve = self.is_serve
         statController.playerUp = self.playerUp
@@ -1787,6 +1793,7 @@ class ViewController: UIViewController {
             print("set_select = \(self.set_select)")
             print("game_select = \(self.game_select)")
             print("is_tiebreak = \(self.is_tiebreak)")
+            print("is_super_tiebreak = \(self.is_super_tiebreak)")
             print("is_deuce = \(self.is_deuce)")
             print("is_serve = \(self.is_serve)")
             print("second serve = \(self.is_second_serve)")
@@ -2952,9 +2959,11 @@ class ViewController: UIViewController {
             
             var game:UInt8 = 0
             
-            if self.game_select == 0 { //6 games
-                if new_state.getPointUp(set: current_set) == 7 && new_state.getPointDown(set: current_set) <= 5 {
-                    //7 : 0,1,2,3,4,5 => oppt win this game
+            if is_in_super_tiebreak == true {
+                print("[In super tiebreak]")
+                
+                if new_state.getPointUp(set: current_set) == 10 && new_state.getPointDown(set: current_set) <= 8 {
+                    //10 : 0,1,2,3,4,5,6,7,8 => oppt win this game
                     //set tiebreak point
                     new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
                     new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
@@ -2974,8 +2983,8 @@ class ViewController: UIViewController {
                     
                     //leave tiebreak
                     new_state.isInTiebreak = false
-                } else if new_state.getPointUp(set: current_set) <= 5 && new_state.getPointDown(set: current_set) == 7 {
-                    //0,1,2,3,4,5 : 7 => you win this game
+                } else if new_state.getPointUp(set: current_set) <= 8 && new_state.getPointDown(set: current_set) == 10 {
+                    //0,1,2,3,4,5,6,7,8 : 10 => you win this game
                     //set tiebreak point
                     new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
                     new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
@@ -2996,8 +3005,8 @@ class ViewController: UIViewController {
                     //leave tiebreak
                     new_state.isInTiebreak = false
                     
-                } else if new_state.getPointUp(set: current_set) >= 6 &&
-                    new_state.getPointDown(set: current_set) >= 6 {
+                } else if new_state.getPointUp(set: current_set) >= 9 &&
+                    new_state.getPointDown(set: current_set) >= 9 {
                     //let pointUp: UInt8 = new_state.getPointUp(set: current_set)
                     //let pointDown: UInt8 = new_state.getPointDown(set: current_set)
                     let pointUp: Int8 = Int8(new_state.getPointUp(set: current_set))
@@ -3051,67 +3060,18 @@ class ViewController: UIViewController {
                     }
                 }
                 
-            } else { //4 games
-                if new_state.getPointUp(set: current_set) == 5 && new_state.getPointDown(set: current_set) <= 3 {
-                    //5 : 0,1,2,3 => oppt win this game
-                    //set tiebreak point
-                    new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
-                    new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
-                    //set point clean
-                    new_state.setPointUp(set: current_set, point: 0)
-                    new_state.setPointDown(set: current_set, point: 0)
-                    //add to game
-                    game = new_state.getGameUp(set: current_set)
-                    game = game + 1
-                    new_state.setGameUp(set: current_set, game: game)
-                    //change serve
-                    if new_state.isServe == true {
-                        new_state.isServe = false
-                    } else {
-                        new_state.isServe = true
-                    }
-                    
-                    //leave tiebreak
-                    new_state.isInTiebreak = false
-                } else if new_state.getPointUp(set: current_set) <= 3 && new_state.getPointDown(set: current_set) == 5 {
-                    //0,1,2,3 : 5 => you win this game
-                    //set tiebreak point
-                    new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
-                    new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
-                    //set point clean
-                    new_state.setPointUp(set: current_set, point: 0)
-                    new_state.setPointDown(set: current_set, point: 0)
-                    //add to game
-                    game = new_state.getGameDown(set: current_set)
-                    game = game + 1
-                    new_state.setGameDown(set: current_set, game: game)
-                    //change serve
-                    if new_state.isServe == true {
-                        new_state.isServe = false
-                    } else {
-                        new_state.isServe = true
-                    }
-                    
-                    //leave tiebreak
-                    new_state.isInTiebreak = false
-                    
-                } else if new_state.getPointUp(set: current_set) >= 4 &&
-                    new_state.getPointDown(set: current_set) >= 4 {
-                    //let pointUp: UInt8 = new_state.getPointUp(set: current_set)
-                    //let pointDown: UInt8 = new_state.getPointDown(set: current_set)
-                    let pointUp: Int8 = Int8(new_state.getPointUp(set: current_set))
-                    let pointDown: Int8 = Int8(new_state.getPointDown(set: current_set))
-                    
-                    
-                    if pointUp - pointDown == 2 {
-                        //8:6, 9:7, 10:8 => oppt win this game
+            } else {
+                print("[Not in super tiebreak]")
+                
+                if self.game_select == 0 { //6 games
+                    if new_state.getPointUp(set: current_set) == 7 && new_state.getPointDown(set: current_set) <= 5 {
+                        //7 : 0,1,2,3,4,5 => oppt win this game
                         //set tiebreak point
                         new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
                         new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
                         //set point clean
                         new_state.setPointUp(set: current_set, point: 0)
                         new_state.setPointDown(set: current_set, point: 0)
-                        
                         //add to game
                         game = new_state.getGameUp(set: current_set)
                         game = game + 1
@@ -3125,15 +3085,14 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
-                    } else if pointDown - pointUp == 2 {
-                        //6:8, 7:9, 8:10 => you win this game
+                    } else if new_state.getPointUp(set: current_set) <= 5 && new_state.getPointDown(set: current_set) == 7 {
+                        //0,1,2,3,4,5 : 7 => you win this game
                         //set tiebreak point
                         new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
                         new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
                         //set point clean
                         new_state.setPointUp(set: current_set, point: 0)
                         new_state.setPointDown(set: current_set, point: 0)
-                        
                         //add to game
                         game = new_state.getGameDown(set: current_set)
                         game = game + 1
@@ -3147,9 +3106,165 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
+                        
+                    } else if new_state.getPointUp(set: current_set) >= 6 &&
+                        new_state.getPointDown(set: current_set) >= 6 {
+                        //let pointUp: UInt8 = new_state.getPointUp(set: current_set)
+                        //let pointDown: UInt8 = new_state.getPointDown(set: current_set)
+                        let pointUp: Int8 = Int8(new_state.getPointUp(set: current_set))
+                        let pointDown: Int8 = Int8(new_state.getPointDown(set: current_set))
+                        
+                        
+                        if pointUp - pointDown == 2 {
+                            //8:6, 9:7, 10:8 => oppt win this game
+                            //set tiebreak point
+                            new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                            new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                            //set point clean
+                            new_state.setPointUp(set: current_set, point: 0)
+                            new_state.setPointDown(set: current_set, point: 0)
+                            
+                            //add to game
+                            game = new_state.getGameUp(set: current_set)
+                            game = game + 1
+                            new_state.setGameUp(set: current_set, game: game)
+                            //change serve
+                            if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }
+                            
+                            //leave tiebreak
+                            new_state.isInTiebreak = false
+                        } else if pointDown - pointUp == 2 {
+                            //6:8, 7:9, 8:10 => you win this game
+                            //set tiebreak point
+                            new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                            new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                            //set point clean
+                            new_state.setPointUp(set: current_set, point: 0)
+                            new_state.setPointDown(set: current_set, point: 0)
+                            
+                            //add to game
+                            game = new_state.getGameDown(set: current_set)
+                            game = game + 1
+                            new_state.setGameDown(set: current_set, game: game)
+                            //change serve
+                            if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }
+                            
+                            //leave tiebreak
+                            new_state.isInTiebreak = false
+                        }
+                    }
+                    
+                } else { //4 games
+                    if new_state.getPointUp(set: current_set) == 5 && new_state.getPointDown(set: current_set) <= 3 {
+                        //5 : 0,1,2,3 => oppt win this game
+                        //set tiebreak point
+                        new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                        new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                        //set point clean
+                        new_state.setPointUp(set: current_set, point: 0)
+                        new_state.setPointDown(set: current_set, point: 0)
+                        //add to game
+                        game = new_state.getGameUp(set: current_set)
+                        game = game + 1
+                        new_state.setGameUp(set: current_set, game: game)
+                        //change serve
+                        if new_state.isServe == true {
+                            new_state.isServe = false
+                        } else {
+                            new_state.isServe = true
+                        }
+                        
+                        //leave tiebreak
+                        new_state.isInTiebreak = false
+                    } else if new_state.getPointUp(set: current_set) <= 3 && new_state.getPointDown(set: current_set) == 5 {
+                        //0,1,2,3 : 5 => you win this game
+                        //set tiebreak point
+                        new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                        new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                        //set point clean
+                        new_state.setPointUp(set: current_set, point: 0)
+                        new_state.setPointDown(set: current_set, point: 0)
+                        //add to game
+                        game = new_state.getGameDown(set: current_set)
+                        game = game + 1
+                        new_state.setGameDown(set: current_set, game: game)
+                        //change serve
+                        if new_state.isServe == true {
+                            new_state.isServe = false
+                        } else {
+                            new_state.isServe = true
+                        }
+                        
+                        //leave tiebreak
+                        new_state.isInTiebreak = false
+                        
+                    } else if new_state.getPointUp(set: current_set) >= 4 &&
+                        new_state.getPointDown(set: current_set) >= 4 {
+                        //let pointUp: UInt8 = new_state.getPointUp(set: current_set)
+                        //let pointDown: UInt8 = new_state.getPointDown(set: current_set)
+                        let pointUp: Int8 = Int8(new_state.getPointUp(set: current_set))
+                        let pointDown: Int8 = Int8(new_state.getPointDown(set: current_set))
+                        
+                        
+                        if pointUp - pointDown == 2 {
+                            //8:6, 9:7, 10:8 => oppt win this game
+                            //set tiebreak point
+                            new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                            new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                            //set point clean
+                            new_state.setPointUp(set: current_set, point: 0)
+                            new_state.setPointDown(set: current_set, point: 0)
+                            
+                            //add to game
+                            game = new_state.getGameUp(set: current_set)
+                            game = game + 1
+                            new_state.setGameUp(set: current_set, game: game)
+                            //change serve
+                            if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }
+                            
+                            //leave tiebreak
+                            new_state.isInTiebreak = false
+                        } else if pointDown - pointUp == 2 {
+                            //6:8, 7:9, 8:10 => you win this game
+                            //set tiebreak point
+                            new_state.setTiebreakPointUp(set: current_set, point: new_state.getPointUp(set: current_set))
+                            new_state.setTiebreakPointDown(set: current_set, point: new_state.getPointDown(set: current_set))
+                            //set point clean
+                            new_state.setPointUp(set: current_set, point: 0)
+                            new_state.setPointDown(set: current_set, point: 0)
+                            
+                            //add to game
+                            game = new_state.getGameDown(set: current_set)
+                            game = game + 1
+                            new_state.setGameDown(set: current_set, game: game)
+                            //change serve
+                            if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }
+                            
+                            //leave tiebreak
+                            new_state.isInTiebreak = false
+                        }
                     }
                 }
             }
+            
+            
+            
             
             
             
@@ -3437,89 +3552,112 @@ class ViewController: UIViewController {
         if is_tiebreak == true { //use tiebreak
             print("[Use tiebreak]")
             
-            if self.game_select == 0 { //6 games
-                if new_state.getGameUp(set: current_set) == 6 &&
-                    new_state.getGameDown(set: current_set) == 6 {
-                    new_state.isInTiebreak = true //into tiebreak
-                } else if new_state.getGameUp(set: current_set) == 7 &&
-                    new_state.getGameDown(set: current_set) == 5 { //7:5 => oppt win this set
+            if is_in_super_tiebreak == true { //use super tiebreak
+                print("[Use super tiebreak]")
+                
+                if new_state.getGameUp(set: current_set) == 1 &&
+                    new_state.getGameDown(set: current_set) == 0 { //1:0 => oppt win this set
                     //set sets win
                     setsWinUp = setsWinUp + 1
                     new_state.setsUp = setsWinUp
                     checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 5 &&
-                    new_state.getGameDown(set: current_set) == 7 { //5:7 => you win this set
+                } else if new_state.getGameUp(set: current_set) == 0 &&
+                    new_state.getGameDown(set: current_set) == 1 { //0:1 => you win this set
                     //set sets win
                     setsWinDown = setsWinDown + 1
                     new_state.setSDown = setsWinDown
                     checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 7 &&
-                    new_state.getGameDown(set: current_set) == 6 { //7:6 => oppt win this set
-                    //set sets win
-                    setsWinUp = setsWinUp + 1
-                    new_state.setsUp = setsWinUp
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 6 &&
-                    new_state.getGameDown(set: current_set) == 7 { //6:7 => you win this set
-                    //set sets win
-                    setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 6 &&
-                    new_state.getGameDown(set: current_set) <= 4 { //6:0,1,2,3,4 => oppt win this set
-                    //set sets win
-                    setsWinUp = setsWinUp + 1
-                    new_state.setsUp = setsWinUp
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) <= 4 &&
-                    new_state.getGameDown(set: current_set) == 6 { //0,1,2,3,4:6 => you win this set
-                    //set sets win
-                    setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
-                    checkSets(new_state: new_state)
+                } else {
+                    print("[game procced]")
                 }
-            } else { //4 games
-                if new_state.getGameUp(set: current_set) == 4 &&
-                    new_state.getGameDown(set: current_set) == 4 {
-                    new_state.isInTiebreak = true //into tiebreak
-                } else if new_state.getGameUp(set: current_set) == 5 &&
-                    new_state.getGameDown(set: current_set) == 3 { //5:3 => oppt win this set
-                    //set sets win
-                    setsWinUp = setsWinUp + 1
-                    new_state.setsUp = setsWinUp
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 3 &&
-                    new_state.getGameDown(set: current_set) == 5 { //3:5 => you win this set
-                    //set sets win
-                    setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 5 &&
-                    new_state.getGameDown(set: current_set) == 4 { //5:4 => oppt win this set
-                    //set sets win
-                    setsWinUp = setsWinUp + 1
-                    new_state.setsUp = setsWinUp
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 4 &&
-                    new_state.getGameDown(set: current_set) == 5 { //4:5 => you win this set
-                    //set sets win
-                    setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) == 4 &&
-                    new_state.getGameDown(set: current_set) <= 2 { //4:0,1,2 => oppt win this set
-                    //set sets win
-                    setsWinUp = setsWinUp + 1
-                    new_state.setsUp = setsWinUp
-                    checkSets(new_state: new_state)
-                } else if new_state.getGameUp(set: current_set) <= 2 &&
-                    new_state.getGameDown(set: current_set) == 4 { //0,1,2:4 => you win this set
-                    //set sets win
-                    setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
-                    checkSets(new_state: new_state)
+                
+            } else { // not use super tiebreak
+                if self.game_select == 0 { //6 games
+                    if new_state.getGameUp(set: current_set) == 6 &&
+                        new_state.getGameDown(set: current_set) == 6 {
+                        new_state.isInTiebreak = true //into tiebreak
+                    } else if new_state.getGameUp(set: current_set) == 7 &&
+                        new_state.getGameDown(set: current_set) == 5 { //7:5 => oppt win this set
+                        //set sets win
+                        setsWinUp = setsWinUp + 1
+                        new_state.setsUp = setsWinUp
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 5 &&
+                        new_state.getGameDown(set: current_set) == 7 { //5:7 => you win this set
+                        //set sets win
+                        setsWinDown = setsWinDown + 1
+                        new_state.setSDown = setsWinDown
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 7 &&
+                        new_state.getGameDown(set: current_set) == 6 { //7:6 => oppt win this set
+                        //set sets win
+                        setsWinUp = setsWinUp + 1
+                        new_state.setsUp = setsWinUp
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 6 &&
+                        new_state.getGameDown(set: current_set) == 7 { //6:7 => you win this set
+                        //set sets win
+                        setsWinDown = setsWinDown + 1
+                        new_state.setSDown = setsWinDown
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 6 &&
+                        new_state.getGameDown(set: current_set) <= 4 { //6:0,1,2,3,4 => oppt win this set
+                        //set sets win
+                        setsWinUp = setsWinUp + 1
+                        new_state.setsUp = setsWinUp
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) <= 4 &&
+                        new_state.getGameDown(set: current_set) == 6 { //0,1,2,3,4:6 => you win this set
+                        //set sets win
+                        setsWinDown = setsWinDown + 1
+                        new_state.setSDown = setsWinDown
+                        checkSets(new_state: new_state)
+                    }
+                } else { //4 games
+                    if new_state.getGameUp(set: current_set) == 4 &&
+                        new_state.getGameDown(set: current_set) == 4 {
+                        new_state.isInTiebreak = true //into tiebreak
+                    } else if new_state.getGameUp(set: current_set) == 5 &&
+                        new_state.getGameDown(set: current_set) == 3 { //5:3 => oppt win this set
+                        //set sets win
+                        setsWinUp = setsWinUp + 1
+                        new_state.setsUp = setsWinUp
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 3 &&
+                        new_state.getGameDown(set: current_set) == 5 { //3:5 => you win this set
+                        //set sets win
+                        setsWinDown = setsWinDown + 1
+                        new_state.setSDown = setsWinDown
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 5 &&
+                        new_state.getGameDown(set: current_set) == 4 { //5:4 => oppt win this set
+                        //set sets win
+                        setsWinUp = setsWinUp + 1
+                        new_state.setsUp = setsWinUp
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 4 &&
+                        new_state.getGameDown(set: current_set) == 5 { //4:5 => you win this set
+                        //set sets win
+                        setsWinDown = setsWinDown + 1
+                        new_state.setSDown = setsWinDown
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) == 4 &&
+                        new_state.getGameDown(set: current_set) <= 2 { //4:0,1,2 => oppt win this set
+                        //set sets win
+                        setsWinUp = setsWinUp + 1
+                        new_state.setsUp = setsWinUp
+                        checkSets(new_state: new_state)
+                    } else if new_state.getGameUp(set: current_set) <= 2 &&
+                        new_state.getGameDown(set: current_set) == 4 { //0,1,2:4 => you win this set
+                        //set sets win
+                        setsWinDown = setsWinDown + 1
+                        new_state.setSDown = setsWinDown
+                        checkSets(new_state: new_state)
+                    }
                 }
             }
+            
+            
             
             
             
@@ -3579,8 +3717,27 @@ class ViewController: UIViewController {
             if setsWinUp == 2 || setsWinDown == 2 {
                 new_state.isFinish = true
             } else {
+                //final set
+                
                 current_set = current_set + 1
                 new_state.current_set = current_set
+                
+                if current_set == 3 {
+                    if is_super_tiebreak {
+                        print("go to super tiebreak")
+                        new_state.isInTiebreak = true
+                        is_in_super_tiebreak = true
+                    } else {
+                        print("go to normal set")
+                        new_state.isInTiebreak = false
+                        is_in_super_tiebreak = false
+                    }
+                } else {
+                    new_state.isInTiebreak = false
+                    is_in_super_tiebreak = false
+                }
+                
+                
             }
             break
         case 2:
@@ -3589,6 +3746,22 @@ class ViewController: UIViewController {
             } else {
                 current_set = current_set + 1
                 new_state.current_set = current_set
+                
+                //final set
+                if current_set == 5 {
+                    if is_super_tiebreak {
+                        print("go to super tiebreak")
+                        new_state.isInTiebreak = true
+                        is_in_super_tiebreak = true
+                    } else {
+                        print("go to normal set")
+                        new_state.isInTiebreak = false
+                        is_in_super_tiebreak = false
+                    }
+                } else {
+                    new_state.isInTiebreak = false
+                    is_in_super_tiebreak = false
+                }
             }
             break
         default:

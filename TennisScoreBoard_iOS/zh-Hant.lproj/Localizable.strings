@@ -42,6 +42,7 @@
 "game_setting_choose_tiebreak" = "選擇tiebreak或決勝局";
 "game_setting_tiebreak" = "搶七(tiebreak)";
 "game_setting_deciding_game" = "決勝局";
+"game_setting_super_tiebreak" = "Super Tiebreak";
 "game_setting_choose_deuce" = "選擇deuce或決勝分";
 "game_setting_deciding_point" = "決勝分";
 "game_setting_deuce" = "Deuce";
@@ -58,7 +59,7 @@
 "stat_2nd_serve_in" = "二發進球率(%)";
 "stat_2nd_serve_won" = "二發得分率(%)";
 "stat_winners" = "致勝球";
-"stat_forhand_winner" = "正拍致勝求";
+"stat_forhand_winner" = "正拍致勝球";
 "stat_backhand_winner" = "反拍致勝球";
 "stat_net_points" = "上網得分";
 "stat_break_point_won" = "破發成功率(%)";

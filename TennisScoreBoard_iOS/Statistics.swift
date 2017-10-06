@@ -18,6 +18,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var statTableView: UITableView!
     var game_select: UInt8!
     var is_tiebreak: Bool!
+    var is_super_tiebreak: Bool!
     var is_deuce: Bool!
     var is_serve: Bool!
     var is_retire: UInt8! = 0
@@ -40,6 +41,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
         print("set_select: \(set_select)")
         print("game_select: \(game_select)")
         print("is_tiebreak: \(is_tiebreak)")
+        print("is_super_tiebreak: \(is_super_tiebreak)")
         print("is_deuce: \(is_deuce)")
         print("is_serve: \(is_serve)")
         print("is_retire: \(is_retire)")
@@ -266,6 +268,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
         gameVc.set_select = self.set_select
         gameVc.game_select = self.game_select
         gameVc.is_tiebreak = self.is_tiebreak
+        gameVc.is_super_tiebreak = self.is_super_tiebreak
         gameVc.is_deuce = self.is_deuce
         gameVc.is_serve = self.is_serve
         gameVc.playerUp = self.playerUp
