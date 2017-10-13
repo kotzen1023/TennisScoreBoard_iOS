@@ -124,6 +124,8 @@ class SettingController: UIViewController, UITextFieldDelegate {
         
         let setActionSheet = UIAlertController(title: NSLocalizedString("game_setting_set_change", comment: ""), message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
         
+        
+        
         let oneSetAction = UIAlertAction(title: NSLocalizedString("game_setting_1_set", comment: ""), style: UIAlertActionStyle.default) { (action) in
             print("1 set")
             self.btnSet.setTitle(NSLocalizedString("game_setting_1_set", comment: ""), for: UIControlState.normal)
@@ -151,6 +153,8 @@ class SettingController: UIViewController, UITextFieldDelegate {
         setActionSheet.addAction(fiveSetAction)
         setActionSheet.addAction(cancelAction)
         
+        setActionSheet.popoverPresentationController?.sourceView = self.view
+        setActionSheet.popoverPresentationController?.sourceRect = sender.bounds
         self.present(setActionSheet, animated: true, completion: nil)
     }
     
@@ -179,6 +183,9 @@ class SettingController: UIViewController, UITextFieldDelegate {
         gamesSheet.addAction(sixGamesInASetAction)
         gamesSheet.addAction(fourGamesInASetAction)
         gamesSheet.addAction(cancelAction)
+        
+        gamesSheet.popoverPresentationController?.sourceView = self.view
+        gamesSheet.popoverPresentationController?.sourceRect = sender.bounds
         
         self.present(gamesSheet, animated: true, completion: nil)
     }
@@ -223,8 +230,9 @@ class SettingController: UIViewController, UITextFieldDelegate {
     
         tiebreakSheet.addAction(cancelAction)
         
+        tiebreakSheet.popoverPresentationController?.sourceView = self.view
+        tiebreakSheet.popoverPresentationController?.sourceRect = sender.bounds
         
-          
         self.present(tiebreakSheet, animated: true, completion: nil)
     }
     
@@ -255,6 +263,9 @@ class SettingController: UIViewController, UITextFieldDelegate {
         deuceSheet.addAction(decidingPointAction)
         deuceSheet.addAction(cancelAction)
         
+        deuceSheet.popoverPresentationController?.sourceView = self.view
+        deuceSheet.popoverPresentationController?.sourceRect = sender.bounds
+        
         self.present(deuceSheet, animated: true, completion: nil)
     }
     
@@ -283,6 +294,9 @@ class SettingController: UIViewController, UITextFieldDelegate {
         serveSheet.addAction(playerUpServeAction)
         serveSheet.addAction(playerDownServeAction)
         serveSheet.addAction(cancelAction)
+        
+        serveSheet.popoverPresentationController?.sourceView = self.view
+        serveSheet.popoverPresentationController?.sourceRect = sender.bounds
         
         self.present(serveSheet, animated: true, completion: nil)
     }

@@ -106,9 +106,12 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
         
-        btnOpptAction.setTitle(NSLocalizedString("game_action", comment: "Action"), for: UIControlState.normal)
+        //btnOpptAction.setTitle(NSLocalizedString("game_action", comment: "Action"), for: UIControlState.normal)
         
-        btnYouAction.setTitle(NSLocalizedString("game_action", comment: "Action"), for: UIControlState.normal)
+        //btnYouAction.setTitle(NSLocalizedString("game_action", comment: "Action"), for: UIControlState.normal)
+        btnOpptAction.setTitle("", for: UIControlState.normal)
+        
+        btnYouAction.setTitle("", for: UIControlState.normal)
         
         btnBack.setTitle("", for: UIControlState.normal)
         
@@ -213,7 +216,7 @@ class ViewController: UIViewController {
                 } else if backState.getPointUp(set: current_set) == 3 {
                     labelOpptPoint.text = "40"
                 } else if backState.getPointUp(set: current_set) == 4 {
-                    labelOpptPoint.text = "40A"
+                    labelOpptPoint.text = "Ad"
                 } else {
                     labelOpptPoint.text = "0"
                 }
@@ -229,7 +232,7 @@ class ViewController: UIViewController {
                 } else if backState.getPointDown(set: current_set) == 3 {
                     labelYouPoint.text = "40"
                 } else if backState.getPointDown(set: current_set) == 4 {
-                    labelYouPoint.text = "40A"
+                    labelYouPoint.text = "Ad"
                 } else {
                     labelYouPoint.text = "0"
                 }
@@ -430,7 +433,7 @@ class ViewController: UIViewController {
                     } else if forwardState.getPointUp(set: current_set) == 3 {
                         labelOpptPoint.text = "40"
                     } else if forwardState.getPointUp(set: current_set) == 4 {
-                        labelOpptPoint.text = "40A"
+                        labelOpptPoint.text = "Ad"
                     } else {
                         labelOpptPoint.text = "0"
                     }
@@ -446,7 +449,7 @@ class ViewController: UIViewController {
                     } else if forwardState.getPointDown(set: current_set) == 3 {
                         labelYouPoint.text = "40"
                     } else if forwardState.getPointDown(set: current_set) == 4 {
-                        labelYouPoint.text = "40A"
+                        labelYouPoint.text = "Ad"
                     } else {
                         labelYouPoint.text = "0"
                     }
@@ -633,7 +636,7 @@ class ViewController: UIViewController {
                     } else if backState.getPointUp(set: current_set) == 3 {
                         labelOpptPoint.text = "40"
                     } else if backState.getPointUp(set: current_set) == 4 {
-                        labelOpptPoint.text = "40A"
+                        labelOpptPoint.text = "Ad"
                     } else {
                         labelOpptPoint.text = "0"
                     }
@@ -649,7 +652,7 @@ class ViewController: UIViewController {
                     } else if backState.getPointDown(set: current_set) == 3 {
                         labelYouPoint.text = "40"
                     } else if backState.getPointDown(set: current_set) == 4 {
-                        labelYouPoint.text = "40A"
+                        labelYouPoint.text = "Ad"
                     } else {
                         labelYouPoint.text = "0"
                     }
@@ -744,7 +747,7 @@ class ViewController: UIViewController {
         }
         
         // Create the action sheet
-        let myActionSheet = UIAlertController(title: labelTopPlayer.text, message: NSLocalizedString("game_action_select", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let myActionSheet = UIAlertController(title: labelBottomPlayer.text, message: NSLocalizedString("game_action_select", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
         
         if imgServeDown.isHidden == false { //you serve
             if self.is_second_serve == true { //second serve
@@ -1202,6 +1205,8 @@ class ViewController: UIViewController {
         // support iPads (popover view)
         //myActionSheet.popoverPresentationController?.sourceView = self.showActionSheetButton
         //myActionSheet.popoverPresentationController?.sourceRect = self.showActionSheetButton.bounds
+        myActionSheet.popoverPresentationController?.sourceView = self.view
+        myActionSheet.popoverPresentationController?.sourceRect = sender.bounds
         
         // present the action sheet
         self.present(myActionSheet, animated: true, completion: nil)
@@ -1673,6 +1678,9 @@ class ViewController: UIViewController {
             
             
         }
+        
+        myActionSheet.popoverPresentationController?.sourceView = self.view
+        myActionSheet.popoverPresentationController?.sourceRect = sender.bounds
         
         // present the action sheet
         self.present(myActionSheet, animated: true, completion: nil)
@@ -2678,7 +2686,7 @@ class ViewController: UIViewController {
                     } else if new_state.getPointUp(set: current_set) == 3 {
                         labelOpptPoint.text = "40"
                     } else if new_state.getPointUp(set: current_set) == 4 {
-                        labelOpptPoint.text = "40A"
+                        labelOpptPoint.text = "Ad"
                     } else {
                         labelOpptPoint.text = "0"
                     }
@@ -2694,7 +2702,7 @@ class ViewController: UIViewController {
                     } else if new_state.getPointDown(set: current_set) == 3 {
                         labelYouPoint.text = "40"
                     } else if new_state.getPointDown(set: current_set) == 4 {
-                        labelYouPoint.text = "40A"
+                        labelYouPoint.text = "Ad"
                     } else {
                         labelYouPoint.text = "0"
                     }
@@ -2897,7 +2905,7 @@ class ViewController: UIViewController {
                     labelOpptPoint.text = "40"
                     break
                 case 4:
-                    labelOpptPoint.text = "40A"
+                    labelOpptPoint.text = "Ad"
                     break
                 default:
                     labelOpptPoint.text = "0"
@@ -2918,7 +2926,7 @@ class ViewController: UIViewController {
                     labelYouPoint.text = "40"
                     break
                 case 4:
-                    labelYouPoint.text = "40A"
+                    labelYouPoint.text = "Ad"
                     break
                 default:
                     labelYouPoint.text = "0"
@@ -3287,8 +3295,8 @@ class ViewController: UIViewController {
                 print("[Game using deuce]")
                 var game:UInt8 = 0
                 
-                if new_state.getPointUp(set: current_set) == 4 && new_state.getPointDown(set: current_set) == 4 { // 40A:40A => 40:40
-                    print("40A:40A => 40:40")
+                if new_state.getPointUp(set: current_set) == 4 && new_state.getPointDown(set: current_set) == 4 { // Ad:Ad => 40:40
+                    print("Ad:Ad => 40:40")
                     
                     new_state.setPointUp(set: current_set, point: 3)
                     new_state.setPointDown(set: current_set, point: 3)
@@ -3307,8 +3315,8 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
-                } else if new_state.getPointUp(set: current_set) == 5 && new_state.getPointDown(set: current_set) == 3 { //40A+ : 40 => oppt win this game
-                    print("40A+1 : 40 => oppt win this game")
+                } else if new_state.getPointUp(set: current_set) == 5 && new_state.getPointDown(set: current_set) == 3 { //Ad+ : 40 => oppt win this game
+                    print("Ad+1 : 40 => oppt win this game")
                     new_state.setPointUp(set: current_set, point: 0)
                     new_state.setPointDown(set: current_set, point: 0)
                     //add to game
@@ -3333,8 +3341,8 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
-                } else if new_state.getPointUp(set: current_set) == 3 && new_state.getPointDown(set: current_set) == 5 { //40 : 40A+ => you win this game
-                    print("40 : 40A+1 => you win this game")
+                } else if new_state.getPointUp(set: current_set) == 3 && new_state.getPointDown(set: current_set) == 5 { //40 : Ad+ => you win this game
+                    print("40 : Ad+1 => you win this game")
                     new_state.setPointUp(set: current_set, point: 0)
                     new_state.setPointDown(set: current_set, point: 0)
                     
@@ -3362,7 +3370,7 @@ class ViewController: UIViewController {
                     new_state.isInBreakPoint = false
                     
                 } else if new_state.getPointUp(set: current_set) == 4 && new_state.getPointDown(set: current_set) <= 2 {
-                    print("40A : 0, 40A: 15, 40A : 30 => oppt win this game")
+                    print("Ad : 0, Ad: 15, Ad : 30 => oppt win this game")
                     new_state.setPointUp(set: current_set, point: 0)
                     new_state.setPointDown(set: current_set, point: 0)
                 
@@ -3389,7 +3397,7 @@ class ViewController: UIViewController {
                     is_break_point = false
                     new_state.isInBreakPoint = false
                 } else if new_state.getPointUp(set: current_set) <= 2 && new_state.getPointDown(set: current_set) == 4 {
-                    print("0 : 40A, 15 : 40A, 30 : 40A => you win this game")
+                    print("0 : Ad, 15 : Ad, 30 : Ad => you win this game")
                     new_state.setPointUp(set: current_set, point: 0)
                     new_state.setPointDown(set: current_set, point: 0)
                     
@@ -3441,7 +3449,7 @@ class ViewController: UIViewController {
                         }
                     } else if new_state.getPointUp(set: current_set) == 4 &&
                         new_state.getPointDown(set: current_set) == 3 &&
-                        is_break_point == false { // 40A : 40
+                        is_break_point == false { // Ad : 40
                         
                         if new_state.isServe {
                             print("You serve, Not in break point => In break point")
@@ -3452,7 +3460,7 @@ class ViewController: UIViewController {
                         }
                     } else if new_state.getPointUp(set: current_set) == 3 &&
                         new_state.getPointDown(set: current_set) == 4 &&
-                        is_break_point == false { // 40 : 40A
+                        is_break_point == false { // 40 : Ad
                         
                         if new_state.isServe {
                             print("You serve")
@@ -3502,7 +3510,7 @@ class ViewController: UIViewController {
                 var game:UInt8 = 0
                 
                 if new_state.getPointUp(set: current_set) == 4 &&
-                    new_state.getPointDown(set: current_set) <= 3 { //40A : 40,30,15,0 => oppt win this game
+                    new_state.getPointDown(set: current_set) <= 3 { //Ad : 40,30,15,0 => oppt win this game
                     //set point clean
                     new_state.setPointUp(set: current_set, point: 0)
                     new_state.setPointDown(set: current_set, point: 0)
@@ -3517,7 +3525,7 @@ class ViewController: UIViewController {
                         new_state.isServe = true
                     }
                 } else if new_state.getGameUp(set: current_set) <= 3 &&
-                    new_state.getGameDown(set: current_set) == 4 { //40,30,15,0 : 40A => you win this game
+                    new_state.getGameDown(set: current_set) == 4 { //40,30,15,0 : Ad => you win this game
                     //set point clean
                     //set point clean
                     new_state.setPointUp(set: current_set, point: 0)
