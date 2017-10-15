@@ -114,10 +114,26 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             let item6 = StatisticItem()
             item6.setTitle(myTitle: NSLocalizedString("stat_2nd_serve_in", comment: "action") as NSString)
             
-            strUp = String(backState.secondServeUp == 0 ? 0 : round(Float(backState.secondServeUp-UInt16(backState.doubleFaultUp))/Float(backState.secondServeUp) * 1000)/10) as NSString
+            if backState.secondServeUp == 0 {
+                strUp = String(0) as NSString
+            } else {
+                let upServe = round(Float(backState.secondServeUp-UInt16(backState.doubleFaultUp))/Float(backState.secondServeUp) * 1000)
+                strUp = String(upServe/10) as NSString
+            }
+            
+            
+            //strUp/= String(backState.secondServeUp == 0 ? 0 : round(Float(backState.secondServeUp-UInt16(backState.doubleFaultUp))/Float(backState.secondServeUp) * 1000)/10) as NSString
+            
             item6.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.secondServeDown == 0 ? 0 : round(Float(backState.secondServeDown-UInt16(backState.doubleFaultDown))/Float(backState.secondServeDown) * 1000)/10) as NSString
+            if backState.secondServeDown == 0 {
+                strDown = String(0) as NSString
+            } else {
+                let downServe = round(Float(backState.secondServeDown-UInt16(backState.doubleFaultDown))/Float(backState.secondServeDown) * 1000)
+                strDown = String(downServe/10) as NSString
+            }
+            
+            //strDown = String(backState.secondServeDown == 0 ? 0 : round(Float(backState.secondServeDown-UInt16(backState.doubleFaultDown))/Float(backState.secondServeDown) * 1000)/10) as NSString
             
             item6.setCount_down(myCount_down: strDown)
             statList.add(item6)

@@ -99,7 +99,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    func textFieldPlayerUpDidChange() {
+    @objc func textFieldPlayerUpDidChange() {
         
         print(textFieldPlayerUp.text ?? "Player1")
         if is_serve == false {
@@ -108,7 +108,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func textFieldPlayerDownDidChange() {
+    @objc func textFieldPlayerDownDidChange() {
         
         print(textFieldPlayerDown.text ?? "Player2")
         

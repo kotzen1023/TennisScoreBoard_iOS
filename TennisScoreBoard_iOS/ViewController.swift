@@ -291,7 +291,7 @@ class ViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
-    func deviceOrientationDidChange() {
+    @objc func deviceOrientationDidChange() {
         //2
         switch UIDevice.current.orientation {
         case .faceDown:
@@ -341,7 +341,8 @@ class ViewController: UIViewController {
         scrollView = UIScrollView.init(frame: rect)
         //huiView.backgroundColor = [UIColor colorWithRed:(255/255.0) green:(255/255.0) blue:(255/255.0) alpha:1.0];
         //huiView.alpha=1.0;
-        let color = UIColor.init(colorLiteralRed: (255/255.0), green: (255/255.0), blue: (255/255.0), alpha: 1.0)
+        //let color = UIColor.init(colorLiteralRed: (255/255.0), green: (255/255.0), blue: (255/255.0), alpha: 1.0)
+        let color = UIColor.init(red: (255/255.0), green: (255/255.0), blue: (255/255.0), alpha: 1.0)
         scrollView.backgroundColor = color
         self.view.addSubview(scrollView)
         

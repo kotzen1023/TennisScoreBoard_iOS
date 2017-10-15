@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import TennisScoreBoard_iOS
+//@testable import TennisScoreBoard_iOS
 
 class TennisScoreBoard_iOSTests: XCTestCase {
     
