@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+
 enum StateAction {
     case YOU_SERVE
     case OPPT_SERVE
@@ -25,6 +26,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnReset: UIButton!
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var btnStat: UIButton!
+    @IBOutlet weak var btnVoiceOnOff: UIButton!
     
     @IBOutlet weak var labelOpptSet: UILabel!
     @IBOutlet weak var labelYouSet: UILabel!
@@ -41,6 +43,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var imgWinCheckUp: UIImageView!
     
     @IBOutlet weak var imgWinCheckDown: UIImageView!
+    
+    
     
     var scrollView: UIScrollView!
     var tableView: UITableView!
@@ -86,6 +90,10 @@ class ViewController: UIViewController {
     
     var time_use: UInt = 0;
     
+    //for voice play
+    var voice_support: Bool = false
+    
+    var audioPlayer: AVAudioPlayer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,6 +128,8 @@ class ViewController: UIViewController {
         btnSave.setTitle("", for: UIControlState.normal)
         
         btnStat.setTitle("", for: UIControlState.normal)
+        
+        btnVoiceOnOff.setTitle("", for: UIControlState.normal)
         
         //btnLoad.setTitle(NSLocalizedString("game_load", comment: "Load"), for: UIControlState.normal)
       
@@ -354,6 +364,120 @@ class ViewController: UIViewController {
         }
     }
     
+    func playSound(soundPath: NSString) {
+        
+        // set URL of the sound
+        let soundURL = NSURL(fileURLWithPath: soundPath as String)
+        
+        do
+        {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL as URL)
+            //audioPlayer!.delegate = self as! AVAudioPlayerDelegate
+            
+            // check if audioPlayer is prepared to play audio
+            if (audioPlayer!.prepareToPlay())
+            {
+                audioPlayer!.play()
+            }
+        }
+        catch let error {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    func choosePointVoice(pointUp: NSInteger, pointDown: NSInteger, downServe: Bool, isTiebreak: Bool) {
+        
+        var path: NSString = ""
+        
+        if pointUp == 0 && pointDown == 1 { //0:15
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_15_0.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_0_15.m4a")
+            }
+        } else if pointUp == 0 && pointDown == 2 { //0:30
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_0.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_0_30.m4a")
+            }
+        } else if pointUp == 0 && pointDown == 3 { //0:40
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_40_0.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_0_40.m4a")
+            }
+        } else if pointUp == 1 && pointDown == 0 { //15:0
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_0_15.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_15_0.m4a")
+            }
+        } else if pointUp == 1 && pointDown == 1 { //15:15
+            path = NSString(format: "Resources/raw/%@", "gbr_man_15_15.m4a")
+        
+        } else if pointUp == 1 && pointDown == 2 { //15:30
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_15.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_15_30.m4a")
+            }
+        } else if pointUp == 1 && pointDown == 3 { //15:40
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_40_15.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_15_40.m4a")
+            }
+        } else if pointUp == 2 && pointDown == 0 { //30:0
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_0_30.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_0.m4a")
+            }
+        } else if pointUp == 2 && pointDown == 1 { //30:15
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_15_30.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_15.m4a")
+            }
+        } else if pointUp == 2 && pointDown == 2 { //30:30
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_30.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_30.m4a")
+            }
+        } else if pointUp == 2 && pointDown == 3 { //30:40
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_40_30.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_40.m4a")
+            }
+        } else if pointUp == 3 && pointDown == 0 { //40:0
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_0_40.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_40_0.m4a")
+            }
+        } else if pointUp == 3 && pointDown == 1 { //40:15
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_15_40.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_40_15.m4a")
+            }
+        } else if pointUp == 3 && pointDown == 2 { //40:30
+            if downServe {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_30_40.m4a")
+            } else {
+                path = NSString(format: "Resources/raw/%@", "gbr_man_40_30.m4a")
+            }
+        } else if pointUp == 3 && pointDown == 3 { //40:40
+            path = NSString(format: "Resources/raw/%@", "gbr_man_40_40.m4a")
+        }
+        playSound(soundPath: path as NSString)
+        
+    }
+    
     @IBAction func onForwardClick(_ sender: UIButton) {
         print("[onForwardClick click]")
         //self.is_retire = 0
@@ -555,6 +679,20 @@ class ViewController: UIViewController {
         
         let settingController = storyBoard.instantiateViewController(withIdentifier: "settingView") as! SettingController
         self.present(settingController, animated:true, completion:nil)
+    }
+    
+    @IBAction func onVoiceOnOffClick(_ sender: UIButton) {
+        print("btn voice click")
+        
+        if voice_support {
+            voice_support = false
+            btnVoiceOnOff.setImage( UIImage.init(named: "ic_settings_voice_disable_48pt"), for: .normal)
+        } else {
+            voice_support = true
+            btnVoiceOnOff.setImage( UIImage.init(named: "ic_settings_voice_48pt"), for: .normal)
+            
+        }
+        
     }
     
     @IBAction func onResetClick(_ sender: UIButton) {
@@ -3316,6 +3454,11 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
+                    
+                    if voice_support {
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                    }
+                    
                 } else if new_state.getPointUp(set: current_set) == 5 && new_state.getPointDown(set: current_set) == 3 { //Ad+ : 40 => oppt win this game
                     print("Ad+1 : 40 => oppt win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3504,6 +3647,9 @@ class ViewController: UIViewController {
                         }
                     }
                     
+                    if voice_support {
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                    }
                 }
                 
             } else {

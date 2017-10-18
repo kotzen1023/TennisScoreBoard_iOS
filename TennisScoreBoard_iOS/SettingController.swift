@@ -28,6 +28,8 @@ class SettingController: UIViewController, UITextFieldDelegate {
     var is_deuce: Bool!
     var is_serve: Bool!
     var playerUp: NSString!
+    @IBAction func btnVoiceOnOff(_ sender: UIButton) {
+    }
     var playerDown: NSString!
     
     override func viewDidLoad() {
