@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  TennisScoreBoard_iOS
+
+  Created by SUNUP on 2017/10/19.
+  Copyright © 2017年 RichieShih. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "Tennis Score";
+"CFBundleName" = "Tennis Score";

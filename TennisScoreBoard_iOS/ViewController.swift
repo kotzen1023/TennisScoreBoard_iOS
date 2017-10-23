@@ -20,6 +20,10 @@ enum StateAction {
 }
 
 class ViewController: UIViewController {
+    @IBOutlet weak var stackViewMain: UIStackView!
+    @IBOutlet weak var stackViewLabelArea: UIStackView!
+    @IBOutlet weak var stackViewBtnArea: UIStackView!
+    
     @IBOutlet weak var btnOpptAction: UIButton!
     @IBOutlet weak var btnYouAction: UIButton!
     @IBOutlet weak var btnBack: UIButton!
@@ -92,7 +96,8 @@ class ViewController: UIViewController {
     
     //for voice play
     var voice_support: Bool = false
-    
+    var is_current_game_over = false
+    var soundArray = [String]()
     var audioPlayer: AVAudioPlayer?
     
     override func viewDidLoad() {
@@ -303,6 +308,12 @@ class ViewController: UIViewController {
     
     @objc func deviceOrientationDidChange() {
         //2
+        
+         let rect = CGRect(x: self.view.bounds.size.width, y: self.topLayoutGuide.length, width: self.view.bounds.size.width, height: self.view.bounds.size.height)
+        
+        
+        print("width = \(self.view.bounds.size.width) height = \(self.view.bounds.size.height)")
+        
         switch UIDevice.current.orientation {
         case .faceDown:
             print("Face down")
@@ -312,10 +323,19 @@ class ViewController: UIViewController {
             print("Unknown")
         case .landscapeLeft:
             print("Landscape left")
+            
+            
+            scrollView.frame = rect
         case .landscapeRight:
             print("Landscape right")
+            //stackViewMain.axis = UILayoutConstraintAxis.horizontal
+            scrollView.frame = rect
+            //self.view.frame = rect
         case .portrait:
             print("Portrait")
+            //stackViewMain.axis = UILayoutConstraintAxis.vertical
+            //self.view.frame = rect
+            scrollView.frame = rect
         case .portraitUpsideDown:
             print("Portrait upside down")
         }
@@ -325,7 +345,8 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
         
     }
-
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let settingVc = segue.destination as? SettingController {
             settingVc.set_select = self.set_select
@@ -364,120 +385,199 @@ class ViewController: UIViewController {
         }
     }
     
-    func playSound(soundPath: NSString) {
+    func playSoundInRow() {
+        print("[playSoundInRow start]")
         
-        // set URL of the sound
-        let soundURL = NSURL(fileURLWithPath: soundPath as String)
-        
-        do
-        {
-            audioPlayer = try AVAudioPlayer(contentsOf: soundURL as URL)
-            //audioPlayer!.delegate = self as! AVAudioPlayerDelegate
-            
-            // check if audioPlayer is prepared to play audio
-            if (audioPlayer!.prepareToPlay())
-            {
-                audioPlayer!.play()
+        if soundArray.count > 0 {
+            var i=0
+            while i < soundArray.count {
+                if (audioPlayer?.isPlaying)! {
+                    
+                } else {
+                    playSound(soundPath: soundArray[i] as NSString)
+                    i = i+1
+                }
             }
         }
-        catch let error {
-            print(error.localizedDescription)
+        
+        print("[playSoundInRow end]")
+        
+    }
+    
+    func stopSound() {
+        print("[stop sound start]")
+        if (audioPlayer?.isPlaying)! {
+            audioPlayer?.stop()
+            print("stop playing")
         }
+        print("[stop sound end]")
+        
+    }
+    
+    func playSound(soundPath: NSString) {
+        print("[playSound start]")
+        // set URL of the sound
+        print("Get path = \(soundPath)")
+        
+        let fullNameArr = soundPath.components(separatedBy: ".")
+        
+        let name    = fullNameArr[0]
+        let surname = fullNameArr[1]
+        
+        print("name = \(name), surname = \(surname)")
+        
+        //let soundURL = NSURL(fileURLWithPath: soundPath as String)
+        
+        //guard let soundURL = Bundle.main.url(forResource: name, withExtension: surname) else { return }
+        
+        //print("Get url = \(soundURL)")
+        if let asset = NSDataAsset(name: name){
+            
+            do {
+                // Use NSDataAsset's data property to access the audio file stored in Sound.
+                audioPlayer = try AVAudioPlayer(data:asset.data, fileTypeHint:"m4a")
+                // Play the above sound file.
+                audioPlayer?.play()
+                
+                
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+        print("[playSound end]")
         
     }
     
     func choosePointVoice(pointUp: NSInteger, pointDown: NSInteger, downServe: Bool, isTiebreak: Bool) {
         
+        print("[choosePointVoice start]")
+        
         var path: NSString = ""
         
-        if pointUp == 0 && pointDown == 1 { //0:15
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_15_0.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_0_15.m4a")
+        if is_current_game_over {
+            path = NSString(format: "%@", "gbr_man_game.m4a")
+            soundArray.append(path as String)
+        } else {
+            if pointUp == 0 && pointDown == 1 { //0:15
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                }
+            } else if pointUp == 0 && pointDown == 2 { //0:30
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                }
+            } else if pointUp == 0 && pointDown == 3 { //0:40
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                }
+            } else if pointUp == 1 && pointDown == 0 { //15:0
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                }
+            } else if pointUp == 1 && pointDown == 1 { //15:15
+                path = NSString(format: "%@", "gbr_man_15_15.m4a")
+                
+            } else if pointUp == 1 && pointDown == 2 { //15:30
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                }
+            } else if pointUp == 1 && pointDown == 3 { //15:40
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                }
+            } else if pointUp == 2 && pointDown == 0 { //30:0
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                }
+            } else if pointUp == 2 && pointDown == 1 { //30:15
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                }
+            } else if pointUp == 2 && pointDown == 2 { //30:30
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_30_30.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_30_30.m4a")
+                }
+            } else if pointUp == 2 && pointDown == 3 { //30:40
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                }
+            } else if pointUp == 3 && pointDown == 0 { //40:0
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                }
+            } else if pointUp == 3 && pointDown == 1 { //40:15
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                }
+            } else if pointUp == 3 && pointDown == 2 { //40:30
+                if downServe {
+                    path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                }
+            } else if pointUp == 3 && pointDown == 3 { //40:40
+                
+                if is_deuce {
+                    path = NSString(format: "%@", "gbr_man_40_40.m4a")
+                } else {
+                    path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
+                }
+                
+                
             }
-        } else if pointUp == 0 && pointDown == 2 { //0:30
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_0.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_0_30.m4a")
-            }
-        } else if pointUp == 0 && pointDown == 3 { //0:40
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_40_0.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_0_40.m4a")
-            }
-        } else if pointUp == 1 && pointDown == 0 { //15:0
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_0_15.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_15_0.m4a")
-            }
-        } else if pointUp == 1 && pointDown == 1 { //15:15
-            path = NSString(format: "Resources/raw/%@", "gbr_man_15_15.m4a")
-        
-        } else if pointUp == 1 && pointDown == 2 { //15:30
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_15.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_15_30.m4a")
-            }
-        } else if pointUp == 1 && pointDown == 3 { //15:40
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_40_15.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_15_40.m4a")
-            }
-        } else if pointUp == 2 && pointDown == 0 { //30:0
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_0_30.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_0.m4a")
-            }
-        } else if pointUp == 2 && pointDown == 1 { //30:15
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_15_30.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_15.m4a")
-            }
-        } else if pointUp == 2 && pointDown == 2 { //30:30
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_30.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_30.m4a")
-            }
-        } else if pointUp == 2 && pointDown == 3 { //30:40
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_40_30.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_40.m4a")
-            }
-        } else if pointUp == 3 && pointDown == 0 { //40:0
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_0_40.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_40_0.m4a")
-            }
-        } else if pointUp == 3 && pointDown == 1 { //40:15
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_15_40.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_40_15.m4a")
-            }
-        } else if pointUp == 3 && pointDown == 2 { //40:30
-            if downServe {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_30_40.m4a")
-            } else {
-                path = NSString(format: "Resources/raw/%@", "gbr_man_40_30.m4a")
-            }
-        } else if pointUp == 3 && pointDown == 3 { //40:40
-            path = NSString(format: "Resources/raw/%@", "gbr_man_40_40.m4a")
+            
+            soundArray.append(path as String)
+            
         }
-        playSound(soundPath: path as NSString)
+        
+        
+        //playSound(soundPath: path as NSString)
+        
+        print("[choosePointVoice end]")
         
     }
     
+    func chooseGameVoice(gameUp: NSInteger, gameDown: NSInteger, downServe: Bool, isTiebreak: Bool) {
+        
+        print("[chooseGameVoice start]")
+        
+        if isTiebreak {
+            print("in tiebreak")
+            if (game_select == 0) { //6 games in a set
+                
+            }
+        } else {
+            print("in tiebreak")
+            
+        }
+        
+        print("[chooseGameVoice end]")
+        
+    }
     @IBAction func onForwardClick(_ sender: UIButton) {
         print("[onForwardClick click]")
         //self.is_retire = 0
@@ -2959,6 +3059,10 @@ class ViewController: UIViewController {
                 
                 new_state.setPointDown(set: current_set, point: 1)
                 
+                checkPoint(new_state: new_state)
+                
+                checkGames(new_state: new_state)
+                
                 print("=== I score end ===")
                 break
             case .OPPT_SCORE:
@@ -3010,6 +3114,10 @@ class ViewController: UIViewController {
                 }
                 
                 new_state.setPointUp(set: current_set, point: 1)
+                
+                checkPoint(new_state: new_state)
+                
+                checkGames(new_state: new_state)
                 
                 print("=== Oppt score end ===")
                 break
@@ -3107,7 +3215,7 @@ class ViewController: UIViewController {
             var game:UInt8 = 0
             
             if is_in_super_tiebreak == true {
-                print("[In super tiebreak]")
+                print("[In super tiebreak start]")
                 
                 if new_state.getPointUp(set: current_set) == 10 && new_state.getPointDown(set: current_set) <= 8 {
                     //10 : 0,1,2,3,4,5,6,7,8 => oppt win this game
@@ -3130,6 +3238,21 @@ class ViewController: UIViewController {
                     
                     //leave tiebreak
                     new_state.isInTiebreak = false
+                    is_current_game_over = true
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
+                    
+                    
                 } else if new_state.getPointUp(set: current_set) <= 8 && new_state.getPointDown(set: current_set) == 10 {
                     //0,1,2,3,4,5,6,7,8 : 10 => you win this game
                     //set tiebreak point
@@ -3151,7 +3274,19 @@ class ViewController: UIViewController {
                     
                     //leave tiebreak
                     new_state.isInTiebreak = false
-                    
+                    is_current_game_over = true
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
                 } else if new_state.getPointUp(set: current_set) >= 9 &&
                     new_state.getPointDown(set: current_set) >= 9 {
                     //let pointUp: UInt8 = new_state.getPointUp(set: current_set)
@@ -3182,6 +3317,20 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
+                        is_current_game_over = true
+                        
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
+                            //remove play list
+                            soundArray.removeAll(keepingCapacity: false)
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
                     } else if pointDown - pointUp == 2 {
                         //6:8, 7:9, 8:10 => you win this game
                         //set tiebreak point
@@ -3204,11 +3353,29 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
+                        is_current_game_over = true
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
+                            //remove play list
+                            soundArray.removeAll(keepingCapacity: false)
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
+                        
                     }
+                } else {
+                    print("game continue")
+                    is_current_game_over = false
                 }
+                print("[In super tiebreak end]")
                 
             } else {
-                print("[Not in super tiebreak]")
+                print("[Not in super tiebreak start]")
                 
                 if self.game_select == 0 { //6 games
                     if new_state.getPointUp(set: current_set) == 7 && new_state.getPointDown(set: current_set) <= 5 {
@@ -3232,6 +3399,21 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
+                        is_current_game_over = true
+                        
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
+                            //remove play list
+                            soundArray.removeAll(keepingCapacity: false)
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
+                        
                     } else if new_state.getPointUp(set: current_set) <= 5 && new_state.getPointDown(set: current_set) == 7 {
                         //0,1,2,3,4,5 : 7 => you win this game
                         //set tiebreak point
@@ -3253,7 +3435,20 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
+                        is_current_game_over = true
                         
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
+                            //remove play list
+                            soundArray.removeAll(keepingCapacity: false)
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
                     } else if new_state.getPointUp(set: current_set) >= 6 &&
                         new_state.getPointDown(set: current_set) >= 6 {
                         //let pointUp: UInt8 = new_state.getPointUp(set: current_set)
@@ -3284,6 +3479,20 @@ class ViewController: UIViewController {
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
+                            is_current_game_over = true
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
+                                //remove play list
+                                soundArray.removeAll(keepingCapacity: false)
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
                         } else if pointDown - pointUp == 2 {
                             //6:8, 7:9, 8:10 => you win this game
                             //set tiebreak point
@@ -3306,6 +3515,21 @@ class ViewController: UIViewController {
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
+                            is_current_game_over = true
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
+                                //remove play list
+                                soundArray.removeAll(keepingCapacity: false)
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
+                            
                         }
                     }
                     
@@ -3331,6 +3555,21 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
+                        is_current_game_over = true
+                        
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
+                            //remove play list
+                            soundArray.removeAll(keepingCapacity: false)
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
+                        
                     } else if new_state.getPointUp(set: current_set) <= 3 && new_state.getPointDown(set: current_set) == 5 {
                         //0,1,2,3 : 5 => you win this game
                         //set tiebreak point
@@ -3352,6 +3591,20 @@ class ViewController: UIViewController {
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
+                        is_current_game_over = true
+                        
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
+                            //remove play list
+                            soundArray.removeAll(keepingCapacity: false)
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
                         
                     } else if new_state.getPointUp(set: current_set) >= 4 &&
                         new_state.getPointDown(set: current_set) >= 4 {
@@ -3383,6 +3636,21 @@ class ViewController: UIViewController {
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
+                            is_current_game_over = true
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
+                                //remove play list
+                                soundArray.removeAll(keepingCapacity: false)
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
+                            
                         } else if pointDown - pointUp == 2 {
                             //6:8, 7:9, 8:10 => you win this game
                             //set tiebreak point
@@ -3405,9 +3673,26 @@ class ViewController: UIViewController {
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
+                            is_current_game_over = true
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
+                                //remove play list
+                                soundArray.removeAll(keepingCapacity: false)
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
+                            
                         }
                     }
                 }
+                print("[Not in super tiebreak end]")
+                
             }
             
             
@@ -3428,7 +3713,7 @@ class ViewController: UIViewController {
             }
             
         } else {
-            print("[Not in tiebreak]")
+            print("[Not in tiebreak start]")
             
             if self.is_deuce == true {
                 print("[Game using deuce]")
@@ -3454,11 +3739,20 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
+                    is_current_game_over = false
                     
+                    //sound play
                     if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
                     }
-                    
                 } else if new_state.getPointUp(set: current_set) == 5 && new_state.getPointDown(set: current_set) == 3 { //Ad+ : 40 => oppt win this game
                     print("Ad+1 : 40 => oppt win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3485,6 +3779,20 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
+                    is_current_game_over = true
+                    
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
                 } else if new_state.getPointUp(set: current_set) == 3 && new_state.getPointDown(set: current_set) == 5 { //40 : Ad+ => you win this game
                     print("40 : Ad+1 => you win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3512,7 +3820,20 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
+                    is_current_game_over = true
                     
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
                 } else if new_state.getPointUp(set: current_set) == 4 && new_state.getPointDown(set: current_set) <= 2 {
                     print("Ad : 0, Ad: 15, Ad : 30 => oppt win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3540,6 +3861,20 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
+                    is_current_game_over = true
+                    
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
                 } else if new_state.getPointUp(set: current_set) <= 2 && new_state.getPointDown(set: current_set) == 4 {
                     print("0 : Ad, 15 : Ad, 30 : Ad => you win this game")
                     new_state.setPointUp(set: current_set, point: 0)
@@ -3567,6 +3902,21 @@ class ViewController: UIViewController {
                     }
                     is_break_point = false
                     new_state.isInBreakPoint = false
+                    is_current_game_over = true
+                    
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
+                    
                 } else {
                     print("Points change without arrange")
                     
@@ -3647,8 +3997,18 @@ class ViewController: UIViewController {
                         }
                     }
                     
+                    is_current_game_over = false
+                    //sound play
                     if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
                     }
                 }
                 
@@ -3671,6 +4031,21 @@ class ViewController: UIViewController {
                     } else {
                         new_state.isServe = true
                     }
+                    is_current_game_over = true
+                    
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
+                    
                 } else if new_state.getGameUp(set: current_set) <= 3 &&
                     new_state.getGameDown(set: current_set) == 4 { //40,30,15,0 : Ad => you win this game
                     //set point clean
@@ -3687,10 +4062,40 @@ class ViewController: UIViewController {
                     } else {
                         new_state.isServe = true
                     }
+                    is_current_game_over = true
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
                 } else {
                     print("points change without arrange")
+                    is_current_game_over = false
+                    
+                    //sound play
+                    if voice_support {
+                        //stop first
+                        if (audioPlayer?.isPlaying)! {
+                            //if playing, stop the play
+                            stopSound()
+                        }
+                        //remove play list
+                        soundArray.removeAll(keepingCapacity: false)
+                        choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        
+                    }
+                    
                 }
             }
+            print("[Not in tiebreak end]")
+            
         }
         
         new_state.isSecondServe = false
@@ -3716,14 +4121,28 @@ class ViewController: UIViewController {
                     setsWinUp = setsWinUp + 1
                     new_state.setsUp = setsWinUp
                     checkSets(new_state: new_state)
+                    //play sound
+                    if voice_support {
+                        playSoundInRow()
+                    }
                 } else if new_state.getGameUp(set: current_set) == 0 &&
                     new_state.getGameDown(set: current_set) == 1 { //0:1 => you win this set
                     //set sets win
                     setsWinDown = setsWinDown + 1
                     new_state.setSDown = setsWinDown
                     checkSets(new_state: new_state)
+                    //play sound
+                    if voice_support {
+                        playSoundInRow()
+                    }
+                    
                 } else {
                     print("[game procced]")
+                    
+                    //play sound
+                    if voice_support {
+                        playSoundInRow()
+                    }
                 }
                 
             } else { // not use super tiebreak
