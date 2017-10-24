@@ -39,8 +39,8 @@
 "game_setting_game_change" = "選擇局數:";
 "game_setting_6_games_in_a_set" = "6 局";
 "game_setting_4_games_in_a_set" = "4 局";
-"game_setting_choose_tiebreak" = "選擇tiebreak或決勝局";
-"game_setting_tiebreak" = "搶七(tiebreak)";
+"game_setting_choose_tiebreak" = "選擇規則";
+"game_setting_tiebreak" = "搶七決勝局(Ｔiebreak)";
 "game_setting_deciding_game" = "決勝局";
 "game_setting_super_tiebreak" = "Super Tiebreak";
 "game_setting_choose_deuce" = "選擇deuce或決勝分";
@@ -51,6 +51,9 @@
 
 "game_reset_msg" = "清除比數重新設定?";
 "game_stat" = "統計";
+"game_save_title" = "儲存比賽資料";
+"game_save_input_msg" = "輸入檔案名稱";
+"game_back_main_menu" = "返回主選單?";
 
 "stat_double_faults" = "雙發失誤";
 "stat_unforced_error" = "非受迫性失誤";

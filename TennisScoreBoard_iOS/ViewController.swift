@@ -19,7 +19,7 @@ enum StateAction {
     case OPPT_RETIRE
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var stackViewMain: UIStackView!
     @IBOutlet weak var stackViewLabelArea: UIStackView!
     @IBOutlet weak var stackViewBtnArea: UIStackView!
@@ -48,7 +48,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var imgWinCheckDown: UIImageView!
     
-    
+    //for save file
+    var saveFileName: String = ""
     
     var scrollView: UIScrollView!
     var tableView: UITableView!
@@ -565,19 +566,652 @@ class ViewController: UIViewController {
         
         print("[chooseGameVoice start]")
         
-        if isTiebreak {
+        var call_1: NSString = ""
+        var call_2: NSString = ""
+        var call_3: NSString = ""
+        
+        if isTiebreak { //enter tiebreak
             print("in tiebreak")
-            if (game_select == 0) { //6 games in a set
-                
+            if game_select == 0 { //6 games in a set
+                call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_all.m4a")
+                soundArray.append(call_2 as String)
+                call_3 = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                soundArray.append(call_3 as String)
+            } else { //4 games in a set
+                call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_all.m4a")
+                soundArray.append(call_2 as String)
+                call_3 = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                soundArray.append(call_3 as String)
             }
         } else {
-            print("in tiebreak")
+            print("not in tiebreak")
+            
+            if gameUp == 0 && gameDown == 1 { //0:1
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 0 && gameDown == 2 { //0:2
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 0 && gameDown == 3 { //0:3
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 0 && gameDown == 4 { //0:4
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 0 && gameDown == 5 { //0:5
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 0 && gameDown == 6 { //0:6
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 1 && gameDown == 0 { //1:0
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 1 && gameDown == 1 { //1:1
+                call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_end_all.m4a")
+                soundArray.append(call_2 as String)
+            } else if gameUp == 1 && gameDown == 2 { //1:2
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 1 && gameDown == 3 { //1:3
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 1 && gameDown == 4 { //1:4
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 1 && gameDown == 5 { //1:5
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 1 && gameDown == 6 { //1:6
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 2 && gameDown == 0 { //2:0
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 2 && gameDown == 1 { //2:1
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 2 && gameDown == 2 { //2:2
+                call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_end_all.m4a")
+                soundArray.append(call_2 as String)
+            } else if gameUp == 2 && gameDown == 3 { //2:3
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 2 && gameDown == 4 { //2:4
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 2 && gameDown == 5 { //2:5
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 2 && gameDown == 6 { //2:6
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 3 && gameDown == 0 { //3:0
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_0.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_0.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 3 && gameDown == 1 { //3:1
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 3 && gameDown == 2 { //3:2
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 3 && gameDown == 3 { //3:3
+                call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_end_all.m4a")
+                soundArray.append(call_2 as String)
+            } else if gameUp == 3 && gameDown == 4 { //3:4
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 3 && gameDown == 5 { //3:5
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 3 && gameDown == 6 { //3:6
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 4 && gameDown == 0 { //4:0
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_0.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_0.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 4 && gameDown == 1 { //4:1
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 4 && gameDown == 2 { //4:2
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 4 && gameDown == 3 { //4:3
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 4 && gameDown == 4 { //4:4
+                call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_end_all.m4a")
+                soundArray.append(call_2 as String)
+            } else if gameUp == 4 && gameDown == 5 { //4:5
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 4 && gameDown == 6 { //4:6
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 0 { //5:0
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_0.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_0.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 1 { //5:1
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 2 { //5:2
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 2 { //5:2
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 3 { //5:3
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 4 { //5:4
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 5 { //5:5
+                call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_end_all.m4a")
+                soundArray.append(call_2 as String)
+            } else if gameUp == 5 && gameDown == 6 { //5:6
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 5 && gameDown == 7 { //5:7
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_7.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_7.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 6 && gameDown == 0 { //6:0
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 6 && gameDown == 0 { //6:0
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_love.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_love.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 6 && gameDown == 1 { //6:1
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_1.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 6 && gameDown == 2 { //6:2
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_2.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_2.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 6 && gameDown == 3 { //6:3
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_3.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_3.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 6 && gameDown == 4 { //6:4
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_4.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 6 && gameDown == 6 { //6:6
+                call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                soundArray.append(call_1 as String)
+                call_2 = NSString(format: "%@", "gbr_man_end_all.m4a")
+                soundArray.append(call_2 as String)
+            } else if gameUp == 6 && gameDown == 7 { //6:7
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_7.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_7.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 7 && gameDown == 5 { //7:5
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_5.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_7.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_7.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_5.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            } else if gameUp == 7 && gameDown == 6 { //7:6
+                if downServe {
+                    call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_7.m4a")
+                    soundArray.append(call_2 as String)
+                } else {
+                    call_1 = NSString(format: "%@", "gbr_man_start_7.m4a")
+                    soundArray.append(call_1 as String)
+                    call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+                    soundArray.append(call_2 as String)
+                }
+            }
             
         }
         
         print("[chooseGameVoice end]")
         
     }
+    
+    func chooseSetVoice(gameServe: NSInteger, gameRecv: NSInteger) {
+        
+        print("[chooseSetVoice start]")
+        
+        var call_1: NSString = ""
+        var call_2: NSString = ""
+        //var call_3: NSString = ""
+        
+        if gameServe == 0 && gameRecv == 1 {
+            call_1 = NSString(format: "%@", "gbr_man_start_7.m4a")
+            soundArray.append(call_1 as String)
+            call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
+            soundArray.append(call_2 as String)
+            
+        }
+        
+        print("[chooseSetVoice start]")
+        
+    }
+    
     @IBAction func onForwardClick(_ sender: UIButton) {
         print("[onForwardClick click]")
         //self.is_retire = 0
@@ -777,9 +1411,26 @@ class ViewController: UIViewController {
     func yesReset () {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
-        let settingController = storyBoard.instantiateViewController(withIdentifier: "settingView") as! SettingController
+        //let settingController = storyBoard.instantiateViewController(withIdentifier: "settingView") as! SettingController
+        let settingController = storyBoard.instantiateViewController(withIdentifier: "TopMenu") as! TopMenu
         self.present(settingController, animated:true, completion:nil)
     }
+    
+    func yesSave () {
+        print("save file name \(saveFileName)")
+        
+        let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_back_main_menu", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesReset()})
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: nil)
+        
+        alert.addAction(yesBtn);
+        alert.addAction(noBtn);
+        
+        //alert.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
+        //    textField.placeholder = "Search"
+        //})
+        
+        self.present(alert, animated: true, completion: nil)    }
     
     @IBAction func onVoiceOnOffClick(_ sender: UIButton) {
         print("btn voice click")
@@ -798,12 +1449,19 @@ class ViewController: UIViewController {
     @IBAction func onResetClick(_ sender: UIButton) {
         
         
-        let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_reset", comment: ""), message: NSLocalizedString("game_reset_msg", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
-        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesReset()})
-        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: nil)
+        let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_save_title", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesSave()})
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesSave()})
         
         alert.addAction(yesBtn);
         alert.addAction(noBtn);
+        
+        alert.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
+            
+            textField?.delegate = self //REQUIRED
+            textField.placeholder = NSLocalizedString("game_save_input_msg", comment: "")
+            self.saveFileName = textField.text!
+        })
         
         self.present(alert, animated: true, completion: nil)
         

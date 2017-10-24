@@ -39,8 +39,8 @@
 "game_setting_game_change" = "Choose Games:";
 "game_setting_6_games_in_a_set" = "6 Games";
 "game_setting_4_games_in_a_set" = "4 Games";
-"game_setting_choose_tiebreak" = "Choose tiebreak or deciding game";
-"game_setting_tiebreak" = "tiebreak";
+"game_setting_choose_tiebreak" = "Choose a rule";
+"game_setting_tiebreak" = "Ｔiebreak";
 "game_setting_deciding_game" = "Deciding Game";
 "game_setting_super_tiebreak" = "Super Tiebreak";
 "game_setting_choose_deuce" = "Choose deuce or deciding point";
@@ -51,6 +51,9 @@
 
 "game_reset_msg" = "Reset and clear all points?";
 "game_stat" = "Stat";
+"game_save_title" = "Save game record";
+"game_save_input_msg" = "Input filename";
+"game_back_main_menu" = "Back to main menu?";
 
 "stat_double_faults" = "Double Faults";
 "stat_unforced_error" = "Unforced Error";

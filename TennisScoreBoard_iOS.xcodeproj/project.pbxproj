@@ -17,6 +17,8 @@
 		5E3B10D51E555D0A000BF566 /* TennisScoreBoard_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3B10D41E555D0A000BF566 /* TennisScoreBoard_iOSTests.swift */; };
 		5E3B10E01E555D0A000BF566 /* TennisScoreBoard_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3B10DF1E555D0A000BF566 /* TennisScoreBoard_iOSUITests.swift */; };
 		5E3E3D161F1F39C700D174BA /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3E3D151F1F39C700D174BA /* Statistics.swift */; };
+		5E6003C81F9F0ED0003D180D /* TopMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6003C71F9F0ED0003D180D /* TopMenu.swift */; };
+		5E6003CA1F9F12DF003D180D /* LoadGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6003C91F9F12DE003D180D /* LoadGame.swift */; };
 		5EC1A5991F2046D700034532 /* StatisticItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1A5981F2046D700034532 /* StatisticItem.swift */; };
 		5EE495061E7A223E0071DDE3 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE495051E7A223E0071DDE3 /* State.swift */; };
 		5EE495081E7A2C2D0071DDE3 /* Deque.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE495071E7A2C2D0071DDE3 /* Deque.swift */; };
@@ -61,6 +63,8 @@
 		5E3B10DF1E555D0A000BF566 /* TennisScoreBoard_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TennisScoreBoard_iOSUITests.swift; sourceTree = "<group>"; };
 		5E3B10E11E555D0A000BF566 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5E3E3D151F1F39C700D174BA /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		5E6003C71F9F0ED0003D180D /* TopMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenu.swift; sourceTree = "<group>"; };
+		5E6003C91F9F12DE003D180D /* LoadGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGame.swift; sourceTree = "<group>"; };
 		5EC1A5981F2046D700034532 /* StatisticItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticItem.swift; sourceTree = "<group>"; };
 		5EE495051E7A223E0071DDE3 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		5EE495071E7A2C2D0071DDE3 /* Deque.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deque.swift; sourceTree = "<group>"; };
@@ -119,7 +123,9 @@
 				5E3B10BF1E555D0A000BF566 /* AppDelegate.swift */,
 				5E3B10C11E555D0A000BF566 /* ViewController.swift */,
 				5EF5D50D1E77E1EA0026F230 /* SettingController.swift */,
+				5E6003C91F9F12DE003D180D /* LoadGame.swift */,
 				5E3E3D151F1F39C700D174BA /* Statistics.swift */,
+				5E6003C71F9F0ED0003D180D /* TopMenu.swift */,
 				5E3B10C31E555D0A000BF566 /* Main.storyboard */,
 				5E3B10C61E555D0A000BF566 /* Assets.xcassets */,
 				5E3B10C81E555D0A000BF566 /* LaunchScreen.storyboard */,
@@ -300,9 +306,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E6003C81F9F0ED0003D180D /* TopMenu.swift in Sources */,
 				5EF5D50E1E77E1EA0026F230 /* SettingController.swift in Sources */,
 				5EC1A5991F2046D700034532 /* StatisticItem.swift in Sources */,
 				5E3B10C21E555D0A000BF566 /* ViewController.swift in Sources */,
+				5E6003CA1F9F12DF003D180D /* LoadGame.swift in Sources */,
 				5E3B10C01E555D0A000BF566 /* AppDelegate.swift in Sources */,
 				5EE495081E7A2C2D0071DDE3 /* Deque.swift in Sources */,
 				5E3E3D161F1F39C700D174BA /* Statistics.swift in Sources */,
