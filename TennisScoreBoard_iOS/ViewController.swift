@@ -178,7 +178,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         labelYouPoint.text = "0"
         
         init_scrollview()
-        
+        //add for orientation
         NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationDidChange), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         if is_serve == true {
@@ -218,6 +218,80 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let item = stack.get(index: i)
             print("stack[\(i)].current_set = \(item.current_set)")
         }*/
+        
+        if saveFileName == "" { //new game
+            
+        } else { //load from savefileName
+            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+             
+                let fileURL = dir.appendingPathComponent(saveFileName)
+             
+             
+             
+                //reading
+                do {
+                    let text2 = try String(contentsOf: fileURL, encoding: .utf8)
+                    print(text2)
+                
+                    let result = text2.split(separator: "|")
+                    print(result)
+                    
+                    /*
+                         var text = "\(self.playerUp);\(self.playerDown);\(self.is_tiebreak);\(self.is_super_tiebreak);\(self.is_deuce);\(self.is_serve);\(self.set_select);\(self.is_retire);\(self.game_select);\(self.is_in_super_tiebreak)|"
+                     */
+                    
+                    
+                    let settingArray = result[0].split(separator: ";")
+                    playerUp = settingArray[0] as NSString
+                    playerDown = settingArray[1] as NSString
+                    if (settingArray[2] == "true") {
+                        is_tiebreak = true
+                    } else {
+                        is_tiebreak = false
+                    }
+                    if (settingArray[3] == "true") {
+                        is_super_tiebreak = true
+                    } else {
+                        is_super_tiebreak = false
+                    }
+                    if (settingArray[4] == "true") {
+                        is_deuce = true
+                    } else {
+                        is_deuce = false
+                    }
+                    if (settingArray[5] == "true") {
+                        is_serve = true
+                    } else {
+                        is_serve = false
+                    }
+                    set_select = UInt8(settingArray[6])!
+                    is_retire = UInt8(settingArray[7])!
+                    game_select = UInt8(settingArray[8])!
+                    if (settingArray[5] == "true") {
+                        is_in_super_tiebreak = true
+                    } else {
+                        is_in_super_tiebreak = false
+                    }
+                    
+                    print("------ load from file ------")
+                    print("save file name: \(saveFileName)")
+                    print("playerUp: \(playerUp)")
+                    print("playerDown: \(playerDown)")
+                    print("set_select: \(set_select)")
+                    print("game_select: \(game_select)")
+                    print("is_tiebreak: \(is_tiebreak)")
+                    print("is_super_tiebreak: \(is_super_tiebreak)")
+                    print("is_in_super_tiebreak: \(is_in_super_tiebreak)")
+                    print("is_deuce: \(is_deuce)")
+                    print("is_serve: \(is_serve)")
+                    print("is_retire: \(is_retire)")
+                    print("stack size \(stack.size())")
+                    print("------ load from file ------")
+                } catch {/* error handling here */}
+             
+            }
+            
+        }
         
         if (stack.size() > 0) {
             var current_set: UInt8 = 0
