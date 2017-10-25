@@ -11,6 +11,7 @@ import UIKit
 class LoadGame: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
     var fileList: Array<String> = []
+    var selectFileName: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,14 @@ class LoadGame: UIViewController,UITableViewDelegate, UITableViewDataSource {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let gameVc = segue.destination as? ViewController {
+            gameVc.saveFileName = self.selectFileName
+            
+        }
+    }
+    
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
         return fileList.count
@@ -137,6 +145,41 @@ class LoadGame: UIViewController,UITableViewDelegate, UITableViewDataSource {
             
             
             return cell
+    }
+    
+    @objc func tableView(_ tableView: UITableView,
+                         didSelectRowAt indexPath: IndexPath) {
+        // 取消 cell 的選取狀態
+        tableView.deselectRow(
+            at: indexPath, animated: true)
+        
+        selectFileName = fileList[indexPath.row]
+        print("選擇的是 \(selectFileName)")
+        
+        /*if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            
+            let fileURL = dir.appendingPathComponent(name)
+            
+            
+            
+            //reading
+            do {
+                let text2 = try String(contentsOf: fileURL, encoding: .utf8)
+                print(text2)
+            }
+            catch {/* error handling here */}
+            
+        }*/
+        
+        self.performSegue(withIdentifier: "fileSelectSegue", sender: self)
+        
+        /*let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let gameVc = storyBoard.instantiateViewController(withIdentifier: "gameView") as! ViewController
+        
+        gameVc.saveFileName = selectFileName*/
+        
+        
     }
     
 }

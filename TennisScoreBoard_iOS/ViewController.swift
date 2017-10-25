@@ -19,6 +19,33 @@ enum StateAction {
     case OPPT_RETIRE
 }
 
+extension UIAlertController {
+    
+    func isValidEmail(_ email: String) -> Bool {
+        return email.characters.count > 0 && NSPredicate(format: "self matches %@", "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,64}").evaluate(with: email)
+    }
+    
+    func isValidPassword(_ password: String) -> Bool {
+        return password.characters.count > 4 && password.rangeOfCharacter(from: .whitespacesAndNewlines) == nil
+    }
+    
+    func isValidText(_ email: String) -> Bool {
+        return email.characters.count > 0 && NSPredicate(format: "self matches %@", "[a-zA-Z0-9._%+-]+").evaluate(with: email)
+    }
+    
+    func textDidChangeInLoginAlert() {
+        if let email = textFields?[0].text,
+            //let password = textFields?[1].text,
+            let action = actions.first
+        {
+            //action.isEnabled = isValidEmail(email) && isValidPassword(password)
+            action.isEnabled = isValidText(email)
+        }
+        
+        
+    }
+}
+
 class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var stackViewMain: UIStackView!
     @IBOutlet weak var stackViewLabelArea: UIStackView!
@@ -56,16 +83,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var is_action_click: Bool!
     
-    var set_select: UInt8!
-    var game_select: UInt8!
-    var is_tiebreak: Bool!
-    var is_super_tiebreak: Bool!
+    var set_select: UInt8 = 0
+    var game_select: UInt8 = 0
+    var is_tiebreak: Bool = true
+    var is_super_tiebreak: Bool = false
     var is_in_super_tiebreak: Bool = false
-    var is_deuce: Bool!
-    var is_serve: Bool!
-    var is_retire: UInt8! = 0
-    var playerUp: NSString!
-    var playerDown: NSString!
+    var is_deuce: Bool = false
+    var is_serve: Bool = true
+    var is_retire: UInt8 = 0
+    var playerUp: NSString = "Player1"
+    var playerDown: NSString = "Player2"
     
     
     var stack = Deque()
@@ -105,6 +132,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         print("------ load setting ------")
+        print("save file name: \(saveFileName)")
         print("playerUp: \(playerUp)")
         print("playerDown: \(playerDown)")
         print("set_select: \(set_select)")
@@ -341,6 +369,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             print("Portrait upside down")
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -1449,27 +1478,99 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBAction func onResetClick(_ sender: UIButton) {
         
         
-        let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_save_title", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
-        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesSave()})
+        /*let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_save_title", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        
+        
+        
+        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {
+            action in self.yesSave()
+            })
         let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesSave()})
         
-        alert.addAction(yesBtn);
-        alert.addAction(noBtn);
         
-        alert.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
+        alert.addAction(yesBtn);
+        alert.addAction(noBtn);*/
+        let alert = UIAlertController(title: NSLocalizedString("game_save_title", comment: ""), message: nil, preferredStyle: .alert)
+        
+        alert.addTextField {
+            if self.saveFileName.count > 0 {
+                $0.text = self.saveFileName
+            } else {
+                $0.placeholder = NSLocalizedString("game_save_input_msg", comment: "")
+                
+            }
             
-            textField?.delegate = self //REQUIRED
-            textField.placeholder = NSLocalizedString("game_save_input_msg", comment: "")
-            self.saveFileName = textField.text!
-        })
+            
+            $0.addTarget(alert, action: #selector(alert.textDidChangeInLoginAlert), for: .editingChanged)
+        }
+        
+        /*alert.addTextField {
+            $0.placeholder = "Password"
+            $0.isSecureTextEntry = true
+            $0.addTarget(alert, action: #selector(alert.textDidChangeInLoginAlert), for: .editingChanged)
+        }*/
+        
+        //alert.addAction(UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: .cancel))
+        
+        let yesBtn = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default) { [unowned self] _ in
+            
+            //guard (alert.textFields?[0].text) != nil
+             //   else { return } // Should never happen
+                
+            self.self.saveFileName = (alert.textFields?[0].text)!//,
+            print("file name = \(self.saveFileName)")
+            
+            var text = "\(self.playerUp);\(self.playerDown);\(self.is_tiebreak);\(self.is_super_tiebreak);\(self.is_deuce);\(self.is_serve);\(self.set_select);\(self.is_retire);\(self.game_select);\(self.is_in_super_tiebreak)|"
+            
+            for i in 0..<self.self.stack.size() {
+                let state = self.stack.get(index: i)
+                
+                if i >= 1 {
+                    text += "&"
+                }
+                
+                text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setSDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));"
+                
+            }
+            
+            print("===========================")
+            print(text)
+            print("===========================")
+            
+            if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                
+                let fileURL = dir.appendingPathComponent(self.saveFileName)
+                
+                //writing
+                do {
+                    try text.write(to: fileURL, atomically: false, encoding: .utf8)
+                }
+                catch {/* error handling here */}
+                
+                //reading
+                //do {
+                //    let text2 = try String(contentsOf: fileURL, encoding: .utf8)
+                //}
+                //catch {/* error handling here */}
+            }
+            
+            // Perform login action
+            self.yesSave()
+        }
+        
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesSave()})
+        
+        if saveFileName.count == 0 {
+            yesBtn.isEnabled = false
+        }
+        
+        alert.addAction(yesBtn)
+        alert.addAction(noBtn)
         
         self.present(alert, animated: true, completion: nil)
         
         
-        /*let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
-        let settingController = storyBoard.instantiateViewController(withIdentifier: "settingView") as! SettingController
-        self.present(settingController, animated:true, completion:nil)*/
         
     }
     @IBAction func onBackClick(_ sender: UIButton) {

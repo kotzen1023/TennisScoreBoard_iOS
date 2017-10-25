@@ -21,16 +21,17 @@ class SettingController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var btnServe: UIButton!
     @IBOutlet weak var btnConfirm: UIButton!
     
-    var set_select: UInt8!
-    var game_select: UInt8!
-    var is_tiebreak: Bool!
-    var is_super_tiebreak : Bool!
-    var is_deuce: Bool!
-    var is_serve: Bool!
-    var playerUp: NSString!
+    var set_select: UInt8 = 0
+    var game_select: UInt8 = 0
+    var is_tiebreak: Bool = true
+    var is_super_tiebreak : Bool = false
+    var is_deuce: Bool = true
+    var is_serve: Bool = true
+    var playerUp: NSString = "Player1"
+    var playerDown: NSString = "Player2"
+    
     @IBAction func btnVoiceOnOff(_ sender: UIButton) {
     }
-    var playerDown: NSString!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,11 +65,11 @@ class SettingController: UIViewController, UITextFieldDelegate {
         
         self.btnConfirm.setTitle(NSLocalizedString("game_confirm", comment: ""), for: UIControlState.normal)
         
-        if playerUp == nil || playerUp == "" {
+        if playerUp == "" {
             playerUp = "Player1"
         }
         
-        if playerDown == nil || playerDown == "" {
+        if playerDown == "" {
             playerDown = "Player2"
         }
         textFieldPlayerUp.text = playerUp as String?
@@ -195,21 +196,23 @@ class SettingController: UIViewController, UITextFieldDelegate {
     
     @IBAction func onChangeTiebreak(_ sender: UIButton) {
         print("tiebreak change")
-         
+        
+        self.is_super_tiebreak = false
+        
         let tiebreakSheet = UIAlertController(title: NSLocalizedString("game_setting_choose_tiebreak", comment: ""), message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
          
         let tiebreakAction = UIAlertAction(title: NSLocalizedString("game_setting_tiebreak", comment: ""), style: UIAlertActionStyle.default) { (action) in
             print("tiebreak")
             self.btnTiebreak.setTitle(NSLocalizedString("game_setting_tiebreak", comment: ""), for: UIControlState.normal)
             self.is_tiebreak = true
-            self.is_super_tiebreak = false
+            //self.is_super_tiebreak = false
         }
          
         let decidingGameAction = UIAlertAction(title: NSLocalizedString("game_setting_deciding_game", comment: ""), style: UIAlertActionStyle.default) { (action) in
             print("Deciding Game")
             self.btnTiebreak.setTitle(NSLocalizedString("game_setting_deciding_game", comment: ""), for: UIControlState.normal)
             self.is_tiebreak = false
-            self.is_super_tiebreak = false
+            //self.is_super_tiebreak = false
         }
         
         let superTiereakAction = UIAlertAction(title: NSLocalizedString("game_setting_super_tiebreak", comment: ""), style: UIAlertActionStyle.default) { (action) in
