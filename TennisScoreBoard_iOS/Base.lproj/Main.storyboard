@@ -125,6 +125,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loadTableView" destination="ZGm-yY-UVY" id="HRd-GS-fqb"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="fileSelectSegue" id="A2c-7T-Jfm"/>
                     </connections>
                 </viewController>

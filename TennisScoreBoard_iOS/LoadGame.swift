@@ -9,9 +9,12 @@
 import UIKit
 
 class LoadGame: UIViewController,UITableViewDelegate, UITableViewDataSource {
-
+    @IBOutlet weak var loadTableView: UITableView!
+    
+    
     var fileList: Array<String> = []
     var selectFileName: String = ""
+    var selectFileIndex: Int = 0;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,66 +86,6 @@ class LoadGame: UIViewController,UITableViewDelegate, UITableViewDataSource {
             title.text = item as String
             
             print("cell[\(indexPath.row)] = \(item)" )
-            /*
-            let count_up: UILabel = cell.viewWithTag(101) as! UILabel
-            count_up.text = item.getCount_up() as String
-            
-            let count_down: UILabel = cell.viewWithTag(201) as! UILabel
-            count_down.text = item.getCount_down() as String
-            
-            let progress_up: UIProgressView = cell.viewWithTag(102) as! UIProgressView
-            
-            let progress_down: UIProgressView = cell.viewWithTag(202) as! UIProgressView
-            
-            if Float(item.count_up as String) != nil &&
-                Float(item.count_down as String) != nil {
-                
-                if Float(item.count_up as String)! > 100 ||
-                    Float(item.count_down as String)! > 100 {
-                    
-                    if Float(item.count_up as String)! >=
-                        Float(item.count_down as String)! {
-                        
-                        progress_up.progress = 1.0
-                        progress_down.progress = Float(item.count_down as String)!/Float(item.count_up as String)!
-                    } else {
-                        progress_down.progress = Float(item.count_up as String)!/Float(item.count_down as String)!
-                        progress_down.progress = 1.0
-                    }
-                    
-                } else {
-                    progress_up.progress = Float(item.count_up as String)!/100.0
-                    progress_down.progress = Float(item.count_down as String)!/100.0
-                }
-            } else if Float(item.count_up as String) != nil &&
-                Float(item.count_down as String) == nil { //down is nil
-                
-                if Float(item.count_up as String)! > 100 {
-                    progress_up.progress = 1.0
-                } else {
-                    progress_up.progress = Float(item.count_up as String)!/100.0
-                }
-                progress_down.progress = 0
-                
-            } else if Float(item.count_up as String) == nil &&
-                Float(item.count_down as String) != nil { //up is nil
-                
-                progress_up.progress = 0
-                
-                if Float(item.count_down as String)! > 100 {
-                    progress_down.progress = 1.0
-                } else {
-                    progress_down.progress = Float(item.count_down as String)!/100.0
-                }
-            } else { //both nil
-                progress_up.progress = 0
-                progress_down.progress = 0
-            }*/
-            
-            
-            
-            
-            
             
             return cell
     }
@@ -154,32 +97,80 @@ class LoadGame: UIViewController,UITableViewDelegate, UITableViewDataSource {
             at: indexPath, animated: true)
         
         selectFileName = fileList[indexPath.row]
+        selectFileIndex = indexPath.row
         print("選擇的是 \(selectFileName)")
         
-        /*if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            
-            let fileURL = dir.appendingPathComponent(name)
-            
-            
-            
-            //reading
-            do {
-                let text2 = try String(contentsOf: fileURL, encoding: .utf8)
-                print(text2)
-            }
-            catch {/* error handling here */}
-            
-        }*/
+        let header = NSLocalizedString("game_record_file", comment: "")
+        let title = header + selectFileName
         
-        self.performSegue(withIdentifier: "fileSelectSegue", sender: self)
+        let alert: UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_record_load", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesLoad()})
         
-        /*let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let deleteBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_record_delete", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesDelete()})
         
-        let gameVc = storyBoard.instantiateViewController(withIdentifier: "gameView") as! ViewController
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: nil)
         
-        gameVc.saveFileName = selectFileName*/
+        
+        
+        alert.addAction(yesBtn)
+        alert.addAction(deleteBtn)
+        alert.addAction(noBtn)
+        
+        
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        //self.performSegue(withIdentifier: "fileSelectSegue", sender: self)
+        
+        
         
         
     }
     
+    func yesLoad () {
+        self.performSegue(withIdentifier: "fileSelectSegue", sender: self)
+    }
+    
+    
+    func yesDelete () {
+        print("selectFileName = \(selectFileName)")
+        
+        let header = NSLocalizedString("game_record_delete", comment: "")
+        let title = header + selectFileName
+        
+        let alert: UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.deleteFile()})
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: nil)
+        
+        alert.addAction(yesBtn);
+        alert.addAction(noBtn);
+        
+        //alert.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
+        //    textField.placeholder = "Search"
+        //})
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func deleteFile () {
+        let fileManager = FileManager.default
+        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let nsUserDomainMask = FileManager.SearchPathDomainMask.userDomainMask
+        let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
+        guard let dirPath = paths.first else {
+            return
+        }
+        let filePath = "\(dirPath)/\(selectFileName)"
+        do {
+            try fileManager.removeItem(atPath: filePath)
+        } catch let error as NSError {
+            print(error.debugDescription)
+        }
+        
+        //remove from filelist
+        fileList.remove(at: selectFileIndex)
+        
+        loadTableView.reloadData()
+    }
 }

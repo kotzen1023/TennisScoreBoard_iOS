@@ -24,6 +24,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
     var is_retire: UInt8! = 0
     var playerUp: NSString!
     var playerDown: NSString!
+    var saveFileName: String = ""
     
     var stack = Deque()
     var forward_stack = Deque()
@@ -36,6 +37,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         
         print("------ load setting ------")
+        print("saveFileName: \(saveFileName)")
         print("playerUp: \(playerUp)")
         print("playerDown: \(playerDown)")
         print("set_select: \(set_select)")
@@ -281,6 +283,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
         
         let gameVc = storyBoard.instantiateViewController(withIdentifier: "gameView") as! ViewController
         
+        gameVc.saveFileName = self.saveFileName
         gameVc.set_select = self.set_select
         gameVc.game_select = self.game_select
         gameVc.is_tiebreak = self.is_tiebreak

@@ -54,6 +54,9 @@
 "game_save_title" = "Save game record";
 "game_save_input_msg" = "Input filename";
 "game_back_main_menu" = "Back to main menu?";
+"game_record_delete" = "Delete";
+"game_record_load" = "Load";
+"game_record_file" = "File: ";
 
 "stat_double_faults" = "Double Faults";
 "stat_unforced_error" = "Unforced Error";

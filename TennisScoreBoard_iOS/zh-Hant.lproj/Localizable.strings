@@ -54,6 +54,9 @@
 "game_save_title" = "儲存比賽資料";
 "game_save_input_msg" = "輸入檔案名稱";
 "game_back_main_menu" = "返回主選單?";
+"game_record_delete" = "刪除";
+"game_record_load" = "讀取";
+"game_record_file" = "檔案: ";
 
 "stat_double_faults" = "雙發失誤";
 "stat_unforced_error" = "非受迫性失誤";

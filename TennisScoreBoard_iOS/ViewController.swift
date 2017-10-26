@@ -222,6 +222,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if saveFileName == "" { //new game
             
         } else { //load from savefileName
+            
+            stack.clear()
+            
             if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
              
                 let fileURL = dir.appendingPathComponent(saveFileName)
@@ -236,57 +239,211 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     let result = text2.split(separator: "|")
                     print(result)
                     
-                    /*
-                         var text = "\(self.playerUp);\(self.playerDown);\(self.is_tiebreak);\(self.is_super_tiebreak);\(self.is_deuce);\(self.is_serve);\(self.set_select);\(self.is_retire);\(self.game_select);\(self.is_in_super_tiebreak)|"
-                     */
-                    
+                    //read header
                     
                     let settingArray = result[0].split(separator: ";")
-                    playerUp = settingArray[0] as NSString
-                    playerDown = settingArray[1] as NSString
-                    if (settingArray[2] == "true") {
+                    
+                    if settingArray.count > 1 {
+                        playerUp = settingArray[0] as NSString
+                        playerDown = settingArray[1] as NSString
+                        if (settingArray[2] == "true") {
+                            is_tiebreak = true
+                        } else {
+                            is_tiebreak = false
+                        }
+                        if (settingArray[3] == "true") {
+                            is_super_tiebreak = true
+                        } else {
+                            is_super_tiebreak = false
+                        }
+                        if (settingArray[4] == "true") {
+                            is_deuce = true
+                        } else {
+                            is_deuce = false
+                        }
+                        if (settingArray[5] == "true") {
+                            is_serve = true
+                        } else {
+                            is_serve = false
+                        }
+                        set_select = UInt8(settingArray[6])!
+                        is_retire = UInt8(settingArray[7])!
+                        game_select = UInt8(settingArray[8])!
+                        if (settingArray[9] == "true") {
+                            is_in_super_tiebreak = true
+                        } else {
+                            is_in_super_tiebreak = false
+                        }
+                        
+                        print("------ load from file ------")
+                        print("save file name: \(saveFileName)")
+                        print("playerUp: \(playerUp)")
+                        print("playerDown: \(playerDown)")
+                        print("set_select: \(set_select)")
+                        print("game_select: \(game_select)")
+                        print("is_tiebreak: \(is_tiebreak)")
+                        print("is_super_tiebreak: \(is_super_tiebreak)")
+                        print("is_in_super_tiebreak: \(is_in_super_tiebreak)")
+                        print("is_deuce: \(is_deuce)")
+                        print("is_serve: \(is_serve)")
+                        print("is_retire: \(is_retire)")
+                        print("stack size \(stack.size())")
+                        print("------ load from file ------")
+                        
+                    } else {
+                        playerUp = "Player1"
+                        playerDown = "Player2"
                         is_tiebreak = true
-                    } else {
-                        is_tiebreak = false
-                    }
-                    if (settingArray[3] == "true") {
-                        is_super_tiebreak = true
-                    } else {
-                        is_super_tiebreak = false
-                    }
-                    if (settingArray[4] == "true") {
                         is_deuce = true
-                    } else {
-                        is_deuce = false
-                    }
-                    if (settingArray[5] == "true") {
                         is_serve = true
-                    } else {
-                        is_serve = false
-                    }
-                    set_select = UInt8(settingArray[6])!
-                    is_retire = UInt8(settingArray[7])!
-                    game_select = UInt8(settingArray[8])!
-                    if (settingArray[5] == "true") {
-                        is_in_super_tiebreak = true
-                    } else {
-                        is_in_super_tiebreak = false
+                        set_select = 0
+                        is_retire = 0
+                        game_select = 0
                     }
                     
-                    print("------ load from file ------")
-                    print("save file name: \(saveFileName)")
-                    print("playerUp: \(playerUp)")
-                    print("playerDown: \(playerDown)")
-                    print("set_select: \(set_select)")
-                    print("game_select: \(game_select)")
-                    print("is_tiebreak: \(is_tiebreak)")
-                    print("is_super_tiebreak: \(is_super_tiebreak)")
-                    print("is_in_super_tiebreak: \(is_in_super_tiebreak)")
-                    print("is_deuce: \(is_deuce)")
-                    print("is_serve: \(is_serve)")
-                    print("is_retire: \(is_retire)")
-                    print("stack size \(stack.size())")
-                    print("------ load from file ------")
+                    if (result.count > 1) {
+                        //read into stack
+                        
+                        let playingArray = result[1].split(separator: "&")
+                        
+                        if playingArray.count > 0 {
+                            print(playingArray)
+                            
+                            for i in 0..<playingArray.count {
+                                let elementArray = playingArray[i].split(separator: ";")
+                                
+                                //var state: State? = nil
+                                
+                                let new_state = State()
+                                
+                                new_state.current_set = UInt8(elementArray[0])!
+                                if (elementArray[1] == "true") {
+                                    new_state.isServe = true
+                                } else {
+                                    new_state.isServe = false
+                                }
+                                if (elementArray[2] == "true") {
+                                    new_state.isInTiebreak = true
+                                } else {
+                                    new_state.isInTiebreak = false
+                                }
+                                if (elementArray[3] == "true") {
+                                    new_state.isFinish = true
+                                } else {
+                                    new_state.isFinish = false
+                                }
+                                if (elementArray[4] == "true") {
+                                    new_state.isSecondServe = true
+                                } else {
+                                    new_state.isSecondServe = false
+                                }
+                                if (elementArray[5] == "true") {
+                                    new_state.isInBreakPoint = true
+                                } else {
+                                    new_state.isInBreakPoint = false
+                                }
+                                new_state.setsUp = UInt8(elementArray[6])!
+                                new_state.setsDown = UInt8(elementArray[7])!
+                                new_state.duration = UInt(elementArray[8])!
+                                new_state.aceCountUp = UInt8(elementArray[9])!
+                                new_state.aceCountDown = UInt8(elementArray[10])!
+                                new_state.firstServeUp = UInt16(elementArray[11])!
+                                new_state.firstServeDown = UInt16(elementArray[12])!
+                                new_state.firstServeMissUp = UInt16(elementArray[13])!
+                                new_state.firstServeMissDown = UInt16(elementArray[14])!
+                                
+                                new_state.secondServeUp = UInt16(elementArray[15])!
+                                new_state.secondServeDown = UInt16(elementArray[16])!
+                                
+                                new_state.breakPointUp = UInt8(elementArray[17])!
+                                new_state.breakPointDown = UInt8(elementArray[18])!
+                                new_state.breakPointMissUp = UInt8(elementArray[19])!
+                                new_state.breakPointMissDown = UInt8(elementArray[20])!
+                                
+                                new_state.firstServeWonUp = UInt16(elementArray[21])!
+                                new_state.firstServeWonDown = UInt16(elementArray[22])!
+                                
+                                new_state.firstServeLostUp = UInt16(elementArray[23])!
+                                new_state.firstServeLostDown = UInt16(elementArray[24])!
+                                
+                                new_state.secondServeWonUp = UInt16(elementArray[25])!
+                                new_state.secondServeWonDown = UInt16(elementArray[26])!
+                                
+                                new_state.secondServeLostUp = UInt16(elementArray[27])!
+                                new_state.secondServeLostDown = UInt16(elementArray[28])!
+                                
+                                new_state.doubleFaultUp = UInt8(elementArray[29])!
+                                new_state.doubleFaultDown = UInt8(elementArray[30])!
+                                
+                                new_state.unforcedErrorUp = UInt16(elementArray[31])!
+                                new_state.unforcedErrorDown = UInt16(elementArray[32])!
+                                
+                                new_state.forehandWinnerUp = UInt16(elementArray[33])!
+                                new_state.forehandWinnerDown = UInt16(elementArray[34])!
+                                
+                                new_state.backhandWinnerUp = UInt16(elementArray[35])!
+                                new_state.backhandWinnerDown = UInt16(elementArray[36])!
+                                
+                                new_state.forehandVolleyUp = UInt16(elementArray[37])!
+                                new_state.forehandVolleyDown = UInt16(elementArray[38])!
+                                
+                                new_state.backhandVolleyUp = UInt16(elementArray[39])!
+                                new_state.backhandVolleyDown = UInt16(elementArray[40])!
+                                
+                                new_state.foulToLoseUp = UInt8(elementArray[41])!
+                                new_state.foulToLoseDown = UInt8(elementArray[42])!
+                                
+                                new_state.set_1_game_up = UInt8(elementArray[43])!
+                                new_state.set_1_game_down = UInt8(elementArray[44])!
+                                new_state.set_1_point_up = UInt8(elementArray[45])!
+                                new_state.set_1_point_down = UInt8(elementArray[46])!
+                                new_state.set_1_tiebreak_point_up = UInt8(elementArray[47])!
+                                new_state.set_1_tiebreak_point_down = UInt8(elementArray[48])!
+                                
+                                new_state.set_2_game_up = UInt8(elementArray[49])!
+                                new_state.set_2_game_down = UInt8(elementArray[50])!
+                                new_state.set_2_point_up = UInt8(elementArray[51])!
+                                new_state.set_2_point_down = UInt8(elementArray[52])!
+                                new_state.set_2_tiebreak_point_up = UInt8(elementArray[53])!
+                                new_state.set_2_tiebreak_point_down = UInt8(elementArray[54])!
+                                
+                                new_state.set_3_game_up = UInt8(elementArray[55])!
+                                new_state.set_3_game_down = UInt8(elementArray[56])!
+                                new_state.set_3_point_up = UInt8(elementArray[57])!
+                                new_state.set_3_point_down = UInt8(elementArray[58])!
+                                new_state.set_3_tiebreak_point_up = UInt8(elementArray[59])!
+                                new_state.set_3_tiebreak_point_down = UInt8(elementArray[60])!
+                                
+                                new_state.set_4_game_up = UInt8(elementArray[61])!
+                                new_state.set_4_game_down = UInt8(elementArray[62])!
+                                new_state.set_4_point_up = UInt8(elementArray[63])!
+                                new_state.set_4_point_down = UInt8(elementArray[64])!
+                                new_state.set_4_tiebreak_point_up = UInt8(elementArray[65])!
+                                new_state.set_4_tiebreak_point_down = UInt8(elementArray[66])!
+                                
+                                new_state.set_5_game_up = UInt8(elementArray[67])!
+                                new_state.set_5_game_down = UInt8(elementArray[68])!
+                                new_state.set_5_point_up = UInt8(elementArray[69])!
+                                new_state.set_5_point_down = UInt8(elementArray[70])!
+                                new_state.set_5_tiebreak_point_up = UInt8(elementArray[71])!
+                                new_state.set_5_tiebreak_point_down = UInt8(elementArray[72])!
+                                
+                                stack.push(obj: new_state)
+                                
+                            }
+                        } else {
+                            print("playingArray is empty")
+                        }
+                        
+                        
+                    } else {
+                        print("Play Empty or Unknown Data Format")
+                    }
+                    
+                    
+                    
+                    
+                    
                 } catch {/* error handling here */}
              
             }
@@ -294,6 +451,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
         
         if (stack.size() > 0) {
+            
+            labelTopPlayer.text = playerUp as String?
+            labelBottomPlayer.text = playerDown as String?
+            
             var current_set: UInt8 = 0
             
             var backState = State()
@@ -301,9 +462,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             current_set = backState.current_set
             
-            if backState.setsUp > 0 || backState.setSDown > 0 {
+            if backState.setsUp > 0 || backState.setsDown > 0 {
                 labelOpptSet.text = String(backState.setsUp)
-                labelYouSet.text = String(backState.setSDown)
+                labelYouSet.text = String(backState.setsDown)
             } else {
                 labelOpptSet.text = "0"
                 labelYouSet.text = "0"
@@ -312,13 +473,42 @@ class ViewController: UIViewController, UITextFieldDelegate {
             labelOpptGame.text = String(backState.getGameUp(set: current_set))
             labelYouGame.text = String(backState.getGameDown(set: current_set))
             
-            if backState.isServe == true {
+            if backState.isFinish {
+                imgServeUp.isHidden = true
+                imgServeDown.isHidden = true
+                
+                if is_retire == 1 { //oppt retire, you win
+                    imgWinCheckUp.isHidden = true
+                    imgWinCheckDown.isHidden = false
+                } else if is_retire == 2 { //you retire, oppt win
+                    imgWinCheckUp.isHidden = false
+                    imgWinCheckDown.isHidden = true
+                } else {
+                    if backState.setsUp > backState.setsDown {
+                        imgWinCheckUp.isHidden = false
+                        imgWinCheckDown.isHidden = true
+                    } else {
+                        imgWinCheckUp.isHidden = true
+                        imgWinCheckDown.isHidden = false
+                    }
+                }
+            } else {
+                if backState.isServe == true {
+                    imgServeUp.isHidden = true
+                    imgServeDown.isHidden = false
+                } else {
+                    imgServeUp.isHidden = false
+                    imgServeDown.isHidden = true
+                }
+            }
+            
+            /*if backState.isServe == true {
                 imgServeUp.isHidden = true
                 imgServeDown.isHidden = false
             } else {
                 imgServeUp.isHidden = false
                 imgServeDown.isHidden = true
-            }
+            }*/
             
             if backState.isInBreakPoint == true {
                 is_break_point = true
@@ -1343,9 +1533,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 
                 current_set = forwardState.current_set
                 
-                if forwardState.setsUp > 0 || forwardState.setSDown > 0 {
+                if forwardState.setsUp > 0 || forwardState.setsDown > 0 {
                     labelOpptSet.text = String(forwardState.setsUp)
-                    labelYouSet.text = String(forwardState.setSDown)
+                    labelYouSet.text = String(forwardState.setsDown)
                 } else {
                     labelOpptSet.text = "0"
                     labelYouSet.text = "0"
@@ -1356,10 +1546,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 
                 if forwardState.isFinish == true {
                     if self.is_retire == 0 { //no one retire
-                        if forwardState.setsUp > forwardState.setSDown {
+                        if forwardState.setsUp > forwardState.setsDown {
                             imgWinCheckUp.isHidden = false
                             imgWinCheckDown.isHidden = true
-                        } else if forwardState.setSDown > forwardState.setsUp {
+                        } else if forwardState.setsDown > forwardState.setsUp {
                             imgWinCheckUp.isHidden = true
                             imgWinCheckDown.isHidden = false
                         }
@@ -1497,6 +1687,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         let statController = storyBoard.instantiateViewController(withIdentifier: "statView") as! Statistics
         
+        statController.saveFileName = self.saveFileName
         statController.set_select = self.set_select
         statController.game_select = self.game_select
         statController.is_tiebreak = self.is_tiebreak
@@ -1507,6 +1698,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         statController.playerDown = self.playerDown
         statController.stack = self.stack
         statController.forward_stack = self.forward_stack
+        
         
         self.present(statController, animated:true, completion:nil)
     }
@@ -1533,7 +1725,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         //    textField.placeholder = "Search"
         //})
         
-        self.present(alert, animated: true, completion: nil)    }
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
     @IBAction func onVoiceOnOffClick(_ sender: UIButton) {
         print("btn voice click")
@@ -1603,7 +1797,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     text += "&"
                 }
                 
-                text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setSDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));"
+                text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setsDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));"
                 
             }
             
@@ -1675,9 +1869,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 
                 current_set = backState.current_set
                 
-                if backState.setsUp > 0 || backState.setSDown > 0 {
+                if backState.setsUp > 0 || backState.setsDown > 0 {
                     labelOpptSet.text = String(backState.setsUp)
-                    labelYouSet.text = String(backState.setSDown)
+                    labelYouSet.text = String(backState.setsDown)
                 } else {
                     labelOpptSet.text = "0"
                     labelYouSet.text = "0"
@@ -2792,7 +2986,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             new_state.isSecondServe = current_state.isSecondServe
             new_state.isInBreakPoint = current_state.isInBreakPoint
             new_state.setsUp = current_state.setsUp
-            new_state.setSDown = current_state.setSDown
+            new_state.setsDown = current_state.setsDown
             new_state.duration = current_state.duration
             new_state.aceCountUp = current_state.aceCountUp
             new_state.aceCountDown = current_state.aceCountDown
@@ -2969,7 +3163,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                         
                         new_state.setsUp = current_state.setsUp
-                        new_state.setSDown = current_state.setSDown
+                        new_state.setsDown = current_state.setsDown
                         
                         new_state.duration = time_use
                         new_state.isFinish = true
@@ -3064,7 +3258,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                         
                         new_state.setsUp = current_state.setsUp
-                        new_state.setSDown = current_state.setSDown
+                        new_state.setsDown = current_state.setsDown
                         
                         new_state.duration = time_use
                         new_state.isFinish = true
@@ -3170,7 +3364,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                         
                         new_state.setsUp = current_state.setsUp
-                        new_state.setSDown = current_state.setSDown
+                        new_state.setsDown = current_state.setsDown
                         
                         new_state.duration = time_use
                         
@@ -3279,7 +3473,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                         
                         new_state.setsUp = current_state.setsUp
-                        new_state.setSDown = current_state.setSDown
+                        new_state.setsDown = current_state.setsDown
                         
                         new_state.duration = time_use
                         
@@ -3381,7 +3575,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                         
                         new_state.setsUp = current_state.setsUp
-                        new_state.setSDown = current_state.setSDown
+                        new_state.setsDown = current_state.setsDown
                         
                         new_state.duration = time_use
                         
@@ -3548,7 +3742,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         }
                         
                         new_state.setsUp = current_state.setsUp
-                        new_state.setSDown = current_state.setSDown
+                        new_state.setsDown = current_state.setsDown
                         
                         new_state.duration = time_use
                         
@@ -3690,7 +3884,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 print("Backhand volley : up = \(new_state.backhandVolleyUp) down = \(new_state.backhandVolleyDown)")
                 print("Foul to lose : up = \(new_state.foulToLoseUp) down = \(new_state.foulToLoseDown)")
                 print("Set up : \(new_state.setsUp)")
-                print("Set down : \(new_state.setSDown)")
+                print("Set down : \(new_state.setsDown)")
                 print("Duration : \(new_state.duration)")
                 
                 for i in 1...set_limit {
@@ -3704,11 +3898,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 
                 current_set = new_state.current_set
                 
-                if new_state.setsUp > 0 || new_state.setSDown > 0 {
+                if new_state.setsUp > 0 || new_state.setsDown > 0 {
                     labelOpptSet.isHidden = false
                     labelYouSet.isHidden = false
                     labelOpptSet.text = String(new_state.setsUp)
-                    labelYouSet.text = String(new_state.setSDown)
+                    labelYouSet.text = String(new_state.setsDown)
                 } else {
                     labelOpptSet.isHidden = false
                     labelYouSet.isHidden = false
@@ -3730,7 +3924,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         imgWinCheckUp.isHidden = true
                         imgWinCheckDown.isHidden = false
                     } else {
-                        if new_state.setsUp > new_state.setSDown { //oppt win this match
+                        if new_state.setsUp > new_state.setsDown { //oppt win this match
                             imgWinCheckUp.isHidden = false
                             imgWinCheckDown.isHidden = true
                         } else {
@@ -4940,7 +5134,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         print("=== checkGame start ===")
         let current_set: UInt8 = new_state.current_set
         var setsWinUp: UInt8 = new_state.setsUp
-        var setsWinDown: UInt8 = new_state.setSDown
+        var setsWinDown: UInt8 = new_state.setsDown
         
         if is_tiebreak == true { //use tiebreak
             print("[Use tiebreak]")
@@ -4962,7 +5156,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     new_state.getGameDown(set: current_set) == 1 { //0:1 => you win this set
                     //set sets win
                     setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
+                    new_state.setsDown = setsWinDown
                     checkSets(new_state: new_state)
                     //play sound
                     if voice_support {
@@ -4993,7 +5187,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         new_state.getGameDown(set: current_set) == 7 { //5:7 => you win this set
                         //set sets win
                         setsWinDown = setsWinDown + 1
-                        new_state.setSDown = setsWinDown
+                        new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
                     } else if new_state.getGameUp(set: current_set) == 7 &&
                         new_state.getGameDown(set: current_set) == 6 { //7:6 => oppt win this set
@@ -5005,7 +5199,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         new_state.getGameDown(set: current_set) == 7 { //6:7 => you win this set
                         //set sets win
                         setsWinDown = setsWinDown + 1
-                        new_state.setSDown = setsWinDown
+                        new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
                     } else if new_state.getGameUp(set: current_set) == 6 &&
                         new_state.getGameDown(set: current_set) <= 4 { //6:0,1,2,3,4 => oppt win this set
@@ -5017,7 +5211,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         new_state.getGameDown(set: current_set) == 6 { //0,1,2,3,4:6 => you win this set
                         //set sets win
                         setsWinDown = setsWinDown + 1
-                        new_state.setSDown = setsWinDown
+                        new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
                     }
                 } else { //4 games
@@ -5034,7 +5228,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         new_state.getGameDown(set: current_set) == 5 { //3:5 => you win this set
                         //set sets win
                         setsWinDown = setsWinDown + 1
-                        new_state.setSDown = setsWinDown
+                        new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
                     } else if new_state.getGameUp(set: current_set) == 5 &&
                         new_state.getGameDown(set: current_set) == 4 { //5:4 => oppt win this set
@@ -5046,7 +5240,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         new_state.getGameDown(set: current_set) == 5 { //4:5 => you win this set
                         //set sets win
                         setsWinDown = setsWinDown + 1
-                        new_state.setSDown = setsWinDown
+                        new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
                     } else if new_state.getGameUp(set: current_set) == 4 &&
                         new_state.getGameDown(set: current_set) <= 2 { //4:0,1,2 => oppt win this set
@@ -5058,7 +5252,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         new_state.getGameDown(set: current_set) == 4 { //0,1,2:4 => you win this set
                         //set sets win
                         setsWinDown = setsWinDown + 1
-                        new_state.setSDown = setsWinDown
+                        new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
                     }
                 }
@@ -5081,7 +5275,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     new_state.getGameDown(set: current_set) == 6 { //5:6 => oppt win this set
                     //set sets win
                     setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
+                    new_state.setsDown = setsWinDown
                     checkSets(new_state: new_state)
                 }
                 
@@ -5096,7 +5290,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     new_state.getGameDown(set: current_set) == 4 { //3:4 => oppt win this set
                     //set sets win
                     setsWinDown = setsWinDown + 1
-                    new_state.setSDown = setsWinDown
+                    new_state.setsDown = setsWinDown
                     checkSets(new_state: new_state)
                 }
             }
@@ -5111,7 +5305,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         print("=== check sets start ===")
         var current_set:UInt8 = new_state.current_set
         let setsWinUp:UInt8 = new_state.setsUp
-        let setsWinDown:UInt8 = new_state.setSDown
+        let setsWinDown:UInt8 = new_state.setsDown
         
         switch set_select {
         case 0:

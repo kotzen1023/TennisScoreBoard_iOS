@@ -16,7 +16,7 @@ public class State {
     var isSecondServe: Bool
     var isInBreakPoint: Bool
     var setsUp: UInt8
-    var setSDown: UInt8
+    var setsDown: UInt8
     var duration: UInt
     
     var aceCountUp: UInt8
@@ -99,7 +99,7 @@ public class State {
         isSecondServe = false
         isInBreakPoint = false
         setsUp = 0
-        setSDown = 0
+        setsDown = 0
         duration = 0
         
         aceCountUp = 0
