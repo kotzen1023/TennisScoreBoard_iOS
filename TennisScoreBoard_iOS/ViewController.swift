@@ -685,7 +685,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if soundArray.count > 0 {
             var i=0
             while i < soundArray.count {
-                if (audioPlayer?.isPlaying)! {
+                if (audioPlayeraudioPlayer?.isPlaying)! {
                     
                 } else {
                     playSound(soundPath: soundArray[i] as NSString)
@@ -742,109 +742,397 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    func getPointByNumStart(num: NSInteger) -> NSString {
+        var path: NSString = ""
+        
+        switch num {
+        case 0:
+            path = NSString(format: "%@", "gbr_man_start_love.m4a")
+            break
+        case 1:
+            path = NSString(format: "%@", "gbr_man_start_1.m4a")
+            break
+        case 2:
+            path = NSString(format: "%@", "gbr_man_start_2.m4a")
+            break
+        case 3:
+            path = NSString(format: "%@", "gbr_man_start_3.m4a")
+            break
+        case 4:
+            path = NSString(format: "%@", "gbr_man_start_4.m4a")
+            break
+        case 5:
+            path = NSString(format: "%@", "gbr_man_start_5.m4a")
+            break
+        case 6:
+            path = NSString(format: "%@", "gbr_man_start_6.m4a")
+            break
+        case 7:
+            path = NSString(format: "%@", "gbr_man_start_7.m4a")
+            break
+        case 8:
+            path = NSString(format: "%@", "gbr_man_start_8.m4a")
+            break
+        case 9:
+            path = NSString(format: "%@", "gbr_man_start_9.m4a")
+            break
+        case 10:
+            path = NSString(format: "%@", "gbr_man_start_10.m4a")
+            break
+        case 11:
+            path = NSString(format: "%@", "gbr_man_start_11.m4a")
+            break
+        case 12:
+            path = NSString(format: "%@", "gbr_man_start_12.m4a")
+            break
+        case 13:
+            path = NSString(format: "%@", "gbr_man_start_13.m4a")
+            break
+        case 14:
+            path = NSString(format: "%@", "gbr_man_start_14.m4a")
+            break
+        case 15:
+            path = NSString(format: "%@", "gbr_man_start_15.m4a")
+            break
+        case 16:
+            path = NSString(format: "%@", "gbr_man_start_16.m4a")
+            break
+        case 17:
+            path = NSString(format: "%@", "gbr_man_start_17.m4a")
+            break
+        case 18:
+            path = NSString(format: "%@", "gbr_man_start_18.m4a")
+            break
+        case 19:
+            path = NSString(format: "%@", "gbr_man_start_19.m4a")
+            break
+        case 20:
+            path = NSString(format: "%@", "gbr_man_start_20.m4a")
+            break
+        case 30:
+            path = NSString(format: "%@", "gbr_man_start_30.m4a")
+            break
+        case 40:
+            path = NSString(format: "%@", "gbr_man_start_40.m4a")
+            break
+        case 50:
+            path = NSString(format: "%@", "gbr_man_start_50.m4a")
+            break
+        case 60:
+            path = NSString(format: "%@", "gbr_man_start_60.m4a")
+            break
+        case 70:
+            path = NSString(format: "%@", "gbr_man_start_70.m4a")
+            break
+        case 80:
+            path = NSString(format: "%@", "gbr_man_start_80.m4a")
+            break
+        case 90:
+            path = NSString(format: "%@", "gbr_man_start_90.m4a")
+            break
+        default:
+                break
+        }
+        
+        return path
+    }
+    
+    func getPointByNumEnd(num: NSInteger) -> NSString {
+        var path: NSString = ""
+        
+        switch num {
+        case 0:
+            path = NSString(format: "%@", "gbr_man_end_love.m4a")
+            break
+        case 1:
+            path = NSString(format: "%@", "gbr_man_end_1.m4a")
+            break
+        case 2:
+            path = NSString(format: "%@", "gbr_man_end_2.m4a")
+            break
+        case 3:
+            path = NSString(format: "%@", "gbr_man_end_3.m4a")
+            break
+        case 4:
+            path = NSString(format: "%@", "gbr_man_end_4.m4a")
+            break
+        case 5:
+            path = NSString(format: "%@", "gbr_man_end_5.m4a")
+            break
+        case 6:
+            path = NSString(format: "%@", "gbr_man_end_6.m4a")
+            break
+        case 7:
+            path = NSString(format: "%@", "gbr_man_end_7.m4a")
+            break
+        case 8:
+            path = NSString(format: "%@", "gbr_man_end_8.m4a")
+            break
+        case 9:
+            path = NSString(format: "%@", "gbr_man_end_9.m4a")
+            break
+        case 10:
+            path = NSString(format: "%@", "gbr_man_end_10.m4a")
+            break
+        case 11:
+            path = NSString(format: "%@", "gbr_man_end_11.m4a")
+            break
+        case 12:
+            path = NSString(format: "%@", "gbr_man_end_12.m4a")
+            break
+        case 13:
+            path = NSString(format: "%@", "gbr_man_end_13.m4a")
+            break
+        case 14:
+            path = NSString(format: "%@", "gbr_man_end_14.m4a")
+            break
+        case 15:
+            path = NSString(format: "%@", "gbr_man_end_15.m4a")
+            break
+        case 16:
+            path = NSString(format: "%@", "gbr_man_end_16.m4a")
+            break
+        case 17:
+            path = NSString(format: "%@", "gbr_man_end_17.m4a")
+            break
+        case 18:
+            path = NSString(format: "%@", "gbr_man_end_18.m4a")
+            break
+        case 19:
+            path = NSString(format: "%@", "gbr_man_end_19.m4a")
+            break
+        case 20:
+            path = NSString(format: "%@", "gbr_man_end_20.m4a")
+            break
+        case 30:
+            path = NSString(format: "%@", "gbr_man_end_30.m4a")
+            break
+        case 40:
+            path = NSString(format: "%@", "gbr_man_end_40.m4a")
+            break
+        case 50:
+            path = NSString(format: "%@", "gbr_man_end_50.m4a")
+            break
+        case 60:
+            path = NSString(format: "%@", "gbr_man_end_60.m4a")
+            break
+        case 70:
+            path = NSString(format: "%@", "gbr_man_end_70.m4a")
+            break
+        case 80:
+            path = NSString(format: "%@", "gbr_man_end_80.m4a")
+            break
+        case 90:
+            path = NSString(format: "%@", "gbr_man_end_90.m4a")
+            break
+        case 100:
+            path = NSString(format: "%@", "gbr_man_all.m4a")
+            break
+        default:
+            break
+        }
+        
+        return path
+    }
+    
     func choosePointVoice(pointUp: NSInteger, pointDown: NSInteger, downServe: Bool, isTiebreak: Bool) {
         
         print("[choosePointVoice start]")
         
         var path: NSString = ""
+        //var path1: NSString = ""
+        //var path2: NSString = ""
+        //var parh3: NSString = ""
         
         if is_current_game_over {
             path = NSString(format: "%@", "gbr_man_game.m4a")
             soundArray.append(path as String)
         } else {
-            if pointUp == 0 && pointDown == 1 { //0:15
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_15_0.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_0_15.m4a")
-                }
-            } else if pointUp == 0 && pointDown == 2 { //0:30
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_30_0.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_0_30.m4a")
-                }
-            } else if pointUp == 0 && pointDown == 3 { //0:40
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_40_0.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_0_40.m4a")
-                }
-            } else if pointUp == 1 && pointDown == 0 { //15:0
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_0_15.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_15_0.m4a")
-                }
-            } else if pointUp == 1 && pointDown == 1 { //15:15
-                path = NSString(format: "%@", "gbr_man_15_15.m4a")
+            
+            if isTiebreak {
+                print("===>voice in tiebreak")
                 
-            } else if pointUp == 1 && pointDown == 2 { //15:30
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                if pointUp == pointDown {
+                    if pointUp <= 20 {
+                        path = getPointByNumStart(num: pointUp)
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: 100) //all
+                        soundArray.append(path as String)
+                    } else { //point > 20
+                        path = getPointByNumStart(num: (pointUp/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (pointUp%10))
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: 100) //all
+                        soundArray.append(path as String)
+                    }
                 } else {
-                    path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                    if pointUp > 20 && pointDown <= 20 { //pointUp: 21... pointDown: 0...20
+                        if (downServe) {
+                            path = getPointByNumStart(num: pointDown)
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointUp/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumEnd(num: (pointUp%10))
+                            soundArray.append(path as String)
+                        } else {
+                            path = getPointByNumStart(num: (pointUp/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointUp%10))
+                            soundArray.append(path as String)
+                            path = getPointByNumEnd(num: pointDown)
+                            soundArray.append(path as String)
+                            
+                        }
+                    } else if pointUp <= 20 && pointDown > 20 {
+                        if (downServe) {
+                            path = getPointByNumStart(num: (pointDown/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointDown%10))
+                            soundArray.append(path as String)
+                            path = getPointByNumEnd(num: pointUp)
+                            soundArray.append(path as String)
+                        } else {
+                            path = getPointByNumStart(num: pointUp)
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointDown/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumEnd(num: (pointDown%10))
+                            soundArray.append(path as String)
+                        }
+                    } else if pointUp > 20 && pointDown > 20 {
+                        if (downServe) {
+                            path = getPointByNumStart(num: (pointDown/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointDown%10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointUp/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointUp%10))
+                            soundArray.append(path as String)
+                        } else {
+                            path = getPointByNumStart(num: (pointUp/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointUp%10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointDown/10*10))
+                            soundArray.append(path as String)
+                            path = getPointByNumStart(num: (pointDown%10))
+                            soundArray.append(path as String)
+                        }
+                    } else { //pointUp <= 20 && pointDown <= 20
+                        if (downServe) {
+                            path = getPointByNumStart(num: pointDown)
+                            soundArray.append(path as String)
+                            path = getPointByNumEnd(num: pointUp)
+                            soundArray.append(path as String)
+                        } else {
+                            path = getPointByNumStart(num: pointUp)
+                            soundArray.append(path as String)
+                            path = getPointByNumEnd(num: pointDown)
+                            soundArray.append(path as String)
+                        }
+                    }
                 }
-            } else if pointUp == 1 && pointDown == 3 { //15:40
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_40_15.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_15_40.m4a")
+            } else { //not in tiebreak
+                print("===>voice not in tiebreak")
+                if pointUp == 0 && pointDown == 1 { //0:15
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                    }
+                } else if pointUp == 0 && pointDown == 2 { //0:30
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                    }
+                } else if pointUp == 0 && pointDown == 3 { //0:40
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                    }
+                } else if pointUp == 1 && pointDown == 0 { //15:0
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                    }
+                } else if pointUp == 1 && pointDown == 1 { //15:15
+                    path = NSString(format: "%@", "gbr_man_15_15.m4a")
+                    
+                } else if pointUp == 1 && pointDown == 2 { //15:30
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                    }
+                } else if pointUp == 1 && pointDown == 3 { //15:40
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                    }
+                } else if pointUp == 2 && pointDown == 0 { //30:0
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                    }
+                } else if pointUp == 2 && pointDown == 1 { //30:15
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                    }
+                } else if pointUp == 2 && pointDown == 2 { //30:30
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_30_30.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_30_30.m4a")
+                    }
+                } else if pointUp == 2 && pointDown == 3 { //30:40
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                    }
+                } else if pointUp == 3 && pointDown == 0 { //40:0
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                    }
+                } else if pointUp == 3 && pointDown == 1 { //40:15
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                    }
+                } else if pointUp == 3 && pointDown == 2 { //40:30
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                    }
+                } else if pointUp == 3 && pointDown == 3 { //40:40
+                    
+                    if is_deuce {
+                        path = NSString(format: "%@", "gbr_man_40_40.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
+                    }
+                    
+                    
                 }
-            } else if pointUp == 2 && pointDown == 0 { //30:0
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_0_30.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_30_0.m4a")
-                }
-            } else if pointUp == 2 && pointDown == 1 { //30:15
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_15_30.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_30_15.m4a")
-                }
-            } else if pointUp == 2 && pointDown == 2 { //30:30
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_30_30.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_30_30.m4a")
-                }
-            } else if pointUp == 2 && pointDown == 3 { //30:40
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_40_30.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_30_40.m4a")
-                }
-            } else if pointUp == 3 && pointDown == 0 { //40:0
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_0_40.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_40_0.m4a")
-                }
-            } else if pointUp == 3 && pointDown == 1 { //40:15
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_15_40.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_40_15.m4a")
-                }
-            } else if pointUp == 3 && pointDown == 2 { //40:30
-                if downServe {
-                    path = NSString(format: "%@", "gbr_man_30_40.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_40_30.m4a")
-                }
-            } else if pointUp == 3 && pointDown == 3 { //40:40
                 
-                if is_deuce {
-                    path = NSString(format: "%@", "gbr_man_40_40.m4a")
-                } else {
-                    path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
-                }
+                soundArray.append(path as String)
+                
                 
                 
             }
-            
-            soundArray.append(path as String)
             
         }
         
@@ -4269,9 +4557,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -4305,9 +4595,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -4771,9 +5063,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -4811,9 +5105,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -4852,9 +5148,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -4893,9 +5191,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -4934,9 +5234,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -5028,9 +5330,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if audioPlayer != nil {
+                            
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                self.stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -5063,9 +5368,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -5093,9 +5400,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -5109,9 +5418,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //sound play
                     if voice_support {
                         //stop first
-                        if (audioPlayer?.isPlaying)! {
-                            //if playing, stop the play
-                            stopSound()
+                        if (audioPlayer != nil) {
+                            if (audioPlayer?.isPlaying)! {
+                                //if playing, stop the play
+                                stopSound()
+                            }
                         }
                         //remove play list
                         soundArray.removeAll(keepingCapacity: false)
@@ -5256,6 +5567,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         checkSets(new_state: new_state)
                     }
                 }
+                
+                //play sound
+                if voice_support {
+                    playSoundInRow()
+                }
+                
             }
             
             
@@ -5295,6 +5612,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             
+            //play sound
+            if voice_support {
+                playSoundInRow()
+            }
             
         }
         
