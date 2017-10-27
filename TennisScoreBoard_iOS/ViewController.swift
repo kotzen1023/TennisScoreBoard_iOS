@@ -685,7 +685,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if soundArray.count > 0 {
             var i=0
             while i < soundArray.count {
-                if (audioPlayeraudioPlayer?.isPlaying)! {
+                if (audioPlayer?.isPlaying)! {
                     
                 } else {
                     playSound(soundPath: soundArray[i] as NSString)
