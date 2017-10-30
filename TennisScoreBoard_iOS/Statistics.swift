@@ -19,6 +19,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
     var game_select: UInt8!
     var is_tiebreak: Bool!
     var is_super_tiebreak: Bool!
+    var is_long_game: Bool!
     var is_deuce: Bool!
     var is_serve: Bool!
     var is_retire: UInt8! = 0
@@ -44,6 +45,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
         print("game_select: \(game_select)")
         print("is_tiebreak: \(is_tiebreak)")
         print("is_super_tiebreak: \(is_super_tiebreak)")
+        print("is_long_game: \(is_long_game)")
         print("is_deuce: \(is_deuce)")
         print("is_serve: \(is_serve)")
         print("is_retire: \(is_retire)")

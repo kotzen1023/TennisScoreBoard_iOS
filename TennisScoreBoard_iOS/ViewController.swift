@@ -46,7 +46,7 @@ extension UIAlertController {
     }
 }
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelegate {
     @IBOutlet weak var stackViewMain: UIStackView!
     @IBOutlet weak var stackViewLabelArea: UIStackView!
     @IBOutlet weak var stackViewBtnArea: UIStackView!
@@ -88,6 +88,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var is_tiebreak: Bool = true
     var is_super_tiebreak: Bool = false
     var is_in_super_tiebreak: Bool = false
+    var is_long_game: Bool = false
+    var is_in_long_game: Bool = false
+    var am_I_Tiebreak_First_Serve: Bool = false
     var is_deuce: Bool = false
     var is_serve: Bool = true
     var is_retire: UInt8 = 0
@@ -103,30 +106,31 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var is_break_point:Bool = false
     
-    var ace_count:UInt8 = 0;
-    var double_faults_count:UInt8 = 0;
-    var unforced_errors_count:UInt16 = 0;
-    var forehand_winner_count:UInt16 = 0;
-    var backhand_winner_count:UInt16 = 0;
-    var forehand_volley_count:UInt16 = 0;
-    var backhand_volley_count:UInt16 = 0;
-    var foul_to_lose_count:UInt8 = 0;
-    var first_serve_count:UInt16 = 0;
-    var first_serve_miss:UInt16 = 0;
-    var second_serve_count:UInt16 = 0;
+    var ace_count:UInt8 = 0
+    var double_faults_count:UInt8 = 0
+    var unforced_errors_count:UInt16 = 0
+    var forehand_winner_count:UInt16 = 0
+    var backhand_winner_count:UInt16 = 0
+    var forehand_volley_count:UInt16 = 0
+    var backhand_volley_count:UInt16 = 0
+    var foul_to_lose_count:UInt8 = 0
+    var first_serve_count:UInt16 = 0
+    var first_serve_miss:UInt16 = 0
+    var second_serve_count:UInt16 = 0
     
-    var first_serve_won:UInt16 = 0;
-    var first_serve_lost:UInt16 = 0;
-    var second_serve_won:UInt16 = 0;
-    var second_serve_lost:UInt16 = 0;
+    var first_serve_won:UInt16 = 0
+    var first_serve_lost:UInt16 = 0
+    var second_serve_won:UInt16 = 0
+    var second_serve_lost:UInt16 = 0
     
-    var time_use: UInt = 0;
+    var time_use: UInt = 0
     
     //for voice play
     var voice_support: Bool = false
     var is_current_game_over = false
     var soundArray = [String]()
     var audioPlayer: AVAudioPlayer?
+    var currentSoundsIndex: NSInteger = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,11 +144,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         print("is_tiebreak: \(is_tiebreak)")
         print("is_super_tiebreak: \(is_super_tiebreak)")
         print("is_in_super_tiebreak: \(is_in_super_tiebreak)")
+        print("is_long_game: \(is_long_game)")
+        print("is_in_long_game: \(is_in_long_game)")
         print("is_deuce: \(is_deuce)")
         print("is_serve: \(is_serve)")
         print("is_retire: \(is_retire)")
         print("stack size \(stack.size())")
         print("------ load setting ------")
+        
         
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -275,6 +282,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             is_in_super_tiebreak = false
                         }
                         
+                        if settingArray.count > 11 {
+                        
+                            if (settingArray[10] == "true") {
+                                is_long_game = true
+                            } else {
+                                is_long_game = false
+                            }
+                            if (settingArray[11] == "true") {
+                                is_in_long_game = true
+                            } else {
+                                is_in_long_game = false
+                            }
+                        }
+                        
                         print("------ load from file ------")
                         print("save file name: \(saveFileName)")
                         print("playerUp: \(playerUp)")
@@ -284,6 +305,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         print("is_tiebreak: \(is_tiebreak)")
                         print("is_super_tiebreak: \(is_super_tiebreak)")
                         print("is_in_super_tiebreak: \(is_in_super_tiebreak)")
+                        print("is_long_game: \(is_long_game)")
+                        print("is_in_long_game: \(is_in_long_game)")
                         print("is_deuce: \(is_deuce)")
                         print("is_serve: \(is_serve)")
                         print("is_retire: \(is_retire)")
@@ -548,6 +571,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 labelYouPoint.text = String(backState.getPointDown(set: current_set))
             }
             
+            if backState.isInTiebreak {
+                let plus = backState.getGameUp(set: current_set) + backState.getGameDown(set: current_set)
+                
+                if backState.isServe {
+                    if plus % 4 == 1 || plus % 4 == 2 {
+                        am_I_Tiebreak_First_Serve = false
+                    } else {
+                        am_I_Tiebreak_First_Serve = true
+                    }
+                } else {
+                    if plus % 4 == 1 || plus % 4 == 2 {
+                        am_I_Tiebreak_First_Serve = true
+                    } else {
+                        am_I_Tiebreak_First_Serve = false
+                    }
+                }
+            }
+            
             if backState.isSecondServe == true {
                 self.is_second_serve = true
                 imgServeUp.image = UIImage(named: "ball_red")
@@ -647,6 +688,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             settingVc.game_select = self.game_select
             settingVc.is_tiebreak = self.is_tiebreak
             settingVc.is_super_tiebreak = self.is_super_tiebreak
+            settingVc.is_long_game = self.is_long_game
             settingVc.is_deuce = self.is_deuce
             settingVc.is_serve = self.is_serve
             settingVc.playerUp = self.playerUp
@@ -679,23 +721,48 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func playSoundInRow() {
-        print("[playSoundInRow start]")
+    @objc func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
-        if soundArray.count > 0 {
-            var i=0
-            while i < soundArray.count {
-                if (audioPlayer?.isPlaying)! {
-                    
-                } else {
-                    playSound(soundPath: soundArray[i] as NSString)
-                    i = i+1
-                }
+        print("audioPlayerDidFinishPlaying")
+        
+        self.currentSoundsIndex = self.currentSoundsIndex+1
+        if currentSoundsIndex < soundArray.count {
+            self.playCurrentSong()
+        }
+    }
+    
+    func playCurrentSong() {
+        print("[playCurrentSong start]")
+        //var error: NSError
+        /*
+         NSError *error;
+         mediaPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:[soundList objectAtIndex:currentSoundsIndex] ofType:nil]] error:&error];         */
+        let soundName = soundArray[currentSoundsIndex]
+        
+        let fullNameArr = soundName.components(separatedBy: ".")
+        
+        let name    = fullNameArr[0]
+        let surname = fullNameArr[1]
+        
+        print("name = \(name), surname = \(surname)")
+        
+        print("play \(name)")
+        
+        if let asset = NSDataAsset(name: name){
+            
+            do {
+                // Use NSDataAsset's data property to access the audio file stored in Sound.
+                audioPlayer = try AVAudioPlayer(data:asset.data, fileTypeHint:"m4a")
+                audioPlayer?.delegate = self
+                // Play the above sound file.
+                audioPlayer?.play()
+                
+                
+            } catch let error as NSError {
+                print(error.localizedDescription)
             }
         }
-        
-        print("[playSoundInRow end]")
-        
+        print("[playCurrentSong end]")
     }
     
     func stopSound() {
@@ -708,39 +775,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func playSound(soundPath: NSString) {
-        print("[playSound start]")
-        // set URL of the sound
-        print("Get path = \(soundPath)")
-        
-        let fullNameArr = soundPath.components(separatedBy: ".")
-        
-        let name    = fullNameArr[0]
-        let surname = fullNameArr[1]
-        
-        print("name = \(name), surname = \(surname)")
-        
-        //let soundURL = NSURL(fileURLWithPath: soundPath as String)
-        
-        //guard let soundURL = Bundle.main.url(forResource: name, withExtension: surname) else { return }
-        
-        //print("Get url = \(soundURL)")
-        if let asset = NSDataAsset(name: name){
-            
-            do {
-                // Use NSDataAsset's data property to access the audio file stored in Sound.
-                audioPlayer = try AVAudioPlayer(data:asset.data, fileTypeHint:"m4a")
-                // Play the above sound file.
-                audioPlayer?.play()
-                
-                
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        }
-        print("[playSound end]")
-        
-    }
+    
     
     func getPointByNumStart(num: NSInteger) -> NSString {
         var path: NSString = ""
@@ -1136,9 +1171,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
         }
         
-        
-        //playSound(soundPath: path as NSString)
-        
         print("[choosePointVoice end]")
         
     }
@@ -1147,31 +1179,117 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         print("[chooseGameVoice start]")
         
-        var call_1: NSString = ""
-        var call_2: NSString = ""
-        var call_3: NSString = ""
+        var path: NSString = ""
+        
+        //var call_1: NSString = ""
+        //var call_2: NSString = ""
+        //var call_3: NSString = ""
+        //var call_4: NSString = ""
         
         if isTiebreak { //enter tiebreak
             print("in tiebreak")
             if game_select == 0 { //6 games in a set
-                call_1 = NSString(format: "%@", "gbr_man_start_6.m4a")
-                soundArray.append(call_1 as String)
-                call_2 = NSString(format: "%@", "gbr_man_all.m4a")
-                soundArray.append(call_2 as String)
-                call_3 = NSString(format: "%@", "gbr_man_tiebreak.m4a")
-                soundArray.append(call_3 as String)
+                path = NSString(format: "%@", "gbr_man_start_6.m4a")
+                soundArray.append(path as String)
+                path = NSString(format: "%@", "gbr_man_all.m4a")
+                soundArray.append(path as String)
+                path = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                soundArray.append(path as String)
             } else { //4 games in a set
-                call_1 = NSString(format: "%@", "gbr_man_start_4.m4a")
-                soundArray.append(call_1 as String)
-                call_2 = NSString(format: "%@", "gbr_man_all.m4a")
-                soundArray.append(call_2 as String)
-                call_3 = NSString(format: "%@", "gbr_man_tiebreak.m4a")
-                soundArray.append(call_3 as String)
+                path = NSString(format: "%@", "gbr_man_start_4.m4a")
+                soundArray.append(path as String)
+                path = NSString(format: "%@", "gbr_man_all.m4a")
+                soundArray.append(path as String)
+                path = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                soundArray.append(path as String)
             }
         } else {
             print("not in tiebreak")
             
-            if gameUp == 0 && gameDown == 1 { //0:1
+            if gameUp == gameDown {
+                if gameUp <= 20 {
+                    path = getPointByNumStart(num: gameUp)
+                    soundArray.append(path as String)
+                    path = getPointByNumEnd(num: 100) //all
+                    soundArray.append(path as String)
+                } else { //point > 20
+                    path = getPointByNumStart(num: (gameUp/10*10))
+                    soundArray.append(path as String)
+                    path = getPointByNumStart(num: (gameUp%10))
+                    soundArray.append(path as String)
+                    path = getPointByNumEnd(num: 100) //all
+                    soundArray.append(path as String)
+                }
+            } else {
+                if gameUp > 20 && gameDown <= 20 { //pointUp: 21... pointDown: 0...20
+                    if (downServe) {
+                        path = getPointByNumStart(num: gameDown)
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameUp/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: (gameUp%10))
+                        soundArray.append(path as String)
+                    } else {
+                        path = getPointByNumStart(num: (gameUp/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameUp%10))
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: gameDown)
+                        soundArray.append(path as String)
+                        
+                    }
+                } else if gameUp <= 20 && gameDown > 20 {
+                    if (downServe) {
+                        path = getPointByNumStart(num: (gameDown/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameDown%10))
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: gameUp)
+                        soundArray.append(path as String)
+                    } else {
+                        path = getPointByNumStart(num: gameUp)
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameDown/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: (gameDown%10))
+                        soundArray.append(path as String)
+                    }
+                } else if gameUp > 20 && gameDown > 20 {
+                    if (downServe) {
+                        path = getPointByNumStart(num: (gameDown/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameDown%10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameUp/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameUp%10))
+                        soundArray.append(path as String)
+                    } else {
+                        path = getPointByNumStart(num: (gameUp/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameUp%10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameDown/10*10))
+                        soundArray.append(path as String)
+                        path = getPointByNumStart(num: (gameDown%10))
+                        soundArray.append(path as String)
+                    }
+                } else { //pointUp <= 20 && pointDown <= 20
+                    if (downServe) {
+                        path = getPointByNumStart(num: gameDown)
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: gameUp)
+                        soundArray.append(path as String)
+                    } else {
+                        path = getPointByNumStart(num: gameUp)
+                        soundArray.append(path as String)
+                        path = getPointByNumEnd(num: gameDown)
+                        soundArray.append(path as String)
+                    }
+                }
+            }
+            
+            /*if gameUp == 0 && gameDown == 1 { //0:1
                 if downServe {
                     call_1 = NSString(format: "%@", "gbr_man_start_1.m4a")
                     soundArray.append(call_1 as String)
@@ -1765,7 +1883,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
                     soundArray.append(call_2 as String)
                 }
-            }
+            }*/
             
         }
         
@@ -1773,21 +1891,61 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    
+    
     func chooseSetVoice(gameServe: NSInteger, gameRecv: NSInteger) {
         
         print("[chooseSetVoice start]")
         
-        var call_1: NSString = ""
-        var call_2: NSString = ""
-        //var call_3: NSString = ""
+        var path: NSString = ""
         
-        if gameServe == 0 && gameRecv == 1 {
-            call_1 = NSString(format: "%@", "gbr_man_start_7.m4a")
-            soundArray.append(call_1 as String)
-            call_2 = NSString(format: "%@", "gbr_man_end_6.m4a")
-            soundArray.append(call_2 as String)
-            
+        if gameServe == gameRecv {
+            if gameServe <= 20 {
+                path = getPointByNumStart(num: gameServe)
+                soundArray.append(path as String)
+                path = getPointByNumEnd(num: 100) //all
+                soundArray.append(path as String)
+            } else { //point > 20
+                path = getPointByNumStart(num: (gameServe/10*10))
+                soundArray.append(path as String)
+                path = getPointByNumStart(num: (gameServe%10))
+                soundArray.append(path as String)
+                path = getPointByNumEnd(num: 100) //all
+                soundArray.append(path as String)
+            }
+        } else {
+            if gameServe > 20 && gameRecv <= 20 { //pointUp: 21... pointDown: 0...20
+                path = getPointByNumStart(num: (gameServe/10*10))
+                soundArray.append(path as String)
+                path = getPointByNumStart(num: (gameServe%10))
+                soundArray.append(path as String)
+                path = getPointByNumEnd(num: gameRecv)
+                soundArray.append(path as String)
+            } else if gameServe <= 20 && gameServe > 20 {
+                path = getPointByNumStart(num: (gameRecv/10*10))
+                soundArray.append(path as String)
+                path = getPointByNumStart(num: (gameRecv%10))
+                soundArray.append(path as String)
+                path = getPointByNumEnd(num: gameServe)
+                soundArray.append(path as String)
+            } else if gameServe > 20 && gameRecv > 20 {
+                path = getPointByNumStart(num: (gameServe/10*10))
+                soundArray.append(path as String)
+                path = getPointByNumStart(num: (gameServe%10))
+                soundArray.append(path as String)
+                path = getPointByNumStart(num: (gameRecv/10*10))
+                soundArray.append(path as String)
+                path = getPointByNumStart(num: (gameRecv%10))
+                soundArray.append(path as String)
+            } else { //pointUp <= 20 && pointDown <= 20
+                path = getPointByNumStart(num: gameServe)
+                soundArray.append(path as String)
+                path = getPointByNumEnd(num: gameRecv)
+                soundArray.append(path as String)
+            }
         }
+        
+        
         
         print("[chooseSetVoice start]")
         
@@ -1980,6 +2138,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         statController.game_select = self.game_select
         statController.is_tiebreak = self.is_tiebreak
         statController.is_super_tiebreak = self.is_super_tiebreak
+        statController.is_long_game = self.is_long_game
         statController.is_deuce = self.is_deuce
         statController.is_serve = self.is_serve
         statController.playerUp = self.playerUp
@@ -2076,7 +2235,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.self.saveFileName = (alert.textFields?[0].text)!//,
             print("file name = \(self.saveFileName)")
             
-            var text = "\(self.playerUp);\(self.playerDown);\(self.is_tiebreak);\(self.is_super_tiebreak);\(self.is_deuce);\(self.is_serve);\(self.set_select);\(self.is_retire);\(self.game_select);\(self.is_in_super_tiebreak)|"
+            var text = "\(self.playerUp);\(self.playerDown);\(self.is_tiebreak);\(self.is_super_tiebreak);\(self.is_deuce);\(self.is_serve);\(self.set_select);\(self.is_retire);\(self.game_select);\(self.is_in_super_tiebreak);\(self.is_long_game);\(self.is_in_long_game)|"
             
             for i in 0..<self.self.stack.size() {
                 let state = self.stack.get(index: i)
@@ -3356,6 +3515,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             print("game_select = \(self.game_select)")
             print("is_tiebreak = \(self.is_tiebreak)")
             print("is_super_tiebreak = \(self.is_super_tiebreak)")
+            print("is_long_game = \(self.is_long_game)")
             print("is_deuce = \(self.is_deuce)")
             print("is_serve = \(self.is_serve)")
             print("second serve = \(self.is_second_serve)")
@@ -4525,7 +4685,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let current_set: UInt8 = new_state.current_set
         
         if new_state.isInTiebreak == true {
-            print("[In tiebreak]")
+            print("[In tiebreak start]")
             
             var game:UInt8 = 0
             
@@ -4545,6 +4705,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     game = game + 1
                     new_state.setGameUp(set: current_set, game: game)
                     //change serve
+                    
                     if new_state.isServe == true {
                         new_state.isServe = false
                     } else {
@@ -4564,7 +4725,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -4583,6 +4745,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     game = game + 1
                     new_state.setGameDown(set: current_set, game: game)
                     //change serve
+                    
                     if new_state.isServe == true {
                         new_state.isServe = false
                     } else {
@@ -4602,7 +4765,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -4628,6 +4792,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         game = game + 1
                         new_state.setGameUp(set: current_set, game: game)
                         //change serve
+                        
                         if new_state.isServe == true {
                             new_state.isServe = false
                         } else {
@@ -4646,7 +4811,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                 stopSound()
                             }
                             //remove play list
-                            soundArray.removeAll(keepingCapacity: false)
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
                             choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                             
                         }
@@ -4664,6 +4830,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         game = game + 1
                         new_state.setGameDown(set: current_set, game: game)
                         //change serve
+                        
                         if new_state.isServe == true {
                             new_state.isServe = false
                         } else {
@@ -4681,7 +4848,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                 stopSound()
                             }
                             //remove play list
-                            soundArray.removeAll(keepingCapacity: false)
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
                             choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                             
                         }
@@ -4710,11 +4878,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         game = game + 1
                         new_state.setGameUp(set: current_set, game: game)
                         //change serve
-                        if new_state.isServe == true {
+                        if am_I_Tiebreak_First_Serve {
                             new_state.isServe = false
                         } else {
                             new_state.isServe = true
                         }
+                        /*if new_state.isServe == true {
+                            new_state.isServe = false
+                        } else {
+                            new_state.isServe = true
+                        }*/
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
@@ -4728,7 +4901,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                 stopSound()
                             }
                             //remove play list
-                            soundArray.removeAll(keepingCapacity: false)
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
                             choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                             
                         }
@@ -4746,11 +4920,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         game = game + 1
                         new_state.setGameDown(set: current_set, game: game)
                         //change serve
-                        if new_state.isServe == true {
+                        if am_I_Tiebreak_First_Serve {
                             new_state.isServe = false
                         } else {
                             new_state.isServe = true
                         }
+                        /*if new_state.isServe == true {
+                            new_state.isServe = false
+                        } else {
+                            new_state.isServe = true
+                        }*/
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
@@ -4764,7 +4943,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                 stopSound()
                             }
                             //remove play list
-                            soundArray.removeAll(keepingCapacity: false)
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
                             choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                             
                         }
@@ -4790,11 +4970,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             game = game + 1
                             new_state.setGameUp(set: current_set, game: game)
                             //change serve
-                            if new_state.isServe == true {
+                            if am_I_Tiebreak_First_Serve {
                                 new_state.isServe = false
                             } else {
                                 new_state.isServe = true
                             }
+                            /*if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }*/
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
@@ -4808,7 +4993,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                     stopSound()
                                 }
                                 //remove play list
-                                soundArray.removeAll(keepingCapacity: false)
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
                                 choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                                 
                             }
@@ -4826,11 +5012,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             game = game + 1
                             new_state.setGameDown(set: current_set, game: game)
                             //change serve
-                            if new_state.isServe == true {
+                            if am_I_Tiebreak_First_Serve {
                                 new_state.isServe = false
                             } else {
                                 new_state.isServe = true
                             }
+                            /*if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }*/
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
@@ -4844,7 +5035,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                     stopSound()
                                 }
                                 //remove play list
-                                soundArray.removeAll(keepingCapacity: false)
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
                                 choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                                 
                             }
@@ -4866,11 +5058,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         game = game + 1
                         new_state.setGameUp(set: current_set, game: game)
                         //change serve
-                        if new_state.isServe == true {
+                        if am_I_Tiebreak_First_Serve {
                             new_state.isServe = false
                         } else {
                             new_state.isServe = true
                         }
+                        /*if new_state.isServe == true {
+                            new_state.isServe = false
+                        } else {
+                            new_state.isServe = true
+                        }*/
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
@@ -4884,7 +5081,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                 stopSound()
                             }
                             //remove play list
-                            soundArray.removeAll(keepingCapacity: false)
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
                             choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                             
                         }
@@ -4902,11 +5100,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         game = game + 1
                         new_state.setGameDown(set: current_set, game: game)
                         //change serve
-                        if new_state.isServe == true {
+                        if am_I_Tiebreak_First_Serve {
                             new_state.isServe = false
                         } else {
                             new_state.isServe = true
                         }
+                        /*if new_state.isServe == true {
+                            new_state.isServe = false
+                        } else {
+                            new_state.isServe = true
+                        }*/
                         
                         //leave tiebreak
                         new_state.isInTiebreak = false
@@ -4920,7 +5123,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                 stopSound()
                             }
                             //remove play list
-                            soundArray.removeAll(keepingCapacity: false)
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
                             choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                             
                         }
@@ -4947,11 +5151,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             game = game + 1
                             new_state.setGameUp(set: current_set, game: game)
                             //change serve
-                            if new_state.isServe == true {
+                            if am_I_Tiebreak_First_Serve {
                                 new_state.isServe = false
                             } else {
                                 new_state.isServe = true
                             }
+                            /*if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }*/
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
@@ -4965,7 +5174,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                     stopSound()
                                 }
                                 //remove play list
-                                soundArray.removeAll(keepingCapacity: false)
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
                                 choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                                 
                             }
@@ -4984,11 +5194,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             game = game + 1
                             new_state.setGameDown(set: current_set, game: game)
                             //change serve
-                            if new_state.isServe == true {
+                            if am_I_Tiebreak_First_Serve {
                                 new_state.isServe = false
                             } else {
                                 new_state.isServe = true
                             }
+                            /*if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }*/
                             
                             //leave tiebreak
                             new_state.isInTiebreak = false
@@ -5002,7 +5217,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                     stopSound()
                                 }
                                 //remove play list
-                                soundArray.removeAll(keepingCapacity: false)
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
                                 choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                                 
                             }
@@ -5031,6 +5247,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             
+            print("[In tiebreak end]")
         } else {
             print("[Not in tiebreak start]")
             
@@ -5070,7 +5287,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5112,7 +5330,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5155,7 +5374,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5198,7 +5418,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5241,7 +5462,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5338,7 +5560,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5375,7 +5598,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5407,7 +5631,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5425,7 +5650,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             }
                         }
                         //remove play list
-                        soundArray.removeAll(keepingCapacity: false)
+                        soundArray.removeAll()
+                        currentSoundsIndex = 0
                         choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
                         
                     }
@@ -5461,7 +5687,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     checkSets(new_state: new_state)
                     //play sound
                     if voice_support {
-                        playSoundInRow()
+                        playCurrentSong()
                     }
                 } else if new_state.getGameUp(set: current_set) == 0 &&
                     new_state.getGameDown(set: current_set) == 1 { //0:1 => you win this set
@@ -5471,7 +5697,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     checkSets(new_state: new_state)
                     //play sound
                     if voice_support {
-                        playSoundInRow()
+                        playCurrentSong()
                     }
                     
                 } else {
@@ -5479,15 +5705,61 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     
                     //play sound
                     if voice_support {
-                        playSoundInRow()
+                        playCurrentSong()
                     }
                 }
                 
-            } else { // not use super tiebreak
+            } else if is_in_long_game {
+                print("[Use Long Game]")
+                
+                let gameUp: Int8 = Int8(new_state.getGameUp(set: current_set))
+                let gameDown: Int8 = Int8(new_state.getGameDown(set: current_set))
+                
+                if gameUp >= 5 && gameDown >= 5 {
+                    
+                    if gameUp - gameDown == 2 { //oppt win this set
+                        //set sets win
+                        setsWinUp = setsWinUp + 1
+                        new_state.setsUp = setsWinUp
+                        checkSets(new_state: new_state)
+                    } else if gameDown - gameUp == 2 { //you win this set
+                        setsWinDown = setsWinDown + 1
+                        new_state.setsDown = setsWinDown
+                        checkSets(new_state: new_state)
+                    } else {
+                        if is_current_game_over {
+                            chooseGameVoice(gameUp: NSInteger(new_state.getGameUp(set: current_set)), gameDown: NSInteger(new_state.getGameDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        }
+                        
+                        
+                    }
+                    
+                    //play sound
+                    if voice_support {
+                        playCurrentSong()
+                    }
+                    
+                } else { //gameUp <= 4 or gameDown <=4
+                    if is_current_game_over {
+                        chooseGameVoice(gameUp: NSInteger(new_state.getGameUp(set: current_set)), gameDown: NSInteger(new_state.getGameDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                    }
+                    
+                    //play sound
+                    if voice_support {
+                        playCurrentSong()
+                    }
+                }
+                
+            } else { // not use super tiebreak or use long game
                 if self.game_select == 0 { //6 games
                     if new_state.getGameUp(set: current_set) == 6 &&
                         new_state.getGameDown(set: current_set) == 6 {
                         new_state.isInTiebreak = true //into tiebreak
+                        
+                        if is_current_game_over {
+                            chooseGameVoice(gameUp: NSInteger(new_state.getGameUp(set: current_set)), gameDown: NSInteger(new_state.getGameDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        }
+                        
                     } else if new_state.getGameUp(set: current_set) == 7 &&
                         new_state.getGameDown(set: current_set) == 5 { //7:5 => oppt win this set
                         //set sets win
@@ -5524,11 +5796,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         setsWinDown = setsWinDown + 1
                         new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
+                    } else {
+                        if is_current_game_over {
+                            chooseGameVoice(gameUp: NSInteger(new_state.getGameUp(set: current_set)), gameDown: NSInteger(new_state.getGameDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        }
                     }
                 } else { //4 games
                     if new_state.getGameUp(set: current_set) == 4 &&
                         new_state.getGameDown(set: current_set) == 4 {
                         new_state.isInTiebreak = true //into tiebreak
+                        
+                        if is_current_game_over {
+                            chooseGameVoice(gameUp: NSInteger(new_state.getGameUp(set: current_set)), gameDown: NSInteger(new_state.getGameDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        }
                     } else if new_state.getGameUp(set: current_set) == 5 &&
                         new_state.getGameDown(set: current_set) == 3 { //5:3 => oppt win this set
                         //set sets win
@@ -5565,12 +5845,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         setsWinDown = setsWinDown + 1
                         new_state.setsDown = setsWinDown
                         checkSets(new_state: new_state)
+                    } else {
+                        if is_current_game_over {
+                            chooseGameVoice(gameUp: NSInteger(new_state.getGameUp(set: current_set)), gameDown: NSInteger(new_state.getGameDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                        }
                     }
                 }
                 
                 //play sound
                 if voice_support {
-                    playSoundInRow()
+                    playCurrentSong()
                 }
                 
             }
@@ -5614,7 +5898,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
             //play sound
             if voice_support {
-                playSoundInRow()
+                playCurrentSong()
             }
             
         }
@@ -5633,11 +5917,35 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if setsWinUp == 1 || setsWinDown == 1 {
                 new_state.isFinish = true
                 
+                let path = NSString(format: "%@", "gbr_man_match.m4a")
+                soundArray.append(path as String)
+                
+                for i in 1...current_set {
+                    if setsWinUp > setsWinDown {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameUp(set: i)), gameRecv: NSInteger(new_state.getGameDown(set: i)))
+                    } else {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameDown(set: i)), gameRecv: NSInteger(new_state.getGameUp(set: i)))
+                    }
+                }
+                
+            } else {
+                print("game is not finish")
             }
             break
         case 1:
             if setsWinUp == 2 || setsWinDown == 2 {
                 new_state.isFinish = true
+                
+                let path = NSString(format: "%@", "gbr_man_match.m4a")
+                soundArray.append(path as String)
+                
+                for i in 1...current_set {
+                    if setsWinUp > setsWinDown {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameUp(set: i)), gameRecv: NSInteger(new_state.getGameDown(set: i)))
+                    } else {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameDown(set: i)), gameRecv: NSInteger(new_state.getGameUp(set: i)))
+                    }
+                }
             } else {
                 //final set
                 
@@ -5649,6 +5957,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         print("go to super tiebreak")
                         new_state.isInTiebreak = true
                         is_in_super_tiebreak = true
+                        is_in_long_game = false
+                    } else if is_long_game {
+                        print("go to long game")
+                        new_state.isInTiebreak = false
+                        is_in_super_tiebreak = false
+                        is_in_long_game = true
                     } else {
                         print("go to normal set")
                         new_state.isInTiebreak = false
@@ -5665,6 +5979,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         case 2:
             if setsWinUp == 3 || setsWinDown == 3 {
                 new_state.isFinish = true
+                
+                let path = NSString(format: "%@", "gbr_man_match.m4a")
+                soundArray.append(path as String)
+                
+                for i in 1...current_set {
+                    if setsWinUp > setsWinDown {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameUp(set: i)), gameRecv: NSInteger(new_state.getGameDown(set: i)))
+                    } else {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameDown(set: i)), gameRecv: NSInteger(new_state.getGameUp(set: i)))
+                    }
+                }
             } else {
                 current_set = current_set + 1
                 new_state.current_set = current_set
@@ -5675,6 +6000,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         print("go to super tiebreak")
                         new_state.isInTiebreak = true
                         is_in_super_tiebreak = true
+                    } else if is_long_game {
+                        print("go to long game")
+                        new_state.isInTiebreak = false
+                        is_in_super_tiebreak = false
+                        is_in_long_game = true
                     } else {
                         print("go to normal set")
                         new_state.isInTiebreak = false
@@ -5690,6 +6020,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if setsWinUp == 1 || setsWinDown == 1 {
                 new_state.isFinish = true
                 
+                let path = NSString(format: "%@", "gbr_man_match.m4a")
+                soundArray.append(path as String)
+                
+                for i in 1...current_set {
+                    if setsWinUp > setsWinDown {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameUp(set: i)), gameRecv: NSInteger(new_state.getGameDown(set: i)))
+                    } else {
+                        chooseSetVoice(gameServe: NSInteger(new_state.getGameDown(set: i)), gameRecv: NSInteger(new_state.getGameUp(set: i)))
+                    }
+                }
+                
+            } else {
+                print("game is not finish")
             }
             break
         }

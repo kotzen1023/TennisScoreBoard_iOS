@@ -43,6 +43,7 @@
 "game_setting_tiebreak" = "Ｔiebreak";
 "game_setting_deciding_game" = "Deciding Game";
 "game_setting_super_tiebreak" = "Super Tiebreak";
+"game_setting_long_game" = "Long Game";
 "game_setting_choose_deuce" = "Choose deuce or deciding point";
 "game_setting_deciding_point" = "Deciding Point";
 "game_setting_deuce" = "Deuce";

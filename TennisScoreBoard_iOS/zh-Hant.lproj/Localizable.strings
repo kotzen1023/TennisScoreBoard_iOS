@@ -43,6 +43,7 @@
 "game_setting_tiebreak" = "搶七決勝局(Ｔiebreak)";
 "game_setting_deciding_game" = "決勝局";
 "game_setting_super_tiebreak" = "Super Tiebreak";
+"game_setting_long_game" = "Long Game";
 "game_setting_choose_deuce" = "選擇deuce或決勝分";
 "game_setting_deciding_point" = "決勝分";
 "game_setting_deuce" = "Deuce";

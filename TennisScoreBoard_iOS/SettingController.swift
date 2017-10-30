@@ -25,6 +25,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
     var game_select: UInt8 = 0
     var is_tiebreak: Bool = true
     var is_super_tiebreak : Bool = false
+    var is_long_game : Bool = false
     var is_deuce: Bool = true
     var is_serve: Bool = true
     var playerUp: NSString = "Player1"
@@ -88,6 +89,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
             gameVc.game_select = self.game_select
             gameVc.is_tiebreak = self.is_tiebreak
             gameVc.is_super_tiebreak = self.is_super_tiebreak
+            gameVc.is_long_game = self.is_long_game
             gameVc.is_deuce = self.is_deuce
             gameVc.is_serve = self.is_serve
             gameVc.playerUp = self.textFieldPlayerUp.text as NSString!
@@ -198,6 +200,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
         print("tiebreak change")
         
         self.is_super_tiebreak = false
+        self.is_long_game = false
         
         let tiebreakSheet = UIAlertController(title: NSLocalizedString("game_setting_choose_tiebreak", comment: ""), message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
          
@@ -221,6 +224,13 @@ class SettingController: UIViewController, UITextFieldDelegate {
             self.is_tiebreak = true
             self.is_super_tiebreak = true
         }
+        
+        let longGameAction = UIAlertAction(title: NSLocalizedString("game_setting_long_game", comment: ""), style: UIAlertActionStyle.default) { (action) in
+            print("Long Game")
+            self.btnTiebreak.setTitle(NSLocalizedString("game_setting_long_game", comment: ""), for: UIControlState.normal)
+            self.is_tiebreak = true
+            self.is_long_game = true
+        }
          
         // Cancel
         let cancelAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.cancel) { (action) in
@@ -231,6 +241,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
         tiebreakSheet.addAction(decidingGameAction)
         if set_select >= 1 && game_select == 0 {
             tiebreakSheet.addAction(superTiereakAction)
+            tiebreakSheet.addAction(longGameAction)
         }
     
         tiebreakSheet.addAction(cancelAction)
@@ -316,6 +327,7 @@ class SettingController: UIViewController, UITextFieldDelegate {
         gameVc.game_select = self.game_select
         gameVc.is_tiebreak = self.is_tiebreak
         gameVc.is_super_tiebreak = self.is_super_tiebreak
+        gameVc.is_long_game = self.is_long_game
         gameVc.is_deuce = self.is_deuce
         gameVc.is_serve = self.is_serve
         gameVc.playerUp = self.textFieldPlayerUp.text as NSString!
