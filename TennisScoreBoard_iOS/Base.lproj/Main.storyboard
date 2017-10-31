@@ -133,6 +133,83 @@
             </objects>
             <point key="canvasLocation" x="-708.75" y="818.75"/>
         </scene>
+        <!--Voice Select-->
+        <scene sceneID="hrG-Ld-w1E">
+            <objects>
+                <viewController storyboardIdentifier="VoiceSelect" id="wo3-NL-d5P" customClass="VoiceSelect" customModule="TennisScoreBoard_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mo0-ZK-e8d"/>
+                        <viewControllerLayoutGuide type="bottom" id="yCv-c9-AEg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GaW-Xn-Pm7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trS-Ev-DAC">
+                                <rect key="frame" x="16" y="20" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="EA3-eI-6wO"/>
+                                    <constraint firstAttribute="width" constant="48" id="ZJm-4A-kKl"/>
+                                </constraints>
+                                <state key="normal" image="ic_undo_48pt"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="p42-ga-mxo"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZOV-5A-XDU">
+                                <rect key="frame" x="16" y="76" width="288" height="404"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="voiceItemCell" rowHeight="49" id="wtK-yH-SsC">
+                                        <rect key="frame" x="0.0" y="28" width="288" height="49"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wtK-yH-SsC" id="5it-cc-PRp">
+                                            <rect key="frame" x="0.0" y="0.0" width="288" height="48.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GUr-Hk-3Ri">
+                                                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="48" id="KLV-6w-Bay"/>
+                                                        <constraint firstAttribute="width" constant="48" id="jL4-AX-aoi"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BW0-GK-9h9">
+                                                    <rect key="frame" x="56" y="0.0" width="232" height="48"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="GUr-Hk-3Ri" firstAttribute="leading" secondItem="5it-cc-PRp" secondAttribute="leading" id="Wro-ki-XMt"/>
+                                                <constraint firstItem="GUr-Hk-3Ri" firstAttribute="top" secondItem="5it-cc-PRp" secondAttribute="top" id="jD0-sg-Qgv"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="wo3-NL-d5P" id="zeY-N2-CGp"/>
+                                    <outlet property="delegate" destination="wo3-NL-d5P" id="L7s-zb-FdO"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="trS-Ev-DAC" firstAttribute="leading" secondItem="GaW-Xn-Pm7" secondAttribute="leadingMargin" id="TWM-B6-zMr"/>
+                            <constraint firstItem="trS-Ev-DAC" firstAttribute="top" secondItem="mo0-ZK-e8d" secondAttribute="bottom" id="uLr-5U-dl8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="voiceTableView" destination="ZOV-5A-XDU" id="2KH-Bk-eJp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mHU-sa-9dZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="114.375" y="818.75"/>
+        </scene>
         <!--Setting Controller-->
         <scene sceneID="Sgx-xQ-YhJ">
             <objects>
@@ -576,8 +653,13 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4Bs-H6-5nE">
                                                 <rect key="frame" x="240.5" y="0.0" width="79.5" height="138"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZM-qf-ZDH">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZM-qf-ZDH">
                                                         <rect key="frame" x="0.0" y="0.0" width="79.5" height="69"/>
+                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <state key="normal" image="ic_record_voice_over_48pt"/>
+                                                        <connections>
+                                                            <segue destination="wo3-NL-d5P" kind="show" id="9pj-eZ-TgN"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Do-gk-MGq">
                                                         <rect key="frame" x="0.0" y="69" width="79.5" height="69"/>
@@ -814,12 +896,13 @@
         <image name="ic_assessment_48pt" width="48" height="48"/>
         <image name="ic_directions_run_48pt" width="48" height="48"/>
         <image name="ic_done_48pt" width="48" height="48"/>
+        <image name="ic_record_voice_over_48pt" width="48" height="48"/>
         <image name="ic_redo_48pt" width="48" height="48"/>
         <image name="ic_reorder_48pt" width="48" height="48"/>
         <image name="ic_settings_voice_disable_48pt" width="48" height="48"/>
         <image name="ic_undo_48pt" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="A2c-7T-Jfm"/>
+        <segue reference="p42-ga-mxo"/>
     </inferredMetricsTieBreakers>
 </document>
