@@ -737,30 +737,39 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         /*
          NSError *error;
          mediaPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle mainBundle] pathForResource:[soundList objectAtIndex:currentSoundsIndex] ofType:nil]] error:&error];         */
-        let soundName = soundArray[currentSoundsIndex]
         
-        let fullNameArr = soundName.components(separatedBy: ".")
-        
-        let name    = fullNameArr[0]
-        let surname = fullNameArr[1]
-        
-        print("name = \(name), surname = \(surname)")
-        
-        print("play \(name)")
-        
-        if let asset = NSDataAsset(name: name){
+        if soundArray.count > 0 {
+            print("currentSoundsIndex = \(currentSoundsIndex)")
             
-            do {
-                // Use NSDataAsset's data property to access the audio file stored in Sound.
-                audioPlayer = try AVAudioPlayer(data:asset.data, fileTypeHint:"m4a")
-                audioPlayer?.delegate = self
-                // Play the above sound file.
-                audioPlayer?.play()
+            let soundName = soundArray[currentSoundsIndex]
+            
+            let fullNameArr = soundName.components(separatedBy: ".")
+            
+            let name    = fullNameArr[0]
+            let surname = fullNameArr[1]
+            
+            if fullNameArr.count == 2 {
+                print("name = \(name), surname = \(surname)")
                 
+                print("play \(name)")
                 
-            } catch let error as NSError {
-                print(error.localizedDescription)
+                if let asset = NSDataAsset(name: name){
+                    
+                    do {
+                        // Use NSDataAsset's data property to access the audio file stored in Sound.
+                        audioPlayer = try AVAudioPlayer(data:asset.data, fileTypeHint:"m4a")
+                        audioPlayer?.delegate = self
+                        // Play the above sound file.
+                        audioPlayer?.play()
+                        
+                        
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    }
+                }
+                
             }
+        
         }
         print("[playCurrentSong end]")
     }
@@ -771,6 +780,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             audioPlayer?.stop()
             print("stop playing")
         }
+        
+        
+        soundArray.removeAll()
+        currentSoundsIndex = 0
         print("[stop sound end]")
         
     }
@@ -1043,7 +1056,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             soundArray.append(path as String)
                             path = getPointByNumStart(num: (pointUp/10*10))
                             soundArray.append(path as String)
-                            path = getPointByNumStart(num: (pointUp%10))
+                            path = getPointByNumEnd(num: (pointUp%10))
                             soundArray.append(path as String)
                         } else {
                             path = getPointByNumStart(num: (pointUp/10*10))
@@ -1052,7 +1065,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             soundArray.append(path as String)
                             path = getPointByNumStart(num: (pointDown/10*10))
                             soundArray.append(path as String)
-                            path = getPointByNumStart(num: (pointDown%10))
+                            path = getPointByNumEnd(num: (pointDown%10))
                             soundArray.append(path as String)
                         }
                     } else { //pointUp <= 20 && pointDown <= 20
@@ -1159,14 +1172,30 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     } else {
                         path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
                     }
+                } else if pointUp == 3 && pointDown == 3 { //40:40
                     
-                    
+                    if is_deuce {
+                        path = NSString(format: "%@", "gbr_man_40_40.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
+                    }
+                } else if pointUp == 3 && pointDown == 4 { //40:Ad
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_ad_serve.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_ad_recv.m4a")
+                    }
+                } else if pointUp == 4 && pointDown == 3 { //Ad:40
+                    if downServe {
+                        path = NSString(format: "%@", "gbr_man_ad_recv.m4a")
+                    } else {
+                        path = NSString(format: "%@", "gbr_man_ad_serve.m4a")
+                    }
                 }
                 
-                soundArray.append(path as String)
-                
-                
-                
+                if path != "" {
+                    soundArray.append(path as String)
+                }
             }
             
         }
@@ -2298,6 +2327,20 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             print("stack is empty!")
         } else {
             print("stack is not empty, pop to state")
+            
+            //sound play
+            if voice_support {
+                //stop first
+                if (audioPlayer != nil) {
+                    if (audioPlayer?.isPlaying)! {
+                        //if playing, stop the play
+                        stopSound()
+                    }
+                }
+                //remove play list
+                soundArray.removeAll()
+                currentSoundsIndex = 0
+            }
             
             var current_set: UInt8 = 0
             
@@ -4854,10 +4897,90 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             
                         }
                         
+                    } else {
+                        print("both points are more than 9 and games continue")
+                        is_current_game_over = false
+                        
+                        //In tiebreak, player serve twice in turns
+                        let plus:UInt8 = new_state.getPointUp(set: current_set) + new_state.getPointDown(set: current_set)
+                        
+                        if plus%2 == 1 {
+                            print("===> Points plus become odd, change serve")
+                            if new_state.isServe == true {
+                                new_state.isServe = false
+                            } else {
+                                new_state.isServe = true
+                            }
+                        }
+                        
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer != nil) {
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
+                            }
+                            //remove play list
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
                     }
                 } else {
                     print("game continue")
                     is_current_game_over = false
+                    
+                    //In tiebreak, player serve twice in turns
+                    let plus:UInt8 = new_state.getPointUp(set: current_set) + new_state.getPointDown(set: current_set)
+                    
+                    if plus%2 == 1 {
+                        print("===> Points plus become odd, change serve")
+                        if new_state.isServe == true {
+                            new_state.isServe = false
+                        } else {
+                            new_state.isServe = true
+                        }
+                    }
+                    
+                    if new_state.getPointUp(set: current_set) > 99 && new_state.getPointDown(set: current_set) > 99 {
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer != nil) {
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
+                            }
+                            //remove play list
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
+                            //choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
+                    } else {
+                        //sound play
+                        if voice_support {
+                            //stop first
+                            if (audioPlayer != nil) {
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
+                            }
+                            //remove play list
+                            soundArray.removeAll()
+                            currentSoundsIndex = 0
+                            
+                            print("new_state.isServe = \(new_state.isServe)")
+                            
+                            choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                            
+                        }
+                    }
                 }
                 print("[In super tiebreak end]")
                 
@@ -4896,9 +5019,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         //sound play
                         if voice_support {
                             //stop first
-                            if (audioPlayer?.isPlaying)! {
-                                //if playing, stop the play
-                                stopSound()
+                            if (audioPlayer != nil) {
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
                             }
                             //remove play list
                             soundArray.removeAll()
@@ -4938,9 +5063,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         //sound play
                         if voice_support {
                             //stop first
-                            if (audioPlayer?.isPlaying)! {
-                                //if playing, stop the play
-                                stopSound()
+                            if (audioPlayer != nil) {
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
                             }
                             //remove play list
                             soundArray.removeAll()
@@ -4988,9 +5115,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             //sound play
                             if voice_support {
                                 //stop first
-                                if (audioPlayer?.isPlaying)! {
-                                    //if playing, stop the play
-                                    stopSound()
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
                                 }
                                 //remove play list
                                 soundArray.removeAll()
@@ -5030,9 +5159,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             //sound play
                             if voice_support {
                                 //stop first
-                                if (audioPlayer?.isPlaying)! {
-                                    //if playing, stop the play
-                                    stopSound()
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
                                 }
                                 //remove play list
                                 soundArray.removeAll()
@@ -5041,7 +5172,78 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                                 
                             }
                             
+                        } else {
+                            print("both points are more than 6 and games continue")
+                            is_current_game_over = false
+                            
+                            //In tiebreak, player serve twice in turns
+                            let plus:UInt8 = new_state.getPointUp(set: current_set) + new_state.getPointDown(set: current_set)
+                            
+                            if plus%2 == 1 {
+                                print("===> Points plus become odd, change serve")
+                                if new_state.isServe == true {
+                                    new_state.isServe = false
+                                } else {
+                                    new_state.isServe = true
+                                }
+                            }
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
+                                }
+                                //remove play list
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
                         }
+                    } else {
+                        is_current_game_over = false
+                        
+                        if new_state.getPointUp(set: current_set) > 99 && new_state.getPointDown(set: current_set) > 99 {
+                            print("The voice will not support while the points are more than 99")
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
+                                }
+                                //remove play list
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
+                                //choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
+                        } else {
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
+                                }
+                                //remove play list
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
+                        }
+                        
+                        
                     }
                     
                 } else { //4 games
@@ -5076,9 +5278,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         //sound play
                         if voice_support {
                             //stop first
-                            if (audioPlayer?.isPlaying)! {
-                                //if playing, stop the play
-                                stopSound()
+                            if (audioPlayer != nil) {
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
                             }
                             //remove play list
                             soundArray.removeAll()
@@ -5118,9 +5322,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         //sound play
                         if voice_support {
                             //stop first
-                            if (audioPlayer?.isPlaying)! {
-                                //if playing, stop the play
-                                stopSound()
+                            if (audioPlayer != nil) {
+                                if (audioPlayer?.isPlaying)! {
+                                    //if playing, stop the play
+                                    stopSound()
+                                }
                             }
                             //remove play list
                             soundArray.removeAll()
@@ -5169,9 +5375,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             //sound play
                             if voice_support {
                                 //stop first
-                                if (audioPlayer?.isPlaying)! {
-                                    //if playing, stop the play
-                                    stopSound()
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
                                 }
                                 //remove play list
                                 soundArray.removeAll()
@@ -5212,9 +5420,11 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             //sound play
                             if voice_support {
                                 //stop first
-                                if (audioPlayer?.isPlaying)! {
-                                    //if playing, stop the play
-                                    stopSound()
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
                                 }
                                 //remove play list
                                 soundArray.removeAll()
@@ -5223,6 +5433,75 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                                 
                             }
                             
+                        } else {
+                            print("both points are more than 4 and games continue")
+                            is_current_game_over = false
+                            
+                            //In tiebreak, player serve twice in turns
+                            let plus:UInt8 = new_state.getPointUp(set: current_set) + new_state.getPointDown(set: current_set)
+                            
+                            if plus%2 == 1 {
+                                print("===> Points plus become odd, change serve")
+                                if new_state.isServe == true {
+                                    new_state.isServe = false
+                                } else {
+                                    new_state.isServe = true
+                                }
+                            }
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
+                                }
+                                //remove play list
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
+                        }
+                    } else {
+                        is_current_game_over = false
+                        
+                        if new_state.getPointUp(set: current_set) > 99 && new_state.getPointDown(set: current_set) > 99 {
+                            print("The voice will not support while the points are more than 99")
+                            
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
+                                }
+                                //remove play list
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
+                                //choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
+                        } else {
+                            //sound play
+                            if voice_support {
+                                //stop first
+                                if (audioPlayer != nil) {
+                                    if (audioPlayer?.isPlaying)! {
+                                        //if playing, stop the play
+                                        stopSound()
+                                    }
+                                }
+                                //remove play list
+                                soundArray.removeAll()
+                                currentSoundsIndex = 0
+                                choosePointVoice(pointUp: NSInteger(new_state.getPointUp(set: current_set)), pointDown: NSInteger(new_state.getPointDown(set: current_set)), downServe: new_state.isServe, isTiebreak: new_state.isInTiebreak)
+                                
+                            }
                         }
                     }
                 }
@@ -5235,17 +5514,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             
             
             
-            //In tiebreak, player serve twice in turns
-            let plus:UInt8 = new_state.getPointUp(set: current_set) + new_state.getPointDown(set: current_set)
             
-            if plus%2 == 1 {
-                print("===> Points plus become odd, change serve")
-                if new_state.isServe == true {
-                    new_state.isServe = false
-                } else {
-                    new_state.isServe = true
-                }
-            }
             
             print("[In tiebreak end]")
         } else {

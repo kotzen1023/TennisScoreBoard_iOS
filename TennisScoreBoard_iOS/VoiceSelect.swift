@@ -94,6 +94,20 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     }
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        <#code#>
+        
+        if response.invalidProductIdentifiers.count != 0 {
+            print(response.invalidProductIdentifiers.description)
+        }
+        
+        if response.products.count != 0 {
+            for product in response.products {
+                productsArray.append(product )
+            }
+            
+            voiceTableView.reloadData()
+        }
+        else {
+            print("There are no products.")
+        }
     }
 }
