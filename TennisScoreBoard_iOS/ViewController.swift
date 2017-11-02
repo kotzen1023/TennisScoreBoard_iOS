@@ -55,9 +55,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
     @IBOutlet weak var btnYouAction: UIButton!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnReset: UIButton!
-    @IBOutlet weak var btnSave: UIButton!
+    @IBOutlet weak var btnForward: UIButton!
     @IBOutlet weak var btnStat: UIButton!
     @IBOutlet weak var btnVoiceOnOff: UIButton!
+    @IBOutlet weak var btnVoiceSelect: UIButton!
     
     @IBOutlet weak var labelOpptSet: UILabel!
     @IBOutlet weak var labelYouSet: UILabel!
@@ -135,6 +136,8 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("width = \(self.view.bounds.size.width) height = \(self.view.bounds.size.height)")
+        
         print("------ load setting ------")
         print("save file name: \(saveFileName)")
         print("playerUp: \(playerUp)")
@@ -166,16 +169,115 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         
         btnReset.setTitle("", for: UIControlState.normal)
         
-        btnSave.setTitle("", for: UIControlState.normal)
+        btnForward.setTitle("", for: UIControlState.normal)
         
         btnStat.setTitle("", for: UIControlState.normal)
         
         btnVoiceOnOff.setTitle("", for: UIControlState.normal)
         
+        
+        if btnOpptAction.frame.size.height >= btnOpptAction.frame.size.width {
+            
+            
+            let image_width = btnOpptAction.frame.size.width/2
+            let image_height = image_width
+            let gap_width = image_width/2
+            let gap_height = (btnOpptAction.frame.size.height - image_height)/2
+            
+            btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            btnYouAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnForward.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnBack.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnStat.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnReset.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnVoiceSelect.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnVoiceOnOff.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+        } else {
+            
+            if btnOpptAction.frame.size.width/2 > btnOpptAction.frame.size.height {
+                
+                let image_height = btnOpptAction.frame.size.height
+                let image_width = image_height
+                let gap_height = 0
+                let gap_width = (btnOpptAction.frame.size.width - image_width)/2
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                btnYouAction.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnForward.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnBack.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnStat.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnReset.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnVoiceSelect.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnVoiceOnOff.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+            } else {
+                let image_height = btnOpptAction.frame.size.height/2
+                let image_width = image_height
+                let gap_height = image_height/2
+                let gap_width = (btnOpptAction.frame.size.width - image_width)/2
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                btnYouAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnForward.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnBack.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnStat.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnReset.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnVoiceSelect.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnVoiceOnOff.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            }
+            
+            
+            
+        }
+        
         //btnLoad.setTitle(NSLocalizedString("game_load", comment: "Load"), for: UIControlState.normal)
       
         labelTopPlayer.text = playerUp as String?
         labelBottomPlayer.text = playerDown as String?
+        
+        /*switch self.view.bounds.size.width { //12.9
+        case 1024:
+            labelOpptSet.font = labelOpptSet.font.withSize(144)
+            labelYouSet.font = labelYouSet.font.withSize(144)
+            labelOpptGame.font = labelOpptGame.font.withSize(144)
+            labelYouGame.font = labelYouGame.font.withSize(144)
+            labelOpptPoint.font = labelOpptPoint.font.withSize(144)
+            labelYouPoint.font = labelYouPoint.font.withSize(144)
+            break
+        case 834:
+            labelOpptSet.font = labelOpptSet.font.withSize(144)
+            labelYouSet.font = labelYouSet.font.withSize(144)
+            labelOpptGame.font = labelOpptGame.font.withSize(144)
+            labelYouGame.font = labelYouGame.font.withSize(144)
+            labelOpptPoint.font = labelOpptPoint.font.withSize(144)
+            labelYouPoint.font = labelYouPoint.font.withSize(144)
+            break
+        default:
+            break
+        }*/
         
         labelOpptSet.text = "0"
         labelYouSet.text = "0"
@@ -641,37 +743,137 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
     }
     
     @objc func deviceOrientationDidChange() {
-        //2
+        
+        
+        
+        
         
          let rect = CGRect(x: self.view.bounds.size.width, y: self.topLayoutGuide.length, width: self.view.bounds.size.width, height: self.view.bounds.size.height)
         
         
         print("width = \(self.view.bounds.size.width) height = \(self.view.bounds.size.height)")
         
+        print("frame: width = \(btnOpptAction.frame.size.width), height = \(btnOpptAction.frame.size.height)")
+        
+        if btnOpptAction.frame.size.height >= btnOpptAction.frame.size.width {
+            
+            
+            let image_width = btnOpptAction.frame.size.width/2
+            let image_height = image_width
+            let gap_width = image_width/2
+            let gap_height = (btnOpptAction.frame.size.height - image_height)/2
+            
+            btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            btnYouAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnForward.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnBack.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnStat.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnReset.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnVoiceSelect.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+            btnVoiceOnOff.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            
+        } else {
+            
+            if btnOpptAction.frame.size.width/2 > btnOpptAction.frame.size.height {
+                
+                let image_height = btnOpptAction.frame.size.height
+                let image_width = image_height
+                let gap_height = 0
+                let gap_width = (btnOpptAction.frame.size.width - image_width)/2
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                btnYouAction.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnForward.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnBack.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnStat.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnReset.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnVoiceSelect.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+                btnVoiceOnOff.imageEdgeInsets = UIEdgeInsetsMake(CGFloat(gap_height), gap_width, CGFloat(gap_height), gap_width)
+                
+            } else {
+                let image_height = btnOpptAction.frame.size.height/2
+                let image_width = image_height
+                let gap_height = image_height/2
+                let gap_width = (btnOpptAction.frame.size.width - image_width)/2
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnOpptAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                btnYouAction.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnForward.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnBack.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnStat.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnReset.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnVoiceSelect.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+                
+                btnVoiceOnOff.imageEdgeInsets = UIEdgeInsetsMake(gap_height, gap_width, gap_height, gap_width)
+            }
+            
+            
+            
+        }
+        
         switch UIDevice.current.orientation {
         case .faceDown:
             print("Face down")
+            break
         case .faceUp:
             print("Face up")
+            break
         case .unknown:
             print("Unknown")
+            break
         case .landscapeLeft:
             print("Landscape left")
             
             
             scrollView.frame = rect
+            
+            
+            
+            
+            
+            break
         case .landscapeRight:
             print("Landscape right")
             //stackViewMain.axis = UILayoutConstraintAxis.horizontal
             scrollView.frame = rect
             //self.view.frame = rect
+            
+            break
         case .portrait:
             print("Portrait")
             //stackViewMain.axis = UILayoutConstraintAxis.vertical
             //self.view.frame = rect
             scrollView.frame = rect
+            
+            
+            
+            break
         case .portraitUpsideDown:
             print("Portrait upside down")
+            scrollView.frame = rect
+            break
+        
         }
     }
     
