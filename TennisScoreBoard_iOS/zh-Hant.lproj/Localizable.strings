@@ -71,3 +71,6 @@
 "stat_net_points" = "上網得分";
 "stat_break_point_won" = "破發成功率(%)";
 "stat_total_points" = "總得分";
+
+"load_game" = "讀取檔案";
+"new_game" = "新的比賽";

@@ -72,6 +72,7 @@
 "stat_break_point_won" = "Break Point Won(%)";
 "stat_total_points" = "Total Points";
 
-
+"load_game" = "Load Game";
+"new_game" = "New Game";
 
 

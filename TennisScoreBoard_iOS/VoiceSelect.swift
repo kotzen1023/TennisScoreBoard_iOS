@@ -50,6 +50,28 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func onBackClick(_ sender: UIButton) {
+        /*let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+         
+         let gameVc = storyBoard.instantiateViewController(withIdentifier: "gameView") as! ViewController
+         
+         gameVc.saveFileName = self.saveFileName
+         gameVc.set_select = self.set_select
+         gameVc.game_select = self.game_select
+         gameVc.is_tiebreak = self.is_tiebreak
+         gameVc.is_super_tiebreak = self.is_super_tiebreak
+         gameVc.is_deuce = self.is_deuce
+         gameVc.is_serve = self.is_serve
+         gameVc.playerUp = self.playerUp
+         gameVc.playerDown = self.playerDown
+         gameVc.stack = self.stack
+         gameVc.forward_stack = self.forward_stack
+         
+         self.present(gameVc, animated:true, completion:nil)*/
+        self.dismiss(animated: true, completion: nil)
+        
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return voiceList.count

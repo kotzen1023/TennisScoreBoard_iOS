@@ -22,15 +22,15 @@ enum StateAction {
 extension UIAlertController {
     
     func isValidEmail(_ email: String) -> Bool {
-        return email.characters.count > 0 && NSPredicate(format: "self matches %@", "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,64}").evaluate(with: email)
+        return email.count > 0 && NSPredicate(format: "self matches %@", "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,64}").evaluate(with: email)
     }
     
     func isValidPassword(_ password: String) -> Bool {
-        return password.characters.count > 4 && password.rangeOfCharacter(from: .whitespacesAndNewlines) == nil
+        return password.count > 4 && password.rangeOfCharacter(from: .whitespacesAndNewlines) == nil
     }
     
     func isValidText(_ email: String) -> Bool {
-        return email.characters.count > 0 && NSPredicate(format: "self matches %@", "[a-zA-Z0-9._%+-]+").evaluate(with: email)
+        return email.count > 0 && NSPredicate(format: "self matches %@", "[a-zA-Z0-9._%+-]+").evaluate(with: email)
     }
     
     func textDidChangeInLoginAlert() {
@@ -79,7 +79,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
     //for save file
     var saveFileName: String = ""
     
-    var scrollView: UIScrollView!
+    //var scrollView: UIScrollView!
     var tableView: UITableView!
     
     var is_action_click: Bool!
@@ -286,7 +286,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         labelOpptPoint.text = "0"
         labelYouPoint.text = "0"
         
-        init_scrollview()
+        //init_scrollview()
         //add for orientation
         NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationDidChange), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
@@ -748,7 +748,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         
         
         
-         let rect = CGRect(x: self.view.bounds.size.width, y: self.topLayoutGuide.length, width: self.view.bounds.size.width, height: self.view.bounds.size.height)
+         //let rect = CGRect(x: self.view.bounds.size.width, y: self.topLayoutGuide.length, width: self.view.bounds.size.width, height: self.view.bounds.size.height)
         
         
         print("width = \(self.view.bounds.size.width) height = \(self.view.bounds.size.height)")
@@ -846,7 +846,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             print("Landscape left")
             
             
-            scrollView.frame = rect
+            //scrollView.frame = rect
             
             
             
@@ -856,7 +856,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         case .landscapeRight:
             print("Landscape right")
             //stackViewMain.axis = UILayoutConstraintAxis.horizontal
-            scrollView.frame = rect
+            //scrollView.frame = rect
             //self.view.frame = rect
             
             break
@@ -864,14 +864,14 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             print("Portrait")
             //stackViewMain.axis = UILayoutConstraintAxis.vertical
             //self.view.frame = rect
-            scrollView.frame = rect
+            //scrollView.frame = rect
             
             
             
             break
         case .portraitUpsideDown:
             print("Portrait upside down")
-            scrollView.frame = rect
+            //scrollView.frame = rect
             break
         
         }
@@ -899,7 +899,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         }
     }
     
-    func init_scrollview() {
+    /*func init_scrollview() {
         //huiView = [[UIScrollView alloc] initWithFrame:CGRectMake(
         //    (self.view.bounds.size.width), self.topLayoutGuide.length-self.navigationController.navigationBar.frame.size.height,
         //    self.view.bounds.size.width,
@@ -915,7 +915,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         scrollView.backgroundColor = color
         self.view.addSubview(scrollView)
         
-    }
+    }*/
     
     func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {

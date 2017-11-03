@@ -11,18 +11,26 @@ import UIKit
 class TopMenu: UIViewController {
 
     @IBOutlet weak var btnLoadGame: UIButton!
-    @IBOutlet weak var btnlNewGame: UIButton!
+    @IBOutlet weak var btnNewGame: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
         // Do any additional setup after loading the view.
-        btnLoadGame.titleLabel?.numberOfLines = 1
-        btnLoadGame.titleLabel?.adjustsFontSizeToFitWidth = true
-        btnLoadGame.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
+        btnLoadGame.setTitle(NSLocalizedString("load_game", comment: ""), for: .normal)
         
-        btnlNewGame.titleLabel?.numberOfLines = 1
+        //btnLoadGame.titleLabel?.text = NSLocalizedString("load_game", comment: "")
+        
+        /*btnLoadGame.titleLabel?.numberOfLines = 1
+        btnLoadGame.titleLabel?.adjustsFontSizeToFitWidth = true
+        btnLoadGame.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping*/
+        
+        btnNewGame.setTitle(NSLocalizedString("new_game", comment: ""), for: .normal)
+        
+        /*btnlNewGame.titleLabel?.numberOfLines = 1
         btnlNewGame.titleLabel?.adjustsFontSizeToFitWidth = true
-        btnlNewGame.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping
+        btnlNewGame.titleLabel?.lineBreakMode = NSLineBreakMode.byClipping*/
     }
 
     override func didReceiveMemoryWarning() {

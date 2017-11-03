@@ -281,7 +281,7 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
     */
 
     @IBAction func onBackClick(_ sender: UIButton) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        /*let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
         let gameVc = storyBoard.instantiateViewController(withIdentifier: "gameView") as! ViewController
         
@@ -297,11 +297,8 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
         gameVc.stack = self.stack
         gameVc.forward_stack = self.forward_stack
         
-        self.present(gameVc, animated:true, completion:nil)
-        //let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        
-        //let gameController = storyBoard.instantiateViewController(withIdentifier: "gameView") as! ViewController
-        //self.present(gameController, animated:true, completion:nil)
+        self.present(gameVc, animated:true, completion:nil)*/
+        self.dismiss(animated: true, completion: nil)
         
     }
     
