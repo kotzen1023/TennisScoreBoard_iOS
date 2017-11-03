@@ -23,21 +23,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="texture_grass" translatesAutoresizingMaskIntoConstraints="NO" id="WGp-Ka-fCk" userLabel="texture_court">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Jz3-RG-8RN">
                                 <rect key="frame" x="16" y="283.5" width="343" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pev-59-qu3">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <state key="normal" title="Load Game"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <state key="normal" title="Load Game">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <segue destination="4z6-9n-BUf" kind="show" id="cTd-Lg-ctt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aU2-UP-Y7S">
                                         <rect key="frame" x="0.0" y="50" width="343" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <state key="normal" title="New Game"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <state key="normal" title="New Game">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <segue destination="9jb-go-WFX" kind="show" id="pYY-Tu-u6U"/>
                                         </connections>
@@ -60,11 +68,12 @@
                     <connections>
                         <outlet property="btnLoadGame" destination="Pev-59-qu3" id="d9h-0U-Ejd"/>
                         <outlet property="btnNewGame" destination="aU2-UP-Y7S" id="gtf-Ct-S2l"/>
+                        <outlet property="imageView" destination="WGp-Ka-fCk" id="WVJ-Yd-Rha"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eaO-8o-jo2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1511.25" y="508.75"/>
+            <point key="canvasLocation" x="-1512.8" y="508.69565217391306"/>
         </scene>
         <!--Load Game-->
         <scene sceneID="54X-DB-epg">
@@ -309,13 +318,17 @@
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="kz6-5e-Kwh" firstAttribute="top" secondItem="00R-1H-gUZ" secondAttribute="top" id="1Q3-Av-Wh2"/>
+                                                    <constraint firstAttribute="trailing" secondItem="rrw-Ge-n3i" secondAttribute="trailing" id="4Ns-Ae-fT7"/>
                                                     <constraint firstItem="kz6-5e-Kwh" firstAttribute="leading" secondItem="00R-1H-gUZ" secondAttribute="leading" id="GYg-8k-tra"/>
                                                     <constraint firstItem="rrw-Ge-n3i" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="Jwh-xc-DAv"/>
                                                     <constraint firstItem="WgH-Na-io6" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="ODC-3G-RcC"/>
                                                     <constraint firstAttribute="trailing" secondItem="kz6-5e-Kwh" secondAttribute="trailing" id="WGZ-jg-2jQ"/>
+                                                    <constraint firstItem="rrw-Ge-n3i" firstAttribute="top" secondItem="k45-pm-vLC" secondAttribute="bottom" id="ZLa-gc-gsc"/>
                                                     <constraint firstItem="k45-pm-vLC" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="ZWx-gQ-VCk"/>
                                                     <constraint firstItem="kz6-5e-Kwh" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="adR-Z4-PRK"/>
                                                     <constraint firstItem="ffA-FZ-saK" firstAttribute="height" secondItem="00R-1H-gUZ" secondAttribute="height" multiplier="0.2" id="dlW-3k-wIR"/>
+                                                    <constraint firstItem="rrw-Ge-n3i" firstAttribute="leading" secondItem="00R-1H-gUZ" secondAttribute="leading" id="kwb-8r-lOB"/>
+                                                    <constraint firstAttribute="bottom" secondItem="rrw-Ge-n3i" secondAttribute="bottom" id="mPb-lL-GTY"/>
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pi5-Fc-363" userLabel="Confirm">
@@ -927,6 +940,7 @@
         <image name="ic_reorder_48pt" width="48" height="48"/>
         <image name="ic_settings_voice_disable_48pt" width="48" height="48"/>
         <image name="ic_undo_48pt" width="48" height="48"/>
+        <image name="texture_grass" width="125" height="125"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="CcQ-x8-24T"/>

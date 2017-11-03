@@ -12,10 +12,16 @@ class TopMenu: UIViewController {
 
     @IBOutlet weak var btnLoadGame: UIButton!
     @IBOutlet weak var btnNewGame: UIButton!
+    @IBOutlet weak var imageView: UIImageView!
+    
+    var courtList = ["texture_grass", "texture_clay", "texture_hard"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let diceRoll = Int(arc4random_uniform(3))
         
+        imageView.image = UIImage(named: courtList[diceRoll])
 
         // Do any additional setup after loading the view.
         btnLoadGame.setTitle(NSLocalizedString("load_game", comment: ""), for: .normal)
