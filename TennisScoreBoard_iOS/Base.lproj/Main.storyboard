@@ -23,9 +23,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="texture_grass" translatesAutoresizingMaskIntoConstraints="NO" id="WGp-Ka-fCk" userLabel="texture_court">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WGp-Ka-fCk" userLabel="texture_court">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Jz3-RG-8RN">
                                 <rect key="frame" x="16" y="283.5" width="343" height="100"/>
@@ -62,7 +61,11 @@
                         <constraints>
                             <constraint firstItem="Jz3-RG-8RN" firstAttribute="leading" secondItem="W6a-xp-hX7" secondAttribute="leadingMargin" id="HSa-H0-hZN"/>
                             <constraint firstItem="Jz3-RG-8RN" firstAttribute="centerY" secondItem="W6a-xp-hX7" secondAttribute="centerY" id="K6u-3O-DtM"/>
+                            <constraint firstItem="WGp-Ka-fCk" firstAttribute="leading" secondItem="W6a-xp-hX7" secondAttribute="leading" id="NE4-zj-uEg"/>
+                            <constraint firstItem="WGp-Ka-fCk" firstAttribute="top" secondItem="kiP-6X-jJS" secondAttribute="bottom" id="ZJ5-QP-mIy"/>
+                            <constraint firstAttribute="trailing" secondItem="WGp-Ka-fCk" secondAttribute="trailing" id="gwz-Pm-wFl"/>
                             <constraint firstItem="Jz3-RG-8RN" firstAttribute="trailing" secondItem="W6a-xp-hX7" secondAttribute="trailingMargin" id="lFw-W3-EeA"/>
+                            <constraint firstItem="du0-7L-Rdp" firstAttribute="top" secondItem="WGp-Ka-fCk" secondAttribute="bottom" id="yGG-Qy-V8f"/>
                         </constraints>
                     </view>
                     <connections>
@@ -940,7 +943,6 @@
         <image name="ic_reorder_48pt" width="48" height="48"/>
         <image name="ic_settings_voice_disable_48pt" width="48" height="48"/>
         <image name="ic_undo_48pt" width="48" height="48"/>
-        <image name="texture_grass" width="125" height="125"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="CcQ-x8-24T"/>
