@@ -29,7 +29,8 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         productIDs.append("gbr_woman_voice_support")
 
         voiceList.removeAll()
-        voiceList.append("GBR Man Voice (Free)")
+        voiceList.append("GBR Man Voice")
+        voiceList.append("GBR Woman Voice")
         // Do any additional setup after loading the view.
         
         requestProductInfo()
@@ -87,7 +88,7 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         let icon: UIImageView = cell.viewWithTag(100) as! UIImageView
         let title: UILabel = cell.viewWithTag(101) as! UILabel
         
-        if indexPath.row == 0 {
+        if indexPath.row == 0 || indexPath.row == 1 {
             icon.image = UIImage(named: "ic_gbr_flag")!
             
         }
