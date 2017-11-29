@@ -15,7 +15,8 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     
     @IBOutlet weak var voiceTableView: UITableView!
     
-    
+    //var UserDef:UserDefaults!
+    var voice_select: NSInteger = 0
     var voiceList: Array<String> = []
     var productIDs: Array<String> = []
     var productsArray: Array<SKProduct> = []
@@ -23,6 +24,14 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        //UserDef = UserDefaults.standard
+        
+        //voice_select = UserDef.string(forKey: "VOICE_SELECT")!
+        voice_select = UserDefaults.standard.integer(forKey: "VOICE_SELECT")
+        
+        print("voice select = \(voice_select)")
         
         productIDs.removeAll()
         productIDs.append("gbr_man_voice_support")
@@ -98,6 +107,17 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         print("cell[\(indexPath.row)] = \(item)" )
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //var myUserDefaults :UserDefaults!
+        //myUserDefaults = UserDefaults.standard
+        
+        //myUserDefaults.setValue(String(format:"%d", indexPath.row), forKey: "VOICE_SELECT")
+        
+        UserDefaults.standard.set(indexPath.row, forKey: "VOICE_SELECT")  //Integer
+        UserDefaults.standard.synchronize();
+        print("set voice = \(indexPath.row)")
     }
     
     //purchase
