@@ -75,4 +75,9 @@
 "load_game" = "Load Game";
 "new_game" = "New Game";
 
+"voice_buying_title" = "Buy Voice Support";
+"voice_buying_confirm" = "Buy this voice support?";
+"voice_buy" = "Buy";
+"voice_cancel" = "Cancel";
+
 

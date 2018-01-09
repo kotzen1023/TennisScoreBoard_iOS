@@ -74,3 +74,9 @@
 
 "load_game" = "讀取檔案";
 "new_game" = "新的比賽";
+
+"voice_buying_title" = "購買語音支援";
+"voice_buying_confirm" = "購買此語音支援?";
+"voice_buy" = "購買";
+"voice_cancel" = "取消";
+

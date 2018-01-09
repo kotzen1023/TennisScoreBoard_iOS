@@ -42,9 +42,9 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         productIDs.append("gbr_man_voice_support")
         productIDs.append("gbr_woman_voice_support")
 
-        voiceList.removeAll()
-        voiceList.append("GBR Man Voice")
-        voiceList.append("GBR Woman Voice")
+        //voiceList.removeAll()
+        //voiceList.append("GBR Man Voice")
+        //voiceList.append("GBR Woman Voice")
         // Do any additional setup after loading the view.
         
         requestProductInfo()
@@ -135,12 +135,12 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
             return
         }
         
-        let actionSheetController = UIAlertController(title: "IAPDemo", message: "What do you want to do?", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let actionSheetController = UIAlertController(title: NSLocalizedString("voice_buying_title", comment: ""), message: NSLocalizedString("voice_buying_confirm", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
         
         /*let buyAction = UIAlertAction(title: "Buy", style: UIAlertActionStyle.default) { (action) -> Void in
             
         }*/
-        let buyAction = UIAlertAction(title: "Buy", style: UIAlertActionStyle.default) { (action) -> Void in
+        let buyAction = UIAlertAction(title: NSLocalizedString("voice_buy", comment: ""), style: UIAlertActionStyle.default) { (action) -> Void in
             
             print("select: \(self.selectedProductIndex)")
             
@@ -151,7 +151,7 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) -> Void in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("voice_cancel", comment: ""), style: UIAlertActionStyle.cancel) { (action) -> Void in
             
         }
         
@@ -185,10 +185,12 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         }
         
         if response.products.count != 0 {
+            voiceList.removeAll();
             var count: NSInteger = 0
             for product in response.products {
                 print("productsArray[\(count)]=\(product.localizedDescription)")
                 productsArray.append(product )
+                voiceList.append(product.localizedDescription)
                 count = count + 1
             }
             
