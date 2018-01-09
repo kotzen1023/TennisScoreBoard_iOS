@@ -9,7 +9,9 @@
 import UIKit
 import StoreKit
 
-class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, SKProductsRequestDelegate {
+class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+    
+    
     
     
     
@@ -21,7 +23,10 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     var productIDs: Array<String> = []
     var productsArray: Array<SKProduct> = []
     
-
+    var selectedProductIndex: Int!
+    
+    var transactionInProgress = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,13 +119,50 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         //myUserDefaults = UserDefaults.standard
         
         //myUserDefaults.setValue(String(format:"%d", indexPath.row), forKey: "VOICE_SELECT")
+        selectedProductIndex = indexPath.row
+        
+        if (selectedProductIndex > 0) {
+            showActions()
+        }
         
         UserDefaults.standard.set(indexPath.row, forKey: "VOICE_SELECT")  //Integer
         UserDefaults.standard.synchronize();
         print("set voice = \(indexPath.row)")
     }
     
+    func showActions() {
+        if transactionInProgress {
+            return
+        }
+        
+        let actionSheetController = UIAlertController(title: "IAPDemo", message: "What do you want to do?", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        /*let buyAction = UIAlertAction(title: "Buy", style: UIAlertActionStyle.default) { (action) -> Void in
+            
+        }*/
+        let buyAction = UIAlertAction(title: "Buy", style: UIAlertActionStyle.default) { (action) -> Void in
+            
+            print("select: \(self.selectedProductIndex)")
+            
+            if self.productsArray.count > 0 {
+                let payment = SKPayment(product: self.productsArray[self.selectedProductIndex] as SKProduct)
+                SKPaymentQueue.default().add(payment)
+                self.transactionInProgress = true
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) -> Void in
+            
+        }
+        
+        actionSheetController.addAction(buyAction)
+        actionSheetController.addAction(cancelAction)
+        
+        present(actionSheetController, animated: true, completion: nil)
+    }
+    
     //purchase
+    
     
     func requestProductInfo() {
         if SKPaymentQueue.canMakePayments() {
@@ -143,14 +185,49 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         }
         
         if response.products.count != 0 {
+            var count: NSInteger = 0
             for product in response.products {
+                print("productsArray[\(count)]=\(product.localizedDescription)")
                 productsArray.append(product )
+                count = count + 1
             }
             
             voiceTableView.reloadData()
         }
         else {
             print("There are no products.")
+        }
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        for transaction in transactions {
+            switch transaction.transactionState {
+            case SKPaymentTransactionState.purchased:
+                print("Transaction completed successfully.")
+                SKPaymentQueue.default().finishTransaction(transaction)
+                transactionInProgress = false
+                didBuyColorsCollection(collectionIndex: selectedProductIndex)
+                
+                
+            case SKPaymentTransactionState.failed:
+                print("Transaction Failed");
+                SKPaymentQueue.default().finishTransaction(transaction)
+                transactionInProgress = false
+                
+            default:
+                print(transaction.transactionState.rawValue)
+            }
+        }
+    }
+    
+    func didBuyColorsCollection(collectionIndex: Int) {
+        if collectionIndex == 0 {
+            //btnGreen.hidden = false
+            //btnBlue.hidden = false
+        }
+        else {
+            //btnBlack.hidden = false
+            //btnGray.hidden = false
         }
     }
 }
