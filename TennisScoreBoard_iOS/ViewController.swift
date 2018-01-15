@@ -132,12 +132,16 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
     var soundArray = [String]()
     var audioPlayer: AVAudioPlayer?
     var currentSoundsIndex: NSInteger = 0
-    
+    var voice_select: NSInteger = 0
     //var original_icon_width:CGFloat = 0
     //var original_icon_height:CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        voice_select = UserDefaults.standard.integer(forKey: "VOICE_SELECT")
+        
+        print("voice_select = \(voice_select)")
         
         print("width = \(self.view.bounds.size.width) height = \(self.view.bounds.size.height)")
         
@@ -992,91 +996,203 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         
         switch num {
         case 0:
-            path = NSString(format: "%@", "gbr_man_start_love.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_love.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_love.m4a")
+            }
             break
         case 1:
-            path = NSString(format: "%@", "gbr_man_start_1.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_1.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_1.m4a")
+            }
             break
         case 2:
-            path = NSString(format: "%@", "gbr_man_start_2.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_2.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_2.m4a")
+            }
             break
         case 3:
-            path = NSString(format: "%@", "gbr_man_start_3.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_3.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_3.m4a")
+            }
             break
         case 4:
-            path = NSString(format: "%@", "gbr_man_start_4.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_4.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_4.m4a")
+            }
             break
         case 5:
-            path = NSString(format: "%@", "gbr_man_start_5.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_5.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_5.m4a")
+            }
             break
         case 6:
-            path = NSString(format: "%@", "gbr_man_start_6.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_6.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_6.m4a")
+            }
             break
         case 7:
-            path = NSString(format: "%@", "gbr_man_start_7.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_7.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_7.m4a")
+            }
             break
         case 8:
-            path = NSString(format: "%@", "gbr_man_start_8.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_8.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_8.m4a")
+            }
             break
         case 9:
-            path = NSString(format: "%@", "gbr_man_start_9.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_9.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_9.m4a")
+            }
             break
         case 10:
-            path = NSString(format: "%@", "gbr_man_start_10.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_10.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_10.m4a")
+            }
             break
         case 11:
-            path = NSString(format: "%@", "gbr_man_start_11.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_11.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_11.m4a")
+            }
             break
         case 12:
-            path = NSString(format: "%@", "gbr_man_start_12.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_12.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_12.m4a")
+            }
             break
         case 13:
-            path = NSString(format: "%@", "gbr_man_start_13.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_13.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_13.m4a")
+            }
             break
         case 14:
-            path = NSString(format: "%@", "gbr_man_start_14.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_14.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_14.m4a")
+            }
             break
         case 15:
-            path = NSString(format: "%@", "gbr_man_start_15.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_15.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_15.m4a")
+            }
             break
         case 16:
-            path = NSString(format: "%@", "gbr_man_start_16.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_16.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_16.m4a")
+            }
             break
         case 17:
-            path = NSString(format: "%@", "gbr_man_start_17.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_17.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_17.m4a")
+            }
             break
         case 18:
-            path = NSString(format: "%@", "gbr_man_start_18.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_18.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_18.m4a")
+            }
             break
         case 19:
-            path = NSString(format: "%@", "gbr_man_start_19.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_19.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_19.m4a")
+            }
             break
         case 20:
-            path = NSString(format: "%@", "gbr_man_start_20.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_20.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_20.m4a")
+            }
             break
         case 30:
-            path = NSString(format: "%@", "gbr_man_start_30.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_30.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_30.m4a")
+            }
             break
         case 40:
-            path = NSString(format: "%@", "gbr_man_start_40.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_40.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_40.m4a")
+            }
             break
         case 50:
-            path = NSString(format: "%@", "gbr_man_start_50.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_50.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_50.m4a")
+            }
             break
         case 60:
-            path = NSString(format: "%@", "gbr_man_start_60.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_60.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_60.m4a")
+            }
             break
         case 70:
-            path = NSString(format: "%@", "gbr_man_start_70.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_70.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_70.m4a")
+            }
             break
         case 80:
-            path = NSString(format: "%@", "gbr_man_start_80.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_80.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_80.m4a")
+            }
             break
         case 90:
-            path = NSString(format: "%@", "gbr_man_start_90.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_start_90.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_start_90.m4a")
+            }
             break
         default:
-                break
+            break
         }
         
         return path
@@ -1087,91 +1203,208 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         
         switch num {
         case 0:
-            path = NSString(format: "%@", "gbr_man_end_love.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_love.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_love.m4a")
+            }
             break
         case 1:
-            path = NSString(format: "%@", "gbr_man_end_1.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_1.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_1.m4a")
+            }
             break
         case 2:
-            path = NSString(format: "%@", "gbr_man_end_2.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_2.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_2.m4a")
+            }
             break
         case 3:
-            path = NSString(format: "%@", "gbr_man_end_3.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_3.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_3.m4a")
+            }
             break
         case 4:
-            path = NSString(format: "%@", "gbr_man_end_4.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_4.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_4.m4a")
+            }
             break
         case 5:
-            path = NSString(format: "%@", "gbr_man_end_5.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_5.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_5.m4a")
+            }
             break
         case 6:
-            path = NSString(format: "%@", "gbr_man_end_6.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_6.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_6.m4a")
+            }
             break
         case 7:
-            path = NSString(format: "%@", "gbr_man_end_7.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_7.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_7.m4a")
+            }
             break
         case 8:
-            path = NSString(format: "%@", "gbr_man_end_8.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_8.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_8.m4a")
+            }
             break
         case 9:
-            path = NSString(format: "%@", "gbr_man_end_9.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_9.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_9.m4a")
+            }
             break
         case 10:
-            path = NSString(format: "%@", "gbr_man_end_10.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_10.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_10.m4a")
+            }
             break
         case 11:
-            path = NSString(format: "%@", "gbr_man_end_11.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_11.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_11.m4a")
+            }
             break
         case 12:
-            path = NSString(format: "%@", "gbr_man_end_12.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_12.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_12.m4a")
+            }
             break
         case 13:
-            path = NSString(format: "%@", "gbr_man_end_13.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_13.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_13.m4a")
+            }
             break
         case 14:
-            path = NSString(format: "%@", "gbr_man_end_14.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_14.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_14.m4a")
+            }
             break
         case 15:
-            path = NSString(format: "%@", "gbr_man_end_15.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_15.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_15.m4a")
+            }
             break
         case 16:
-            path = NSString(format: "%@", "gbr_man_end_16.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_16.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_16.m4a")
+            }
             break
         case 17:
-            path = NSString(format: "%@", "gbr_man_end_17.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_17.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_17.m4a")
+            }
             break
         case 18:
-            path = NSString(format: "%@", "gbr_man_end_18.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_18.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_18.m4a")
+            }
             break
         case 19:
-            path = NSString(format: "%@", "gbr_man_end_19.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_19.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_19.m4a")
+            }
             break
         case 20:
-            path = NSString(format: "%@", "gbr_man_end_20.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_20.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_20.m4a")
+            }
             break
         case 30:
-            path = NSString(format: "%@", "gbr_man_end_30.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_30.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_30.m4a")
+            }
             break
         case 40:
-            path = NSString(format: "%@", "gbr_man_end_40.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_40.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_40.m4a")
+            }
             break
         case 50:
-            path = NSString(format: "%@", "gbr_man_end_50.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_50.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_50.m4a")
+            }
             break
         case 60:
-            path = NSString(format: "%@", "gbr_man_end_60.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_60.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_60.m4a")
+            }
             break
         case 70:
-            path = NSString(format: "%@", "gbr_man_end_70.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_70.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_70.m4a")
+            }
             break
         case 80:
-            path = NSString(format: "%@", "gbr_man_end_80.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_80.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_80.m4a")
+            }
             break
         case 90:
-            path = NSString(format: "%@", "gbr_man_end_90.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_end_90.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_end_90.m4a")
+            }
             break
         case 100:
-            path = NSString(format: "%@", "gbr_man_all.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_all.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_all.m4a")
+            }
+            
             break
         default:
             break
@@ -1190,7 +1423,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         //var parh3: NSString = ""
         
         if is_current_game_over {
-            path = NSString(format: "%@", "gbr_man_game.m4a")
+            if voice_select == 0 {
+                path = NSString(format: "%@", "gbr_man_game.m4a")
+            } else if voice_select == 1 {
+                path = NSString(format: "%@", "gbr_woman_game.m4a")
+            }
+            
             soundArray.append(path as String)
         } else {
             
@@ -1283,110 +1521,226 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 print("===>voice not in tiebreak")
                 if pointUp == 0 && pointDown == 1 { //0:15
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_15_0.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_0_15.m4a")
+                        }
                     }
                 } else if pointUp == 0 && pointDown == 2 { //0:30
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_30_0.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_0_30.m4a")
+                        }
                     }
                 } else if pointUp == 0 && pointDown == 3 { //0:40
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_40_0.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_0_40.m4a")
+                        }
                     }
                 } else if pointUp == 1 && pointDown == 0 { //15:0
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_0_15.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_0_15.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_15_0.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_15_0.m4a")
+                        }
                     }
                 } else if pointUp == 1 && pointDown == 1 { //15:15
-                    path = NSString(format: "%@", "gbr_man_15_15.m4a")
-                    
+                    if voice_select == 0 {
+                        path = NSString(format: "%@", "gbr_man_15_15.m4a")
+                    } else if voice_select == 1 {
+                        path = NSString(format: "%@", "gbr_woman_15_15.m4a")
+                    }
                 } else if pointUp == 1 && pointDown == 2 { //15:30
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_30_15.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_15_30.m4a")
+                        }
                     }
                 } else if pointUp == 1 && pointDown == 3 { //15:40
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_40_15.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_15_40.m4a")
+                        }
                     }
                 } else if pointUp == 2 && pointDown == 0 { //30:0
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_0_30.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_0_30.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_30_0.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_30_0.m4a")
+                        }
                     }
                 } else if pointUp == 2 && pointDown == 1 { //30:15
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_15_30.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_15_30.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_30_15.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_30_15.m4a")
+                        }
                     }
                 } else if pointUp == 2 && pointDown == 2 { //30:30
-                    if downServe {
+                    if voice_select == 0 {
                         path = NSString(format: "%@", "gbr_man_30_30.m4a")
-                    } else {
-                        path = NSString(format: "%@", "gbr_man_30_30.m4a")
+                    } else if voice_select == 1 {
+                        path = NSString(format: "%@", "gbr_woman_30_30.m4a")
                     }
                 } else if pointUp == 2 && pointDown == 3 { //30:40
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_40_30.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_30_40.m4a")
+                        }
                     }
                 } else if pointUp == 3 && pointDown == 0 { //40:0
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_0_40.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_0_40.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_40_0.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_40_0.m4a")
+                        }
                     }
                 } else if pointUp == 3 && pointDown == 1 { //40:15
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_15_40.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_15_40.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_40_15.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_40_15.m4a")
+                        }
                     }
                 } else if pointUp == 3 && pointDown == 2 { //40:30
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_30_40.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_30_40.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_40_30.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_40_30.m4a")
+                        }
                     }
                 } else if pointUp == 3 && pointDown == 3 { //40:40
                     
                     if is_deuce {
-                        path = NSString(format: "%@", "gbr_man_40_40.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_40_40.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_40_40.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
-                    }
-                } else if pointUp == 3 && pointDown == 3 { //40:40
-                    
-                    if is_deuce {
-                        path = NSString(format: "%@", "gbr_man_40_40.m4a")
-                    } else {
-                        path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_deciding_point.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_deciding_point.m4a")
+                        }
                     }
                 } else if pointUp == 3 && pointDown == 4 { //40:Ad
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_ad_serve.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_ad_serve.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_ad_serve.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_ad_recv.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_ad_recv.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_ad_recv.m4a")
+                        }
                     }
                 } else if pointUp == 4 && pointDown == 3 { //Ad:40
                     if downServe {
-                        path = NSString(format: "%@", "gbr_man_ad_recv.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_ad_recv.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_ad_recv.m4a")
+                        }
                     } else {
-                        path = NSString(format: "%@", "gbr_man_ad_serve.m4a")
+                        if voice_select == 0 {
+                            path = NSString(format: "%@", "gbr_man_ad_serve.m4a")
+                        } else if voice_select == 1 {
+                            path = NSString(format: "%@", "gbr_woman_ad_serve.m4a")
+                        }
                     }
                 }
                 

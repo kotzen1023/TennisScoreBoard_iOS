@@ -30,6 +30,7 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     var loadingView: UIView = UIView()
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
