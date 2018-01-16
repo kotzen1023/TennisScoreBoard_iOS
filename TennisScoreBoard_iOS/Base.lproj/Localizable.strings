@@ -58,6 +58,7 @@
 "game_record_delete" = "Delete";
 "game_record_load" = "Load";
 "game_record_file" = "File: ";
+"game_file_overwrite" = "This file name is exist. Overwrite it?";
 
 "stat_double_faults" = "Double Faults";
 "stat_unforced_error" = "Unforced Error";

@@ -2174,7 +2174,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         self.present(settingController, animated:true, completion:nil)
     }
     
-    func yesSave () {
+    func backDialog () {
         print("save file name \(saveFileName)")
         
         let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_back_main_menu", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
@@ -2192,65 +2192,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         
     }
     
-    @IBAction func onVoiceOnOffClick(_ sender: UIButton) {
-        print("btn voice click")
+    func overWriteDialog () {
+        print("found same file name: \(saveFileName)")
         
-        if voice_support {
-            voice_support = false
-            btnVoiceOnOff.setImage( UIImage.init(named: "ic_settings_voice_disable_48pt"), for: .normal)
-        } else {
-            voice_support = true
-            btnVoiceOnOff.setImage( UIImage.init(named: "ic_settings_voice_48pt"), for: .normal)
-            
-        }
-        
-    }
-    
-    @IBAction func onResetClick(_ sender: UIButton) {
-        
-        
-        /*let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_save_title", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
-        
-        
-        
-        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {
-            action in self.yesSave()
-            })
-        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesSave()})
-        
-        
-        alert.addAction(yesBtn);
-        alert.addAction(noBtn);*/
-        let alert = UIAlertController(title: NSLocalizedString("game_save_title", comment: ""), message: nil, preferredStyle: .alert)
-        
-        alert.addTextField {
-            if self.saveFileName.count > 0 {
-                $0.text = self.saveFileName
-            } else {
-                $0.placeholder = NSLocalizedString("game_save_input_msg", comment: "")
-                
-            }
-            
-            
-            $0.addTarget(alert, action: #selector(alert.textDidChangeInLoginAlert), for: .editingChanged)
-        }
-        
-        /*alert.addTextField {
-            $0.placeholder = "Password"
-            $0.isSecureTextEntry = true
-            $0.addTarget(alert, action: #selector(alert.textDidChangeInLoginAlert), for: .editingChanged)
-        }*/
-        
-        //alert.addAction(UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: .cancel))
-        
-        let yesBtn = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default) { [unowned self] _ in
-            
-            //guard (alert.textFields?[0].text) != nil
-             //   else { return } // Should never happen
-                
-            self.self.saveFileName = (alert.textFields?[0].text)!//,
-            print("file name = \(self.saveFileName)")
-            
+        let alert: UIAlertController = UIAlertController(title: NSLocalizedString("game_file_overwrite", comment: ""), message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let yesBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default, handler: {action in
+            //self.yesReset()
             var text = "\(self.playerUp);\(self.playerDown);\(self.is_tiebreak);\(self.is_super_tiebreak);\(self.is_deuce);\(self.is_serve);\(self.set_select);\(self.is_retire);\(self.game_select);\(self.is_in_super_tiebreak);\(self.is_long_game);\(self.is_in_long_game)|"
             
             for i in 0..<self.self.stack.size() {
@@ -2286,10 +2233,132 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             }
             
             // Perform login action
-            self.yesSave()
+            self.backDialog()
+            
+            
+        })
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: nil)
+        
+        alert.addAction(yesBtn);
+        alert.addAction(noBtn);
+        
+        //alert.addTextField(configurationHandler: {(textField : UITextField!) -> Void in
+        //    textField.placeholder = "Search"
+        //})
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    @IBAction func onVoiceOnOffClick(_ sender: UIButton) {
+        print("btn voice click")
+        
+        if voice_support {
+            voice_support = false
+            btnVoiceOnOff.setImage( UIImage.init(named: "ic_settings_voice_disable_48pt"), for: .normal)
+        } else {
+            voice_support = true
+            btnVoiceOnOff.setImage( UIImage.init(named: "ic_settings_voice_48pt"), for: .normal)
+            
         }
         
-        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.yesSave()})
+    }
+    
+    @IBAction func onResetClick(_ sender: UIButton) {
+        
+        
+        let alert = UIAlertController(title: NSLocalizedString("game_save_title", comment: ""), message: nil, preferredStyle: .alert)
+        
+        alert.addTextField {
+            if self.saveFileName.count > 0 {
+                $0.text = self.saveFileName
+            } else {
+                $0.placeholder = NSLocalizedString("game_save_input_msg", comment: "")
+                
+            }
+            
+            
+            $0.addTarget(alert, action: #selector(alert.textDidChangeInLoginAlert), for: .editingChanged)
+        }
+        
+        /*alert.addTextField {
+            $0.placeholder = "Password"
+            $0.isSecureTextEntry = true
+            $0.addTarget(alert, action: #selector(alert.textDidChangeInLoginAlert), for: .editingChanged)
+        }*/
+        
+        //alert.addAction(UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: .cancel))
+        
+        let yesBtn = UIAlertAction(title: NSLocalizedString("game_confirm", comment: ""), style: UIAlertActionStyle.default) { [unowned self] _ in
+            
+            //guard (alert.textFields?[0].text) != nil
+             //   else { return } // Should never happen
+                
+            self.self.saveFileName = (alert.textFields?[0].text)!//,
+            print("file name = \(self.saveFileName)")
+            
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+            let url = NSURL(fileURLWithPath: path)
+            var is_file_exist: Bool = false
+            if let pathComponent = url.appendingPathComponent(self.saveFileName) {
+                let filePath = pathComponent.path
+                let fileManager = FileManager.default
+                if fileManager.fileExists(atPath: filePath) {
+                    print("FILE exist")
+                    is_file_exist = true
+                } else {
+                    print("FILE NOT exist")
+                }
+            } else {
+                print("FILE PATH NOT exist")
+            }
+            
+            if !is_file_exist {
+                var text = "\(self.playerUp);\(self.playerDown);\(self.is_tiebreak);\(self.is_super_tiebreak);\(self.is_deuce);\(self.is_serve);\(self.set_select);\(self.is_retire);\(self.game_select);\(self.is_in_super_tiebreak);\(self.is_long_game);\(self.is_in_long_game)|"
+                
+                for i in 0..<self.self.stack.size() {
+                    let state = self.stack.get(index: i)
+                    
+                    if i >= 1 {
+                        text += "&"
+                    }
+                    
+                    text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setsDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));"
+                    
+                }
+                
+                print("===========================")
+                print(text)
+                print("===========================")
+                
+                if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                    
+                    let fileURL = dir.appendingPathComponent(self.saveFileName)
+                    
+                    //writing
+                    do {
+                        try text.write(to: fileURL, atomically: false, encoding: .utf8)
+                    }
+                    catch {/* error handling here */}
+                    
+                    //reading
+                    //do {
+                    //    let text2 = try String(contentsOf: fileURL, encoding: .utf8)
+                    //}
+                    //catch {/* error handling here */}
+                }
+                
+                // Perform login action
+                self.backDialog()
+            } else {
+                print("file exist, show overwrite dialog")
+                self.overWriteDialog()
+            }
+            
+            
+        }
+        
+        let noBtn: UIAlertAction = UIAlertAction(title: NSLocalizedString("game_cancel", comment: ""), style: UIAlertActionStyle.default, handler: {action in self.backDialog()})
         
         if saveFileName.count == 0 {
             yesBtn.isEnabled = false
