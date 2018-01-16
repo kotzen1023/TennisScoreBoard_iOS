@@ -139,6 +139,8 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.languageChanged(notification:)), name: Notification.Name("langChangeInfo"), object: nil)
+        
         voice_select = UserDefaults.standard.integer(forKey: "VOICE_SELECT")
         
         print("voice_select = \(voice_select)")
@@ -880,6 +882,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         
+    }
+    
+    @objc func languageChanged(notification: NSNotification){
+        //do stuff
+        print("receive language changed")
+        voice_select = UserDefaults.standard.integer(forKey: "VOICE_SELECT")
     }
     
     
@@ -1769,18 +1777,42 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         if isTiebreak { //enter tiebreak
             print("in tiebreak")
             if game_select == 0 { //6 games in a set
-                path = NSString(format: "%@", "gbr_man_start_6.m4a")
+                if voice_select == 0 {
+                    path = NSString(format: "%@", "gbr_man_start_6.m4a")
+                } else if voice_select == 1 {
+                    path = NSString(format: "%@", "gbr_woman_start_6.m4a")
+                }
                 soundArray.append(path as String)
-                path = NSString(format: "%@", "gbr_man_all.m4a")
+                if voice_select == 0 {
+                    path = NSString(format: "%@", "gbr_man_all.m4a")
+                } else if voice_select == 1 {
+                    path = NSString(format: "%@", "gbr_woman_all.m4a")
+                }
                 soundArray.append(path as String)
-                path = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                if voice_select == 0 {
+                    path = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                } else if voice_select == 1 {
+                    path = NSString(format: "%@", "gbr_woman_tiebreak.m4a")
+                }
                 soundArray.append(path as String)
             } else { //4 games in a set
-                path = NSString(format: "%@", "gbr_man_start_4.m4a")
+                if voice_select == 0 {
+                    path = NSString(format: "%@", "gbr_man_start_4.m4a")
+                } else if voice_select == 1 {
+                    path = NSString(format: "%@", "gbr_woman_start_4.m4a")
+                }
                 soundArray.append(path as String)
-                path = NSString(format: "%@", "gbr_man_all.m4a")
+                if voice_select == 0 {
+                    path = NSString(format: "%@", "gbr_man_all.m4a")
+                } else if voice_select == 1 {
+                    path = NSString(format: "%@", "gbr_woman_all.m4a")
+                }
                 soundArray.append(path as String)
-                path = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                if voice_select == 0 {
+                    path = NSString(format: "%@", "gbr_man_tiebreak.m4a")
+                } else if voice_select == 1 {
+                    path = NSString(format: "%@", "gbr_woman_tiebreak.m4a")
+                }
                 soundArray.append(path as String)
             }
         } else {

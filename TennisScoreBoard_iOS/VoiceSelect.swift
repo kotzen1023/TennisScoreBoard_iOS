@@ -172,6 +172,10 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         
         UserDefaults.standard.set(indexPath.row, forKey: "VOICE_SELECT")  //Integer
         UserDefaults.standard.synchronize();
+        
+        NotificationCenter.default.post(name: Notification.Name("langChangeInfo"), object: nil)
+
+        
         print("set voice = \(indexPath.row)")
     }
     
