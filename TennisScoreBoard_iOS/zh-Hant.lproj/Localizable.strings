@@ -80,4 +80,6 @@
 "voice_buying_confirm" = "購買此語音支援?";
 "voice_buy" = "購買";
 "voice_cancel" = "取消";
+"voice_purchased" = "已購買";
+"voice_free" = "免費";
 

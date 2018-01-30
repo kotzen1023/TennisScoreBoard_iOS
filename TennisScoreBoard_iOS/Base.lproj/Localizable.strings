@@ -80,5 +80,7 @@
 "voice_buying_confirm" = "Buy this voice support?";
 "voice_buy" = "Buy";
 "voice_cancel" = "Cancel";
+"voice_purchased" = "Purchased";
+"voice_free" = "Free";
 
 
