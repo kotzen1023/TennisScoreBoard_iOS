@@ -66,6 +66,7 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         if voice_gbr_woman_purchased {
             purchasedArray.append(true)
         } else {
+            //check restore
             purchasedArray.append(false)
         }
         //voiceList.removeAll()
@@ -262,6 +263,9 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         actionSheetController.addAction(buyAction)
         actionSheetController.addAction(cancelAction)
         
+        actionSheetController.popoverPresentationController?.sourceView = self.view
+        actionSheetController.popoverPresentationController?.sourceRect = self.loadingView.bounds;
+        
         present(actionSheetController, animated: true, completion: nil)
     }
     
@@ -322,7 +326,11 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
                 hideActivityIndicator(uiView: self.view)
                 
                 UserDefaults.standard.set(true, forKey: productIDs[self.selectedProductIndex])
-                UserDefaults.standard.synchronize();
+                UserDefaults.standard.synchronize()
+                
+                purchasedArray[self.selectedProductIndex] = true
+                
+                voiceTableView.reloadData()
                 
             case SKPaymentTransactionState.failed:
                 print("Transaction Failed");
