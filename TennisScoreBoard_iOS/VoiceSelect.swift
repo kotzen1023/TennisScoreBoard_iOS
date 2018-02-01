@@ -510,13 +510,13 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     // 復原購買失敗
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         hideActivityIndicator(uiView: self.view)
-        print("復原購買失敗...")
+        print("Restore purchase failed...")
         print(error.localizedDescription)
     }
     
     // 回復購買成功(若沒實作該 delegate 會有問題產生)
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        print("復原購買成功...")
+        print("Restore purchase success...")
     }
     
     private func deliverPurchaseNotificationFor(identifier: String?) {

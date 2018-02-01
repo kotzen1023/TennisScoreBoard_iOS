@@ -18,17 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge, .carPlay], completionHandler: { (granted, error) in
-                if granted {
-                    print("Allow")
-                } else {
-                    print("Not Allow")
-                }
-            })
-        } else {
-            // Fallback on earlier versions
-        }
+        
         
         return true
     }
