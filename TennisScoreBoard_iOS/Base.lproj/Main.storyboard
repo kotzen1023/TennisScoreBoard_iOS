@@ -237,18 +237,32 @@
                                     <action selector="onBackClick:" destination="wo3-NL-d5P" eventType="touchUpInside" id="SOt-pn-pNh"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zfp-PT-gl6">
+                                <rect key="frame" x="240" y="20" width="80" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="V22-Dt-BwP"/>
+                                    <constraint firstAttribute="width" constant="80" id="eTx-hy-UB8"/>
+                                </constraints>
+                                <state key="normal" title="Restore"/>
+                                <connections>
+                                    <action selector="onRestore:" destination="wo3-NL-d5P" eventType="touchUpInside" id="1fl-SP-J7S"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="trS-Ev-DAC" firstAttribute="top" secondItem="mo0-ZK-e8d" secondAttribute="bottom" id="2Nh-8b-Ruk"/>
                             <constraint firstItem="ZOV-5A-XDU" firstAttribute="leading" secondItem="GaW-Xn-Pm7" secondAttribute="leading" id="Jdd-Hm-uE3"/>
                             <constraint firstItem="trS-Ev-DAC" firstAttribute="leading" secondItem="GaW-Xn-Pm7" secondAttribute="leading" id="TZF-QY-5ij"/>
+                            <constraint firstItem="zfp-PT-gl6" firstAttribute="top" secondItem="mo0-ZK-e8d" secondAttribute="bottom" id="bSg-VD-Gh8"/>
                             <constraint firstItem="ZOV-5A-XDU" firstAttribute="top" secondItem="trS-Ev-DAC" secondAttribute="bottom" id="gzz-X2-kHP"/>
                             <constraint firstItem="yCv-c9-AEg" firstAttribute="top" secondItem="ZOV-5A-XDU" secondAttribute="bottom" id="knv-ME-NgU"/>
+                            <constraint firstAttribute="trailing" secondItem="zfp-PT-gl6" secondAttribute="trailing" id="qX8-uH-nsy"/>
                             <constraint firstAttribute="trailing" secondItem="ZOV-5A-XDU" secondAttribute="trailing" id="uU1-qb-WFT"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnRestore" destination="zfp-PT-gl6" id="Oi8-OY-Esx"/>
                         <outlet property="voiceTableView" destination="ZOV-5A-XDU" id="2KH-Bk-eJp"/>
                     </connections>
                 </viewController>

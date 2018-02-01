@@ -76,11 +76,17 @@
 "load_game" = "Load Game";
 "new_game" = "New Game";
 
+"voice_confirm" = "Yes";
 "voice_buying_title" = "Buy Voice Support";
 "voice_buying_confirm" = "Buy this voice support?";
 "voice_buy" = "Buy";
 "voice_cancel" = "Cancel";
 "voice_purchased" = "Purchased";
+"voice_purchased_success" = "Purchas Success!";
 "voice_free" = "Free";
+"voice_restore" = "Restore";
+"voice_restore_confirm" = "Restore Purchase?";
+"voice_restore_success" = "Restore Success!";
+"voice_restore_failed" = "Restore Failed!";
 
 

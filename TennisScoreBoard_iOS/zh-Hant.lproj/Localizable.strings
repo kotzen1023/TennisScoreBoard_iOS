@@ -76,10 +76,16 @@
 "load_game" = "讀取檔案";
 "new_game" = "新的比賽";
 
+"voice_confirm" = "是";
 "voice_buying_title" = "購買語音支援";
 "voice_buying_confirm" = "購買此語音支援?";
 "voice_buy" = "購買";
 "voice_cancel" = "取消";
 "voice_purchased" = "已購買";
+"voice_purchased_success" = "購買成功!";
 "voice_free" = "免費";
+"voice_restore" = "回復購買";
+"voice_restore_confirm" = "回復已購買的項目?";
+"voice_restore_success" = "回復購買成功!";
+"voice_restore_failed" = "回復購買失敗!";
 

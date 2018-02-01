@@ -9,6 +9,7 @@
 import UIKit
 import StoreKit
 
+
 extension SKProduct {
     var localizedPrice: String {
         let formatter = NumberFormatter()
@@ -25,12 +26,14 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     
     
     @IBOutlet weak var voiceTableView: UITableView!
+    @IBOutlet weak var btnRestore: UIButton!
     
     //var UserDef:UserDefaults!
     var voice_select: NSInteger = 0
     var voice_gbr_woman_purchased: Bool = false
     var voiceList: Array<String> = []
     var productIDs: Array<String> = []
+    //var purchasedProductID: Array<String> = []
     var productsArray: Array<SKProduct> = []
     var purchasedArray: Array<Bool> = []
     
@@ -45,7 +48,7 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        btnRestore.setTitle(NSLocalizedString("voice_restore", comment: ""), for: .normal)
         //UserDef = UserDefaults.standard
         
         //voice_select = UserDef.string(forKey: "VOICE_SELECT")!
@@ -77,6 +80,8 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         showActivityIndicator(uiView: self.view)
         
         requestProductInfo()
+        
+        
         
         //SKPaymentQueue.default().add(self)
         
@@ -124,6 +129,12 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         self.dismiss(animated: true, completion: nil)
         
     }
+    
+    @IBAction func onRestore(_ sender: UIButton) {
+        self.showActionSheet(.restore)
+        
+    }
+    
     func showActivityIndicator(uiView: UIView) {
         //let container: UIView = UIView()
         container.frame = uiView.frame
@@ -222,7 +233,8 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
             print("set voice = \(indexPath.row)")
         } else {
             if (selectedProductIndex > 0) {
-                showActions()
+                //showActions()
+                showActionSheet(.nonConsumable)
             }
         }
     }
@@ -269,6 +281,75 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         present(actionSheetController, animated: true, completion: nil)
     }
     
+    func showActionSheet(_ product: VoiceProduct) {
+        // 代表有購買項目正在處理中
+        if self.transactionInProgress {
+            return
+        }
+        
+        var message: String!
+        var buyAction: UIAlertAction?
+        var restoreAction: UIAlertAction?
+        
+        switch product {
+        case .consumable, .nonConsumable:
+            // 購買消耗性、非消耗性產品
+            message = NSLocalizedString("voice_buying_confirm", comment: "")
+            buyAction = UIAlertAction(title: NSLocalizedString("voice_buy", comment: ""), style: UIAlertActionStyle.default) { (action) -> Void in
+                
+                if SKPaymentQueue.canMakePayments() {
+                    // 設定交易流程觀察者，會在背景一直檢查交易的狀態，成功與否會透過 protocol 得知
+                    SKPaymentQueue.default().add(self)
+                    
+                    // 取得內購產品
+                    let payment = SKPayment(product: self.productsArray[self.selectedProductIndex])
+                    
+                    // 購買消耗性、非消耗性動作將會開始在背景執行(updatedTransactions delegate 會接收到兩次)
+                    SKPaymentQueue.default().add(payment)
+                    self.transactionInProgress = true
+                    
+                    self.showActivityIndicator(uiView: self.view)
+                    
+                    // 開始執行購買產品的動作
+                    //self.lodingView = LodingView(frame: UIScreen.main.bounds)
+                    //self.view.addSubview(self.lodingView!)
+                }
+            }
+        default:
+            // 復原購買產品
+            message = NSLocalizedString("voice_restore_confirm", comment: "")
+            restoreAction = UIAlertAction(title: NSLocalizedString("voice_restore", comment: ""), style: UIAlertActionStyle.default) { (action) -> Void in
+                
+                //clear purchased
+                //self.purchasedProductID.removeAll();
+                
+                if SKPaymentQueue.canMakePayments() {
+                    SKPaymentQueue.default().add(self)
+                    
+                    SKPaymentQueue.default().restoreCompletedTransactions()
+                    self.transactionInProgress = true
+                    self.showActivityIndicator(uiView: self.view)
+                    // 開始執行回復購買的動作
+                    //self.lodingView = LodingView(frame: UIScreen.main.bounds)
+                    //self.view.addSubview(self.lodingView!)
+                }
+            }
+        }
+        
+        // 產生 Action Sheet
+        let actionSheetController = UIAlertController(title: NSLocalizedString("voice_buying_title", comment: ""), message: message, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let cancelAction = UIAlertAction(title: NSLocalizedString("voice_cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: nil)
+        
+        actionSheetController.addAction(buyAction != nil ? buyAction! : restoreAction!)
+        actionSheetController.addAction(cancelAction)
+        
+        actionSheetController.popoverPresentationController?.sourceView = self.view
+        actionSheetController.popoverPresentationController?.sourceRect = self.loadingView.bounds;
+        
+        self.present(actionSheetController, animated: true, completion: nil)
+    }
+    
     //purchase
     
     
@@ -303,6 +384,9 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
             }
             
             voiceTableView.reloadData()
+            
+            let indexPath = IndexPath(row: voice_select, section: 0)
+            voiceTableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.middle)
         }
         else {
             print("There are no products.")
@@ -321,7 +405,7 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
                 
                 SKPaymentQueue.default().remove(self)
                 
-                didBuyColorsCollection(collectionIndex: selectedProductIndex)
+                didBuySomething(collectionIndex: selectedProductIndex)
                 
                 hideActivityIndicator(uiView: self.view)
                 
@@ -353,22 +437,47 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
                 
                 SKPaymentQueue.default().finishTransaction(transaction)
                 transactionInProgress = false
+            case SKPaymentTransactionState.restored:
+                guard let productIdentifier = transaction.original?.payment.productIdentifier else { return }
                 
+                hideActivityIndicator(uiView: self.view)
+                
+                
+                // 必要的機制
+                SKPaymentQueue.default().finishTransaction(transaction)
+                transactionInProgress = false
+                
+                print("restore... \(productIdentifier)")
+                deliverPurchaseNotificationFor(identifier: productIdentifier)
+                
+                print("復原成功...")
+                
+                let alertController = UIAlertController(title: NSLocalizedString("voice_restore_success", comment: ""), message: "", preferredStyle: .alert)
+                let confirm = UIAlertAction(title: NSLocalizedString("voice_confirm", comment: ""), style: .default, handler: nil)
+                
+                alertController.addAction(confirm)
+                
+                alertController.popoverPresentationController?.sourceView = self.view
+                alertController.popoverPresentationController?.sourceRect = self.loadingView.bounds;
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+                // 跟 ViewController 說已回復動作，必須開啟聊天功能
+                //self.delegate.didBuySomething(self, VoiceProduct.restore)
+                
+                //if self.lodingView != nil {
+                //    self.lodingView?.removeFromSuperview()
+                //}
+                
+                //self.showMessage(.restore)
             default:
                 print(transaction.transactionState.rawValue)
             }
         }
     }
     
-    func didBuyColorsCollection(collectionIndex: Int) {
-        if collectionIndex == 0 {
-            //btnGreen.hidden = false
-            //btnBlue.hidden = false
-        }
-        else {
-            //btnBlack.hidden = false
-            //btnGray.hidden = false
-        }
+    func didBuySomething(collectionIndex: Int) {
+        
     }
     
     // 提示購買或回復商品的訊息
@@ -376,24 +485,31 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         var message: String!
         
         switch product {
-        case .voice_support_gbr_man:
-            message = "buy voice_support_gbr_man success！"
-        case .voice_support_gbr_woman:
-            message = "buy voice_support_gbr_woman success！"
+        case .nonConsumable:
+            message = NSLocalizedString("voice_purchased_success", comment: "")
+        case .consumable:
+            message = NSLocalizedString("voice_purchased_success", comment: "")
+        //case .voice_support_gbr_woman:
+        //    message = "buy voice_support_gbr_woman success！"
         case .restore:
-            message = "回復成功！"
+            message = NSLocalizedString("voice_restore_success", comment: "")
+        
         }
         
         let alertController = UIAlertController(title: "提示", message: message, preferredStyle: .alert)
-        let confirm = UIAlertAction(title: "是", style: .default, handler: nil)
+        let confirm = UIAlertAction(title: NSLocalizedString("voice_confirm", comment: ""), style: .default, handler: nil)
         
         alertController.addAction(confirm)
+        
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = self.loadingView.bounds;
         
         self.present(alertController, animated: true, completion: nil)
     }
     
     // 復原購買失敗
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        hideActivityIndicator(uiView: self.view)
         print("復原購買失敗...")
         print(error.localizedDescription)
     }
@@ -402,10 +518,42 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         print("復原購買成功...")
     }
+    
+    private func deliverPurchaseNotificationFor(identifier: String?) {
+        guard let identifier = identifier else { return }
+        print("[deliverPurchaseNotificationFor start]")
+        
+        print("productID = \(identifier)")
+        
+        
+        //purchasedProductID.append(identifier)
+        UserDefaults.standard.set(true, forKey: identifier)
+        UserDefaults.standard.synchronize()
+        
+        var count: Int = 0
+        //var index: Int = 0;
+        for productID in productIDs {
+            if identifier.elementsEqual(productID) {
+                print("item \(identifier) bought before.")
+                purchasedArray[count] = true
+                
+                
+            }
+            count = count+1
+        }
+        
+        
+        
+        voiceTableView.reloadData()
+        
+        
+        print("[deliverPurchaseNotificationFor end]")
+        
+    }
 }
 
 enum VoiceProduct {
-    case voice_support_gbr_man
-    case voice_support_gbr_woman
+    case consumable
+    case nonConsumable
     case restore
 }
