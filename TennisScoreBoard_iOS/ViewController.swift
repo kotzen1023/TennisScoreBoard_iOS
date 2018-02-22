@@ -114,6 +114,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
     var backhand_winner_count:UInt16 = 0
     var forehand_volley_count:UInt16 = 0
     var backhand_volley_count:UInt16 = 0
+    var forehand_lob_count:UInt16 = 0
+    var backhand_lob_count:UInt16 = 0
+    var forehand_drop_count:UInt16 = 0
+    var backhand_drop_count:UInt16 = 0
     var foul_to_lose_count:UInt8 = 0
     var first_serve_count:UInt16 = 0
     var first_serve_miss:UInt16 = 0
@@ -578,6 +582,23 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                                 new_state.set_5_point_down = UInt8(elementArray[70])!
                                 new_state.set_5_tiebreak_point_up = UInt8(elementArray[71])!
                                 new_state.set_5_tiebreak_point_down = UInt8(elementArray[72])!
+                                
+                                if elementArray.count > 73 {
+                                
+                                    new_state.forehandLobUp = UInt16(elementArray[73])!
+                                    new_state.forehandLobDown = UInt16(elementArray[74])!
+                                
+                                    new_state.backhandLobUp = UInt16(elementArray[75])!
+                                    new_state.backhandLobDown = UInt16(elementArray[76])!
+                                }
+                                
+                                if elementArray.count > 77 {
+                                    new_state.forehandDropUp = UInt16(elementArray[77])!
+                                    new_state.forehandDropDown = UInt16(elementArray[78])!
+                                
+                                    new_state.backhandDropUp = UInt16(elementArray[79])!
+                                    new_state.backhandDropDown = UInt16(elementArray[80])!
+                                }
                                 
                                 stack.push(obj: new_state)
                                 
@@ -2207,7 +2228,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     text += "&"
                 }
                 
-                text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setsDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));"
+                text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setsDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));\(state.forehandLobUp);\(state.forehandLobDown);\(state.backhandLobUp);\(state.backhandLobDown);\(state.forehandDropUp);\(state.forehandDropDown);\(state.backhandDropUp);\(state.backhandDropDown);"
                 
             }
             
@@ -2323,7 +2344,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         text += "&"
                     }
                     
-                    text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setsDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));"
+                    text += "\(state.current_set);\(state.isServe);\(state.isInTiebreak);\(state.isFinish);\(state.isSecondServe);\(state.isInBreakPoint);\(state.setsUp);\(state.setsDown);\(state.duration);\(state.aceCountUp);\(state.aceCountDown);\(state.firstServeUp);\(state.firstServeDown);\(state.firstServeMissUp);\(state.firstServeMissDown);\(state.secondServeUp);\(state.secondServeDown);\(state.breakPointUp);\(state.breakPointDown);\(state.breakPointMissUp);\(state.breakPointMissDown);\(state.firstServeWonUp);\(state.firstServeWonDown);\(state.firstServeLostUp);\(state.firstServeLostDown);\(state.secondServeWonUp);\(state.secondServeWonDown);\(state.secondServeLostUp);\(state.secondServeLostDown);\(state.doubleFaultUp);\(state.doubleFaultDown);\(state.unforcedErrorUp);\(state.unforcedErrorDown);\(state.forehandWinnerUp);\(state.forehandWinnerDown);\(state.backhandWinnerUp);\(state.backhandWinnerDown);\(state.forehandVolleyUp);\(state.forehandVolleyDown);\(state.backhandVolleyUp);\(state.backhandVolleyDown);\(state.foulToLoseUp);\(state.foulToLoseDown);\(state.getGameUp(set: 1));\(state.getGameDown(set: 1));\(state.getPointUp(set: 1));\(state.getPointDown(set: 1));\(state.getTiebreakPointUp(set: 1));\(state.getTiebreakPointDown(set: 1));\(state.getGameUp(set: 2));\(state.getGameDown(set: 2));\(state.getPointUp(set: 2));\(state.getPointDown(set: 2));\(state.getTiebreakPointUp(set: 2));\(state.getTiebreakPointDown(set: 2));\(state.getGameUp(set: 3));\(state.getGameDown(set: 3));\(state.getPointUp(set: 3));\(state.getPointDown(set: 3));\(state.getTiebreakPointUp(set: 3));\(state.getTiebreakPointDown(set: 3));\(state.getGameUp(set: 4));\(state.getGameDown(set: 4));\(state.getPointUp(set: 4));\(state.getPointDown(set: 4));\(state.getTiebreakPointUp(set: 4));\(state.getTiebreakPointDown(set: 4));\(state.getGameUp(set: 5));\(state.getGameDown(set: 5));\(state.getPointUp(set: 5));\(state.getPointDown(set: 5));\(state.getTiebreakPointUp(set: 5));\(state.getTiebreakPointDown(set: 5));\(state.forehandLobUp);\(state.forehandLobDown);\(state.backhandLobUp);\(state.backhandLobDown);\(state.forehandDropUp);\(state.forehandDropDown);\(state.backhandDropUp);\(state.backhandDropDown);"
                     
                 }
                 
@@ -2636,6 +2657,46 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     self.forward_stack.clear()
                 }
                 
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Lob")
+                    self.second_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.second_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand drop")
+                    self.second_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand drop")
+                    self.second_serve_count = 1
+                    self.backhand_drop_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
                 // foul to lose
                 let foulToLoseAction = UIAlertAction(title: NSLocalizedString("game_action_foul_to_lose", comment: ""), style: UIAlertActionStyle.default) { (action) in
                     print("foul to lose")
@@ -2684,6 +2745,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(netAction)
@@ -2762,7 +2827,47 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     self.forward_stack.clear()
                 }
                 
-                // foul to lose
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Lob")
+                    self.first_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.first_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Drop")
+                    self.first_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Drop")
+                    self.first_serve_count = 1
+                    self.backhand_drop_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // foul to drop
                 let foulToLoseAction = UIAlertAction(title: NSLocalizedString("game_action_foul_to_lose", comment: ""), style: UIAlertActionStyle.default) { (action) in
                     print("foul to lose")
                     self.first_serve_count = 1
@@ -2810,6 +2915,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(netAction)
@@ -2870,6 +2979,46 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     self.forward_stack.clear()
                 }
                 
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Lob")
+                    self.second_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.second_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Drop")
+                    self.second_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Drop")
+                    self.second_serve_count = 1
+                    self.backhand_drop_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
                 // foul to lose
                 let foulToLoseAction = UIAlertAction(title: NSLocalizedString("game_action_foul_to_lose", comment: ""), style: UIAlertActionStyle.default) { (action) in
                     print("foul to lose")
@@ -2908,6 +3057,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(retireAction)
@@ -2946,7 +3099,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 
                 // forehand volley
                 let forehandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
-                    print("forehand Winner")
+                    print("forehand Volley")
                     self.first_serve_count = 1
                     self.forehand_volley_count = 1
                     self.first_serve_lost = 1
@@ -2956,9 +3109,49 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 
                 // backhand volley
                 let backhandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
-                    print("Backhand Winner")
+                    print("Backhand Volley")
                     self.first_serve_count = 1
                     self.backhand_volley_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Lob")
+                    self.first_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.first_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Drop")
+                    self.first_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .YOU_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Drop")
+                    self.first_serve_count = 1
+                    self.backhand_drop_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .YOU_SCORE)
                     self.forward_stack.clear()
@@ -3002,6 +3195,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(retireAction)
@@ -3100,7 +3297,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 
                 // forehand volley
                 let forehandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
-                    print("forehand Winner")
+                    print("forehand Volley")
                     self.second_serve_count = 1
                     self.forehand_volley_count = 1
                     self.second_serve_won = 1
@@ -3110,9 +3307,49 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 
                 // backhand volley
                 let backhandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
-                    print("Backhand Winner")
+                    print("Backhand Volley")
                     self.second_serve_count = 1
                     self.backhand_volley_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Lob")
+                    self.second_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.second_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Forehand Drop")
+                    self.second_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.second_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Drop")
+                    self.second_serve_count = 1
+                    self.backhand_drop_count = 1
                     self.second_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
                     self.forward_stack.clear()
@@ -3166,6 +3403,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(netAction)
@@ -3226,7 +3467,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 
                 // forehand volley
                 let forehandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
-                    print("forehand Winner")
+                    print("forehand Volley")
                     self.first_serve_count = 1
                     self.forehand_volley_count = 1
                     self.first_serve_won = 1
@@ -3236,9 +3477,49 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 
                 // backhand volley
                 let backhandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
-                    print("Backhand Winner")
+                    print("Backhand Volley")
                     self.first_serve_count = 1
                     self.backhand_volley_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("forehand Lob")
+                    self.first_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.first_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Forehand Drop")
+                    self.first_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.first_serve_won = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Drop")
+                    self.first_serve_count = 1
+                    self.backhand_drop_count = 1
                     self.first_serve_won = 1
                     self.calculatePoint(action: .OPPT_SCORE)
                     self.forward_stack.clear()
@@ -3291,6 +3572,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(netAction)
@@ -3351,6 +3636,46 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     self.forward_stack.clear()
                 }
                 
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Forehand Lob")
+                    self.second_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.second_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Forehand Drop")
+                    self.second_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Drop")
+                    self.second_serve_count = 1
+                    self.backhand_drop_count = 1
+                    self.second_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
                 // foul to lose
                 let foulToLoseAction = UIAlertAction(title: NSLocalizedString("game_action_foul_to_lose", comment: ""), style: UIAlertActionStyle.default) { (action) in
                     print("foul to lose")
@@ -3389,6 +3714,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(retireAction)
@@ -3427,7 +3756,7 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 
                 // forehand volley
                 let forehandVolleyAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_volley", comment: ""), style: UIAlertActionStyle.default) { (action) in
-                    print("forehand Volley")
+                    print("Forehand Volley")
                     self.first_serve_count = 1
                     self.forehand_volley_count = 1
                     self.first_serve_lost = 1
@@ -3440,6 +3769,46 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     print("Backhand Volley")
                     self.first_serve_count = 1
                     self.backhand_volley_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand lob
+                let forehandLobAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Forehand Lob")
+                    self.first_serve_count = 1
+                    self.forehand_lob_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand lob
+                let backhandLobAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_lob", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Lob")
+                    self.first_serve_count = 1
+                    self.backhand_lob_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // forehand drop
+                let forehandDropAction = UIAlertAction(title: NSLocalizedString("game_action_forehand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Forehand Drop")
+                    self.first_serve_count = 1
+                    self.forehand_drop_count = 1
+                    self.first_serve_lost = 1
+                    self.calculatePoint(action: .OPPT_SCORE)
+                    self.forward_stack.clear()
+                }
+                
+                // backhand drop
+                let backhandDropAction = UIAlertAction(title: NSLocalizedString("game_action_backhand_drop", comment: ""), style: UIAlertActionStyle.default) { (action) in
+                    print("Backhand Drop")
+                    self.first_serve_count = 1
+                    self.backhand_drop_count = 1
                     self.first_serve_lost = 1
                     self.calculatePoint(action: .OPPT_SCORE)
                     self.forward_stack.clear()
@@ -3482,6 +3851,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 myActionSheet.addAction(backhandWinnerAction)
                 myActionSheet.addAction(forehandVolleyAction)
                 myActionSheet.addAction(backhandVolleyAction)
+                myActionSheet.addAction(forehandLobAction)
+                myActionSheet.addAction(backhandLobAction)
+                myActionSheet.addAction(forehandDropAction)
+                myActionSheet.addAction(backhandDropAction)
                 myActionSheet.addAction(foulToLoseAction)
                 myActionSheet.addAction(otherWinnerAction)
                 myActionSheet.addAction(retireAction)
@@ -3566,6 +3939,14 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             new_state.forehandVolleyDown = current_state.forehandVolleyDown
             new_state.backhandVolleyUp = current_state.backhandVolleyUp
             new_state.backhandVolleyDown = current_state.backhandVolleyDown
+            new_state.forehandLobUp = current_state.forehandLobUp
+            new_state.forehandLobDown = current_state.forehandLobDown
+            new_state.backhandLobUp = current_state.backhandLobUp
+            new_state.backhandLobDown = current_state.backhandLobDown
+            new_state.forehandDropUp = current_state.forehandDropUp
+            new_state.forehandDropDown = current_state.forehandDropDown
+            new_state.backhandDropUp = current_state.backhandDropUp
+            new_state.backhandDropDown = current_state.backhandDropDown
             new_state.foulToLoseUp = current_state.foulToLoseUp
             new_state.foulToLoseDown = current_state.foulToLoseDown
             
@@ -3628,6 +4009,13 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
             print("Backhand Winner : up = \(current_state.backhandWinnerUp) down = \(current_state.backhandWinnerDown)")
             print("Forehand Volley : up = \(current_state.forehandVolleyUp) down = \(current_state.forehandVolleyDown)")
             print("Backhand Volley : up = \(current_state.backhandVolleyUp) down = \(current_state.backhandVolleyDown)")
+            
+            print("Forehand Lob : up = \(current_state.forehandLobUp) down = \(current_state.forehandLobDown)")
+            print("Backhand Lob : up = \(current_state.backhandLobUp) down = \(current_state.backhandLobDown)")
+            
+            print("Forehand Drop : up = \(current_state.forehandDropUp) down = \(current_state.forehandDropDown)")
+            print("Backhand Drop : up = \(current_state.backhandDropUp) down = \(current_state.backhandDropDown)")
+            
             print("Foul to lose : up = \(current_state.foulToLoseUp) down = \(current_state.foulToLoseDown)")
             
             print("current_set = \(current_state.current_set)")
@@ -3661,7 +4049,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 print("backhand_winner_count = \(backhand_winner_count)")
                 print("forehand_volley_count = \(forehand_volley_count)")
                 print("backhand_volley_count = \(backhand_volley_count)")
-                
+                print("forehand_lob_count = \(forehand_lob_count)")
+                print("backhand_lob_count = \(backhand_lob_count)")
+                print("forehand_drop_count = \(forehand_drop_count)")
+                print("backhand_drop_count = \(backhand_drop_count)")
                 print("first_serve_won = \(first_serve_won)")
                 print("first_serve_lost = \(first_serve_lost)")
                 print("second_serve_won = \(second_serve_won)")
@@ -3747,6 +4138,17 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.forehandVolleyDown = current_state.forehandVolleyDown
                         new_state.backhandVolleyUp = current_state.backhandVolleyUp
                         new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        
+                        new_state.forehandLobUp = current_state.forehandLobUp
+                        new_state.forehandLobDown = current_state.forehandLobDown
+                        new_state.backhandLobUp = current_state.backhandLobUp
+                        new_state.backhandLobDown = current_state.backhandLobDown
+                        
+                        new_state.forehandDropUp = current_state.forehandDropUp
+                        new_state.forehandDropDown = current_state.forehandDropDown
+                        new_state.backhandDropUp = current_state.backhandDropUp
+                        new_state.backhandDropDown = current_state.backhandDropDown
+                        
                         new_state.foulToLoseUp = current_state.foulToLoseUp
                         new_state.foulToLoseDown = current_state.foulToLoseDown
                         
@@ -3842,6 +4244,17 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.forehandVolleyDown = current_state.forehandVolleyDown
                         new_state.backhandVolleyUp = current_state.backhandVolleyUp
                         new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        
+                        new_state.forehandLobUp = current_state.forehandLobUp
+                        new_state.forehandLobDown = current_state.forehandLobDown
+                        new_state.backhandLobUp = current_state.backhandLobUp
+                        new_state.backhandLobDown = current_state.backhandLobDown
+                        
+                        new_state.forehandDropUp = current_state.forehandDropUp
+                        new_state.forehandDropDown = current_state.forehandDropDown
+                        new_state.backhandDropUp = current_state.backhandDropUp
+                        new_state.backhandDropDown = current_state.backhandDropDown
+                        
                         new_state.foulToLoseUp = current_state.foulToLoseUp
                         new_state.foulToLoseDown = current_state.foulToLoseDown
                         
@@ -3945,6 +4358,17 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.forehandVolleyDown = current_state.forehandVolleyDown
                         new_state.backhandVolleyUp = current_state.backhandVolleyUp
                         new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        
+                        new_state.forehandLobUp = current_state.forehandLobUp
+                        new_state.forehandLobDown = current_state.forehandLobDown
+                        new_state.backhandLobUp = current_state.backhandLobUp
+                        new_state.backhandLobDown = current_state.backhandLobDown
+                        
+                        new_state.forehandDropUp = current_state.forehandDropUp
+                        new_state.forehandDropDown = current_state.forehandDropDown
+                        new_state.backhandDropUp = current_state.backhandDropUp
+                        new_state.backhandDropDown = current_state.backhandDropDown
+                        
                         new_state.foulToLoseUp = current_state.foulToLoseUp
                         new_state.foulToLoseDown = current_state.foulToLoseDown
                         
@@ -4054,6 +4478,17 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.forehandVolleyDown = current_state.forehandVolleyDown
                         new_state.backhandVolleyUp = current_state.backhandVolleyUp
                         new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        
+                        new_state.forehandLobUp = current_state.forehandLobUp
+                        new_state.forehandLobDown = current_state.forehandLobDown
+                        new_state.backhandLobUp = current_state.backhandLobUp
+                        new_state.backhandLobDown = current_state.backhandLobDown
+                        
+                        new_state.forehandDropUp = current_state.forehandDropUp
+                        new_state.forehandDropDown = current_state.forehandDropDown
+                        new_state.backhandDropUp = current_state.backhandDropUp
+                        new_state.backhandDropDown = current_state.backhandDropDown
+                        
                         new_state.foulToLoseUp = current_state.foulToLoseUp
                         new_state.foulToLoseDown = current_state.foulToLoseDown
                         
@@ -4098,6 +4533,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.backhandWinnerDown = self.backhand_winner_count
                         new_state.forehandVolleyDown = self.forehand_volley_count
                         new_state.backhandVolleyDown = self.backhand_volley_count
+                        
+                        new_state.forehandLobDown = self.forehand_lob_count
+                        new_state.backhandLobDown = self.backhand_lob_count
+                        
+                        new_state.forehandDropDown = self.forehand_drop_count
+                        new_state.backhandDropDown = self.backhand_drop_count
                         //win on oppt lose
                         new_state.doubleFaultUp = self.double_faults_count
                         new_state.unforcedErrorUp = self.unforced_errors_count
@@ -4154,6 +4595,17 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.forehandVolleyDown = current_state.forehandVolleyDown
                         new_state.backhandVolleyUp = current_state.backhandVolleyUp
                         new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        
+                        new_state.forehandLobUp = current_state.forehandLobUp
+                        new_state.forehandLobDown = current_state.forehandLobDown
+                        new_state.backhandLobUp = current_state.backhandLobUp
+                        new_state.backhandLobDown = current_state.backhandLobDown
+                        
+                        new_state.forehandDropUp = current_state.forehandDropUp
+                        new_state.forehandDropDown = current_state.forehandDropDown
+                        new_state.backhandDropUp = current_state.backhandDropUp
+                        new_state.backhandDropDown = current_state.backhandDropDown
+                        
                         new_state.foulToLoseUp = current_state.foulToLoseUp
                         new_state.foulToLoseDown = current_state.foulToLoseDown
                         
@@ -4182,6 +4634,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             new_state.backhandWinnerDown = new_state.backhandWinnerDown + backhand_winner_count
                             new_state.forehandVolleyDown = new_state.forehandVolleyDown + forehand_volley_count
                             new_state.backhandVolleyDown = new_state.backhandVolleyDown + backhand_volley_count
+                            
+                            new_state.forehandLobDown = new_state.forehandLobDown + forehand_lob_count
+                            new_state.backhandLobDown = new_state.backhandLobDown + backhand_lob_count
+                            
+                            new_state.forehandDropDown = new_state.forehandDropDown + forehand_drop_count
+                            new_state.backhandDropDown = new_state.backhandDropDown + backhand_drop_count
                             //win on oppt lose
                             new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
                             new_state.foulToLoseUp = new_state.foulToLoseUp + foul_to_lose_count
@@ -4206,6 +4664,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             new_state.backhandWinnerDown = new_state.backhandWinnerDown + backhand_winner_count
                             new_state.forehandVolleyDown = new_state.forehandVolleyDown + forehand_volley_count
                             new_state.backhandVolleyDown = new_state.backhandVolleyDown + backhand_volley_count
+                            
+                            new_state.forehandLobDown = new_state.forehandLobDown + forehand_lob_count
+                            new_state.backhandLobDown = new_state.backhandLobDown + backhand_lob_count
+                            
+                            new_state.forehandDropDown = new_state.forehandDropDown + forehand_drop_count
+                            new_state.backhandDropDown = new_state.backhandDropDown + backhand_drop_count
                             //win on oppt lose
                             new_state.doubleFaultUp = new_state.doubleFaultUp + double_faults_count
                             new_state.unforcedErrorUp = new_state.unforcedErrorUp + unforced_errors_count
@@ -4262,6 +4726,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.backhandWinnerUp = self.backhand_winner_count
                         new_state.forehandVolleyUp = self.forehand_volley_count
                         new_state.backhandVolleyUp = self.backhand_volley_count
+                        
+                        new_state.forehandLobUp = self.forehand_lob_count
+                        new_state.backhandLobUp = self.backhand_lob_count
+                        
+                        new_state.forehandDropUp = self.forehand_drop_count
+                        new_state.backhandDropUp = self.backhand_drop_count
                         
                         //win on your lose
                         new_state.doubleFaultDown = self.double_faults_count
@@ -4321,6 +4791,17 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                         new_state.forehandVolleyDown = current_state.forehandVolleyDown
                         new_state.backhandVolleyUp = current_state.backhandVolleyUp
                         new_state.backhandVolleyDown = current_state.backhandVolleyDown
+                        
+                        new_state.forehandLobUp = current_state.forehandLobUp
+                        new_state.forehandLobDown = current_state.forehandLobDown
+                        new_state.backhandLobUp = current_state.backhandLobUp
+                        new_state.backhandLobDown = current_state.backhandLobDown
+                        
+                        new_state.forehandDropUp = current_state.forehandDropUp
+                        new_state.forehandDropDown = current_state.forehandDropDown
+                        new_state.backhandDropUp = current_state.backhandDropUp
+                        new_state.backhandDropDown = current_state.backhandDropDown
+                        
                         new_state.foulToLoseUp = current_state.foulToLoseUp
                         new_state.foulToLoseDown = current_state.foulToLoseDown
                         
@@ -4349,6 +4830,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             new_state.backhandWinnerUp = new_state.backhandWinnerUp + backhand_winner_count
                             new_state.forehandVolleyUp = new_state.forehandVolleyUp + forehand_volley_count
                             new_state.backhandVolleyUp = new_state.backhandVolleyUp + backhand_volley_count
+                            
+                            new_state.forehandLobUp = new_state.forehandLobUp + forehand_lob_count
+                            new_state.backhandLobUp = new_state.backhandLobUp + backhand_lob_count
+                            
+                            new_state.forehandDropUp = new_state.forehandDropUp + forehand_drop_count
+                            new_state.backhandDropUp = new_state.backhandDropUp + backhand_drop_count
                             //win on your lose
                             new_state.doubleFaultDown = new_state.doubleFaultDown + double_faults_count
                             new_state.unforcedErrorDown = new_state.unforcedErrorDown + unforced_errors_count
@@ -4376,6 +4863,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                             new_state.backhandWinnerUp = new_state.backhandWinnerUp + backhand_winner_count
                             new_state.forehandVolleyUp = new_state.forehandVolleyUp + forehand_volley_count
                             new_state.backhandVolleyUp = new_state.backhandVolleyUp + backhand_volley_count
+                            
+                            new_state.forehandLobUp = new_state.forehandLobUp + forehand_lob_count
+                            new_state.backhandLobUp = new_state.backhandLobUp + backhand_lob_count
+                            
+                            new_state.forehandDropUp = new_state.forehandDropUp + forehand_drop_count
+                            new_state.backhandDropUp = new_state.backhandDropUp + backhand_drop_count
                             //win on oppt lose
                             new_state.unforcedErrorDown = new_state.unforcedErrorDown + unforced_errors_count
                             new_state.foulToLoseDown = new_state.foulToLoseDown + foul_to_lose_count
@@ -4429,6 +4922,13 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                 print("Backhand Winner : up = \(new_state.backhandWinnerUp) down = \(new_state.backhandWinnerDown)")
                 print("Forehand Volley : up = \(new_state.forehandVolleyUp) down = \(new_state.forehandVolleyDown)")
                 print("Backhand volley : up = \(new_state.backhandVolleyUp) down = \(new_state.backhandVolleyDown)")
+                
+                print("Forehand Lob : up = \(new_state.forehandLobUp) down = \(new_state.forehandLobDown)")
+                print("Backhand Lob : up = \(new_state.backhandLobUp) down = \(new_state.backhandLobDown)")
+                
+                print("Forehand Drop : up = \(new_state.forehandDropUp) down = \(new_state.forehandDropDown)")
+                print("Backhand Drop : up = \(new_state.backhandDropUp) down = \(new_state.backhandDropDown)")
+                
                 print("Foul to lose : up = \(new_state.foulToLoseUp) down = \(new_state.foulToLoseDown)")
                 print("Set up : \(new_state.setsUp)")
                 print("Set down : \(new_state.setsDown)")
@@ -4601,6 +5101,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     new_state.backhandWinnerDown = backhand_winner_count
                     new_state.forehandVolleyDown = forehand_volley_count
                     new_state.backhandVolleyDown = backhand_volley_count
+                    
+                    new_state.forehandLobDown = forehand_lob_count
+                    new_state.backhandLobDown = backhand_lob_count
+                    
+                    new_state.forehandDropDown = forehand_drop_count
+                    new_state.backhandDropDown = backhand_drop_count
                     //win on oppt lose
                     new_state.unforcedErrorDown = unforced_errors_count
                     new_state.foulToLoseDown = foul_to_lose_count
@@ -4620,6 +5126,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     new_state.backhandWinnerDown = backhand_winner_count
                     new_state.forehandVolleyDown = forehand_volley_count
                     new_state.backhandVolleyDown = backhand_volley_count
+                    
+                    new_state.forehandLobDown = forehand_lob_count
+                    new_state.backhandLobDown = backhand_lob_count
+                    
+                    new_state.forehandDropDown = forehand_drop_count
+                    new_state.backhandDropDown = backhand_drop_count
                     //win on oppt lose
                     new_state.doubleFaultUp = double_faults_count
                     new_state.unforcedErrorUp = unforced_errors_count
@@ -4654,6 +5166,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     new_state.backhandWinnerUp = backhand_winner_count
                     new_state.forehandVolleyUp = forehand_volley_count
                     new_state.backhandVolleyUp = backhand_volley_count
+                    
+                    new_state.forehandLobUp = forehand_lob_count
+                    new_state.backhandLobUp = backhand_lob_count
+                    
+                    new_state.forehandDropUp = forehand_drop_count
+                    new_state.backhandDropUp = backhand_drop_count
                     //win on you lose
                     new_state.doubleFaultDown = double_faults_count
                     new_state.unforcedErrorDown = unforced_errors_count
@@ -4677,6 +5195,12 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
                     new_state.backhandWinnerUp = backhand_winner_count
                     new_state.forehandVolleyUp = forehand_volley_count
                     new_state.backhandVolleyUp = backhand_volley_count
+                    
+                    new_state.forehandLobUp = forehand_lob_count
+                    new_state.backhandLobUp = backhand_lob_count
+                    
+                    new_state.forehandDropUp = forehand_drop_count
+                    new_state.backhandDropUp = backhand_drop_count
                     //win on you lose
                     new_state.unforcedErrorDown = unforced_errors_count
                     new_state.foulToLoseDown = foul_to_lose_count
@@ -4764,6 +5288,10 @@ class ViewController: UIViewController, UITextFieldDelegate, AVAudioPlayerDelega
         backhand_winner_count = 0
         forehand_volley_count = 0
         backhand_volley_count = 0
+        forehand_lob_count = 0
+        backhand_lob_count = 0
+        forehand_drop_count = 0
+        backhand_drop_count = 0
         foul_to_lose_count = 0
         first_serve_count = 0
         first_serve_miss = 0

@@ -22,6 +22,10 @@
 "game_action_backhand_winner" = "Backhand Winner";
 "game_action_forehand_volley" = "Forehand Volley";
 "game_action_backhand_volley" = "Backhand Volley";
+"game_action_forehand_lob" = "Forehand Lob";
+"game_action_backhand_lob" = "Backhand Lob";
+"game_action_forehand_drop" = "Forehand Drop";
+"game_action_backhand_drop" = "Backhand Drop";
 "game_action_foul_to_lose" = "Foul to lose";
 "game_action_other_winner" = "Other Winner";
 "game_action_retire" = "Retire from game";
@@ -70,6 +74,8 @@
 "stat_forhand_winner" = "Forehand Winners";
 "stat_backhand_winner" = "Backhand Winners";
 "stat_net_points" = "Net Points";
+"stat_lob_shot" = "Lob Shots";
+"stat_drop_shot" = "Drop Shots";
 "stat_break_point_won" = "Break Point Won(%)";
 "stat_total_points" = "Total Points";
 

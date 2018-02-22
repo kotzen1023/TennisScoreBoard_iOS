@@ -53,6 +53,17 @@ public class State {
     var forehandVolleyDown: UInt16
     var backhandVolleyUp: UInt16
     var backhandVolleyDown: UInt16
+    
+    var forehandLobUp: UInt16
+    var forehandLobDown: UInt16
+    var backhandLobUp: UInt16
+    var backhandLobDown: UInt16
+    
+    var forehandDropUp: UInt16
+    var forehandDropDown: UInt16
+    var backhandDropUp: UInt16
+    var backhandDropDown: UInt16
+    
     var foulToLoseUp: UInt8
     var foulToLoseDown: UInt8
     
@@ -136,6 +147,17 @@ public class State {
         forehandVolleyDown = 0
         backhandVolleyUp = 0
         backhandVolleyDown = 0
+        
+        forehandLobUp = 0
+        forehandLobDown = 0
+        backhandLobUp = 0
+        backhandLobDown = 0
+        
+        forehandDropUp = 0
+        forehandDropDown = 0
+        backhandDropUp = 0
+        backhandDropDown = 0
+        
         foulToLoseUp = 0
         foulToLoseDown = 0
         set_1_game_up = 0

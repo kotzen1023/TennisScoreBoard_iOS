@@ -201,6 +201,31 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             
             item11.setCount_down(myCount_down: strDown)
             statList.add(item11)
+            
+            //lob points
+            let item14 = StatisticItem()
+            item14.setTitle(myTitle: NSLocalizedString("stat_lob_shot", comment: "action") as NSString)
+            
+            strUp = String(backState.forehandLobUp+backState.backhandLobUp) as NSString
+            item14.setCount_up(myCount_up: strUp)
+            
+            strDown = String(backState.forehandLobDown+backState.backhandLobDown) as NSString
+            
+            item14.setCount_down(myCount_down: strDown)
+            statList.add(item14)
+            
+            //drop points
+            let item15 = StatisticItem()
+            item15.setTitle(myTitle: NSLocalizedString("stat_drop_shot", comment: "action") as NSString)
+            
+            strUp = String(backState.forehandDropUp+backState.backhandDropUp) as NSString
+            item15.setCount_up(myCount_up: strUp)
+            
+            strDown = String(backState.forehandDropDown+backState.backhandDropDown) as NSString
+            
+            item15.setCount_down(myCount_down: strDown)
+            statList.add(item15)
+            
             //break point won
             let item12 = StatisticItem()
             item12.setTitle(myTitle: NSLocalizedString("stat_break_point_won", comment: "action") as NSString)
