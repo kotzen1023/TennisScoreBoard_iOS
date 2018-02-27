@@ -158,10 +158,10 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             let item8 = StatisticItem()
             item8.setTitle(myTitle: NSLocalizedString("stat_winners", comment: "action") as NSString)
             
-            strUp = String(backState.forehandWinnerUp+backState.backhandWinnerUp) as NSString
+            strUp = String(backState.forehandWinnerUp+backState.backhandWinnerUp+backState.forehandVolleyUp+backState.backhandVolleyUp+backState.forehandLobUp+backState.backhandLobUp+backState.forehandDropUp+backState.backhandDropUp) as NSString
             item8.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.forehandWinnerDown+backState.backhandWinnerDown) as NSString
+            strDown = String(backState.forehandWinnerDown+backState.backhandWinnerDown+backState.forehandVolleyDown+backState.backhandVolleyDown+backState.forehandLobDown+backState.backhandLobDown+backState.forehandDropDown+backState.backhandDropDown) as NSString
             
             item8.setCount_down(myCount_down: strDown)
             statList.add(item8)
@@ -170,10 +170,10 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             let item9 = StatisticItem()
             item9.setTitle(myTitle: NSLocalizedString("stat_forhand_winner", comment: "action") as NSString)
             
-            strUp = String(backState.forehandWinnerUp) as NSString
+            strUp = String(backState.forehandWinnerUp+backState.forehandVolleyUp+backState.forehandLobUp+backState.forehandDropUp) as NSString
             item9.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.forehandWinnerDown) as NSString
+            strDown = String(backState.forehandWinnerDown+backState.forehandVolleyDown+backState.forehandLobDown+backState.forehandDropDown) as NSString
             
             item9.setCount_down(myCount_down: strDown)
             statList.add(item9)
@@ -182,10 +182,10 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             let item10 = StatisticItem()
             item10.setTitle(myTitle: NSLocalizedString("stat_backhand_winner", comment: "action") as NSString)
             
-            strUp = String(backState.backhandWinnerUp) as NSString
+            strUp = String(backState.backhandWinnerUp+backState.backhandVolleyUp+backState.backhandLobUp+backState.backhandDropUp) as NSString
             item10.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.backhandWinnerDown) as NSString
+            strDown = String(backState.backhandWinnerDown+backState.backhandVolleyDown+backState.backhandLobDown+backState.backhandDropDown) as NSString
             
             item10.setCount_down(myCount_down: strDown)
             statList.add(item10)
@@ -243,10 +243,36 @@ class Statistics: UIViewController,UITableViewDelegate, UITableViewDataSource {
             let item13 = StatisticItem()
             item13.setTitle(myTitle: NSLocalizedString("stat_total_points", comment: "action") as NSString)
             
-            strUp = String(backState.forehandWinnerUp+backState.backhandWinnerUp+backState.forehandVolleyUp+backState.backhandVolleyUp) as NSString
+            var upCount = 0
+            upCount = upCount + Int(backState.forehandWinnerUp)
+            upCount = upCount + Int(backState.backhandWinnerUp)
+            upCount = upCount + Int(backState.forehandVolleyUp)
+            upCount = upCount + Int(backState.backhandVolleyUp)
+            upCount = upCount + Int(backState.forehandLobUp)
+            upCount = upCount + Int(backState.backhandLobUp)
+            upCount = upCount + Int(backState.forehandDropUp)
+            upCount = upCount + Int(backState.backhandDropUp)
+            upCount = upCount + Int(backState.doubleFaultDown)
+            upCount = upCount + Int(backState.unforcedErrorDown)
+            upCount = upCount + Int(backState.foulToLoseDown)
+            
+            strUp = String(upCount) as NSString
             item13.setCount_up(myCount_up: strUp)
             
-            strDown = String(backState.forehandWinnerDown+backState.backhandWinnerDown+backState.forehandVolleyDown+backState.backhandVolleyDown) as NSString
+            var downCount = 0
+            downCount = downCount + Int(backState.forehandWinnerDown)
+            downCount = downCount + Int(backState.backhandWinnerDown)
+            downCount = downCount + Int(backState.forehandVolleyDown)
+            downCount = downCount + Int(backState.backhandVolleyDown)
+            downCount = downCount + Int(backState.forehandLobDown)
+            downCount = downCount + Int(backState.backhandLobDown)
+            downCount = downCount + Int(backState.forehandDropDown)
+            downCount = downCount + Int(backState.backhandDropDown)
+            downCount = downCount + Int(backState.doubleFaultUp)
+            downCount = downCount + Int(backState.unforcedErrorUp)
+            downCount = downCount + Int(backState.foulToLoseUp)
+            
+            strDown = String(downCount) as NSString
             
             item13.setCount_down(myCount_down: strDown)
             statList.add(item13)
