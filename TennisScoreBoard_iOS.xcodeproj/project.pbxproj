@@ -11,6 +11,7 @@
 		5E2262E61FA7F21D00F9B4B2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E2262E51FA7F21D00F9B4B2 /* StoreKit.framework */; };
 		5E2262E91FA853D200F9B4B2 /* VoiceSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2262E81FA853D200F9B4B2 /* VoiceSelect.swift */; };
 		5E2CBF9F1E768B43007C754A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E2CBFA11E768B43007C754A /* Localizable.strings */; };
+		5E3357EF204CC8F70076313A /* VoiceListen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3357EE204CC8F70076313A /* VoiceListen.swift */; };
 		5E3B10C01E555D0A000BF566 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3B10BF1E555D0A000BF566 /* AppDelegate.swift */; };
 		5E3B10C21E555D0A000BF566 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3B10C11E555D0A000BF566 /* ViewController.swift */; };
 		5E3B10C51E555D0A000BF566 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E3B10C31E555D0A000BF566 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		5E2CBF9C1E768AB0007C754A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		5E2CBFA01E768B43007C754A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5E2CBFA21E768B47007C754A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5E3357EE204CC8F70076313A /* VoiceListen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceListen.swift; sourceTree = "<group>"; };
 		5E3B10BC1E555D0A000BF566 /* TennisScoreBoard_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TennisScoreBoard_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E3B10BF1E555D0A000BF566 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E3B10C11E555D0A000BF566 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				5E3B10BF1E555D0A000BF566 /* AppDelegate.swift */,
 				5E3B10C11E555D0A000BF566 /* ViewController.swift */,
 				5E2262E81FA853D200F9B4B2 /* VoiceSelect.swift */,
+				5E3357EE204CC8F70076313A /* VoiceListen.swift */,
 				5EF5D50D1E77E1EA0026F230 /* SettingController.swift */,
 				5E6003C91F9F12DE003D180D /* LoadGame.swift */,
 				5E3E3D151F1F39C700D174BA /* Statistics.swift */,
@@ -335,6 +338,7 @@
 				5EF5D50E1E77E1EA0026F230 /* SettingController.swift in Sources */,
 				5E2262E91FA853D200F9B4B2 /* VoiceSelect.swift in Sources */,
 				5EC1A5991F2046D700034532 /* StatisticItem.swift in Sources */,
+				5E3357EF204CC8F70076313A /* VoiceListen.swift in Sources */,
 				5E3B10C21E555D0A000BF566 /* ViewController.swift in Sources */,
 				5E6003CA1F9F12DF003D180D /* LoadGame.swift in Sources */,
 				5E3B10C01E555D0A000BF566 /* AppDelegate.swift in Sources */,

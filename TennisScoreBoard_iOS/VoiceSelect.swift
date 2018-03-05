@@ -27,6 +27,7 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
     
     @IBOutlet weak var voiceTableView: UITableView!
     @IBOutlet weak var btnRestore: UIButton!
+    @IBOutlet weak var btnListen: UIButton!
     
     //var UserDef:UserDefaults!
     var voice_select: NSInteger = 0
@@ -49,6 +50,8 @@ class VoiceSelect: UIViewController,UITableViewDelegate, UITableViewDataSource, 
         super.viewDidLoad()
         
         btnRestore.setTitle(NSLocalizedString("voice_restore", comment: ""), for: .normal)
+        
+        btnListen.setTitle(NSLocalizedString("voice_listen", comment: ""), for: .normal)
         //UserDef = UserDefaults.standard
         
         //voice_select = UserDef.string(forKey: "VOICE_SELECT")!

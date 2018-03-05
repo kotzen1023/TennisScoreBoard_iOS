@@ -94,5 +94,6 @@
 "voice_restore_confirm" = "Restore Purchase?";
 "voice_restore_success" = "Restore Success!";
 "voice_restore_failed" = "Restore Failed!";
+"voice_listen" = "Listen";
 
 

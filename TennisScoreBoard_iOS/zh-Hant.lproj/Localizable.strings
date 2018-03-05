@@ -94,4 +94,5 @@
 "voice_restore_confirm" = "回復已購買的項目?";
 "voice_restore_success" = "回復購買成功!";
 "voice_restore_failed" = "回復購買失敗!";
+"voice_listen" = "試聽";
 
